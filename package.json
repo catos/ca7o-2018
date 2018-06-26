@@ -5,6 +5,7 @@
   "dependencies": {
     "es6-promise": "4.2.4",
     "isomorphic-fetch": "2.2.1",
+    "jwt-decode": "2.2.0",
     "react": "16.4.1",
     "react-dom": "16.4.1",
     "react-router-dom": "4.3.1",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@types/isomorphic-fetch": "0.0.34",
     "@types/jest": "23.1.2",
+    "@types/jwt-decode": "2.2.1",
     "@types/node": "10.3.6",
     "@types/react": "16.4.2",
     "@types/react-dom": "16.0.6",

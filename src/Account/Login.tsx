@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 
-// import { mdkApi } from '../Services/MdkApi';
-// import { mdkAuth } from '../Services/MdkAuth';
+import { api } from '../Services/ApiService';
+import { auth } from '../Services/AuthService';
 
 interface ILoginState {
     errorMessage: string;
@@ -13,17 +13,13 @@ interface ILoginState {
     username: string;
 }
 
-// interface LoginResponse {
-//     token: string;
-// }
-
 export class Login extends React.Component<RouteComponentProps<{}>, ILoginState> {
     constructor(props: any) {
         super(props);
         this.state = {
             errorMessage: '',
             password: '',
-            redirect: false, // TODO: mdkAuth.isAuthenticated(),
+            redirect: auth.isAuthenticated(),
             redirectUrl: '',
             username: '',
         }
@@ -72,7 +68,7 @@ export class Login extends React.Component<RouteComponentProps<{}>, ILoginState>
                         </div>
 
                         <div className="form-group text-danger text-center">
-                            <a onClick={() => this.easyLogin('cskogholt@gmail.com', 'monzter1')}>cskogholt@gmail.com</a>
+                            <a onClick={() => this.easyLogin('cskogholt@gmail.com', 'cato123')}>cskogholt@gmail.com</a>
                             <span className="ml-2 mr-2">|</span>
                             <a onClick={() => this.easyLogin('notfound@gmail.com', 'monzter1')}>notfound@gmail.com</a>
                         </div>
@@ -84,22 +80,25 @@ export class Login extends React.Component<RouteComponentProps<{}>, ILoginState>
 
     private onSubmit = (event: any) => {
         event.preventDefault();
-        // this.login(this.state.username, this.state.password);
+        this.login(this.state.username, this.state.password);
     }
 
-    // async login(username: string, password: string) {
-    //     const body = { username: username, password: password };
+    private async login(username: string, password: string) {
+        const body = { username, password };
 
-    //     try {
-    //         const response = await mdkApi.post('auth/login', body) as LoginResponse;
-    //         localStorage.setItem('token', response.token)
-    //         this.setState({ redirect: true });
-    //     } catch (error) {
-    //         this.setState({
-    //             errorMessage: error.message
-    //         });
-    //     }
-    // }
+        try {
+            const response = await api.post('auth/login', body);
+            
+            localStorage.setItem('token', response.toString())
+            this.setState({ redirect: true });
+
+        } catch (error) {
+            const errors = error.errors.reduce((a: string, b: string) => a + ', ' + b);
+            this.setState({
+                errorMessage: errors
+            });
+        }
+    }
 
     private easyLogin(username: string, password: string) {
         this.setState({
