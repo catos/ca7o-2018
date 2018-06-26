@@ -2,8 +2,8 @@ import 'isomorphic-fetch';
 
 import { auth } from './AuthService';
 
-const BASE_URL = 'http://localhost:8080/';
-// const BASE_URL = 'https://ca7o-server.herokuapp.com/api/';
+// const BASE_URL = 'http://localhost:8080/';
+const BASE_URL = 'https://ca7o-server.herokuapp.com/api/';
 
 export interface IApiError {
     field: string;
