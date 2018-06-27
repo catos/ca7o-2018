@@ -4,9 +4,9 @@ import './Styles/App.css';
 import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { Routes } from './Routes';
-import { MainMenu } from './Shared/MainMenu';
-import { DevMenu } from './Shared/DevMenu';
+import { Routes } from './Components/Shared/Routes';
+import { MainMenu } from './Components/Shared/MainMenu';
+import { DevMenu } from './Components/Shared/DevMenu';
 
 class App extends React.Component {
     public render() {

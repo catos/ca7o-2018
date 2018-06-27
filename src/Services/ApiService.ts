@@ -2,8 +2,8 @@ import 'isomorphic-fetch';
 
 import { auth } from './AuthService';
 
-// const BASE_URL = 'http://localhost:8080/';
-const BASE_URL = 'https://ca7o-server.herokuapp.com/api/';
+const BASE_URL = 'http://localhost:8080/';
+// const BASE_URL = 'https://ca7o-server.herokuapp.com/api/';
 
 export interface IApiError {
     field: string;
@@ -19,8 +19,7 @@ class ApiService {
 
     public async get(endpoint: string) {
         const response = await fetch(BASE_URL + endpoint, this.getOptions());
-        const result = await this.checkStatus(response);
-        return result;
+        return await this.checkStatus(response);
     }
 
     public async post(endpoint: string, body: any) {
@@ -30,16 +29,15 @@ class ApiService {
             body: JSON.stringify(body)
         });
         const response = await fetch(BASE_URL + endpoint, options) as Response;
-        const result = await this.checkStatus(response);
-
-        return result;
+        return await this.checkStatus(response);
     }
 
     private getOptions(options: RequestInit = {}): RequestInit {
-        if (auth.isAuthenticated()) {
+        const token = localStorage.getItem('token');
+        if (auth.isAuthenticated() && token !== null) {
             Object.assign(
                 options, 
-                options.headers = { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+                options.headers = { 'Authorization': token }
             );
         }
 
@@ -50,19 +48,7 @@ class ApiService {
         if (response.ok) {
             return Promise.resolve(response.json());
         } else {
-            // const errorResponse = {
-            //     code: response.status,
-            //     errors: []
-            // } as ApiErrorResponse;
-
             const error = await response.json();
-            // Object.keys(json).forEach(key => 
-            //     // console.log('key: ' + key + ', value: ', json[key])
-            //     errorResponse.errors.push({
-            //         field: key,
-            //         message: json[key].join(', ')
-            //     })
-            // );
             console.log(error);
             return Promise.reject(error);
         }

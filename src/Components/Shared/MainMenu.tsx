@@ -1,6 +1,6 @@
 import * as React from "react";
 import { NavLink } from "react-router-dom";
-import { auth } from "../Services/AuthService";
+import { auth } from "../../Services/AuthService";
 import { Logout } from "../Account/Logout";
 
 export class MainMenu extends React.Component {

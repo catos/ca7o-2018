@@ -1,10 +1,14 @@
 import * as React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { Home } from "./Shared/Home";
-import { Login } from "./Account/Login";
-import { NotFound } from './Shared/NotFound';
-import { Wesketch } from "./Wesketch/Wesketch";
+import { Home } from "./Home";
+import { Login } from "../Account/Login";
+import { UserList } from "../Admin/UserList";
+
+import { Register } from "../Account/Register";
+import { Wesketch } from "../Wesketch/Wesketch";
+
+import { NotFound } from './NotFound';
 
 export class Routes extends React.Component {
     public render() {
@@ -12,6 +16,10 @@ export class Routes extends React.Component {
             <Switch>
                 <Route exact={true} path="/" component={Home} />
                 <Route path="/login" component={Login} />
+                
+                <Route path="/users" component={UserList} />
+
+                <Route path="/register" component={Register} />
                 <Route path="/wesketch" component={Wesketch} />                
                 <Route component={NotFound} />
             </Switch>

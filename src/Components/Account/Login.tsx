@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 
-import { api } from '../Services/ApiService';
-import { auth } from '../Services/AuthService';
+import { api } from '../../Services/ApiService';
+import { auth } from '../../Services/AuthService';
 
 interface ILoginState {
     errorMessage: string;
@@ -88,12 +88,15 @@ export class Login extends React.Component<RouteComponentProps<{}>, ILoginState>
 
         try {
             const response = await api.post('auth/login', body);
-            
+
             localStorage.setItem('token', response.toString())
             this.setState({ redirect: true });
 
         } catch (error) {
-            const errors = error.errors.reduce((a: string, b: string) => a + ', ' + b);
+            const errors = '';
+            if (error.errors.length) {
+                error.errors.reduce((a: string, b: string) => a + ', ' + b);
+            }
             this.setState({
                 errorMessage: errors
             });
