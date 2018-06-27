@@ -47,10 +47,8 @@ class WebSocketService {
     }
 
     // TODO: make fancier
-    public on(eventName: string) {
-        this.socket.on(eventName, (data: any) => {
-            console.log('data', data);
-        });
+    public on = (eventName: string, cb: (event: IClientEvent) => any) => {
+        this.socket.on(eventName, cb);
     }
 
     // on(eventName: string): Observable<any> {

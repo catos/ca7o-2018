@@ -33,8 +33,8 @@ export class Chat extends React.Component<{}, IChatState> {
 
     public componentDidMount() {
         this.focusField();
-        // wss.on('event', this.handleOnEvent(message));
-        wss.socket.on('event', this.onEvent);
+        wss.on('event', this.onEvent);
+        // wss.socket.on('event', this.onEvent);
     }
 
     public render() {
