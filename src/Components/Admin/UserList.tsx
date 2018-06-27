@@ -30,20 +30,22 @@ export class UserList extends React.Component<{}, IUserListState> {
         return (
             <div>
                 <table className="table table-bordered">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Username</th>
-                        <th>Type</th>
-                    </tr>
-                    {this.state.users.map((user, idx) =>
-                        <tr key={idx}>
-                            <td>{user._id}</td>
-                            <td>{user.name}</td>
-                            <td>{user.username}</td>
-                            <td>{UserTypes[user.type]}</td>
+                    <tbody>
+                        <tr>
+                            <th>Guid</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Type</th>
                         </tr>
-                    )}
+                        {this.state.users.map((user, idx) =>
+                            <tr key={idx}>
+                                <td>{user.guid}</td>
+                                <td>{user.name}</td>
+                                <td>{user.username}</td>
+                                <td>{UserTypes[user.type]}</td>
+                            </tr>
+                        )}
+                    </tbody>
                 </table>
             </div>
         );

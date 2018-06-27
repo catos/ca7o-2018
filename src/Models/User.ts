@@ -5,7 +5,7 @@ export enum UserTypes {
 }
 
 export interface IUser {
-    _id: string;
+    guid: string;
     name: string;
     username: string;
     type: UserTypes;

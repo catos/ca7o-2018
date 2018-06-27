@@ -84,23 +84,39 @@ export class Login extends React.Component<RouteComponentProps<{}>, ILoginState>
     }
 
     private async login(username: string, password: string) {
-        const body = { username, password };
+        api.post('auth/login', { username, password })
+            .then(response => {
+                localStorage.setItem('token', response)
+                this.setState({ redirect: true });
+            })
+            .catch(error => {
+                const errors = error.errors.length
+                    ? error.errors.reduce((a: string, b: string) => a + ', ' + b)
+                    : '';
 
-        try {
-            const response = await api.post('auth/login', body);
-
-            localStorage.setItem('token', response.toString())
-            this.setState({ redirect: true });
-
-        } catch (error) {
-            const errors = '';
-            if (error.errors.length) {
-                error.errors.reduce((a: string, b: string) => a + ', ' + b);
-            }
-            this.setState({
-                errorMessage: errors
+                this.setState({
+                    errorMessage: errors
+                });
+                console.log(errors);
             });
-        }
+
+        // const body = { username, password };
+
+        // try {
+        //     const response = await api.post('auth/login', body);
+
+        //     localStorage.setItem('token', response.toString())
+        //     this.setState({ redirect: true });
+
+        // } catch (error) {
+        //     const errors = '';
+        //     if (error.errors.length) {
+        //         error.errors.reduce((a: string, b: string) => a + ', ' + b);
+        //     }
+        //     this.setState({
+        //         errorMessage: errors
+        //     });
+        // }
     }
 
     private easyLogin(username: string, password: string) {
