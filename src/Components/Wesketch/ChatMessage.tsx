@@ -1,18 +1,18 @@
 import * as React from 'react';
 import * as moment from 'moment';
 
-import { IMessage } from 'src/Components/Wesketch/Chat';
+import { IWesketchEvent } from 'src/Services/WebsocketService';
 
 interface IChatMessageProps {
-    message: IMessage
+    event: IWesketchEvent
 }
 
 export const ChatMessage: React.SFC<IChatMessageProps> = (props) => {
     return (
         <div>
-            <small>{moment(props.message.date).format('HH:mm:ss')}</small>
-            <strong> {props.message.sender}: </strong>
-            {props.message.message}
+            <small>{moment(props.event.timestamp).format('HH:mm:ss')}</small>
+            <strong> {props.event.value.sender}: </strong>
+            {props.event.value.message}
         </div>
     );
 }

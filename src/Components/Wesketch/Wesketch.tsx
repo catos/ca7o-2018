@@ -1,14 +1,19 @@
+import { PhaseTypes } from "./PhaseTypes";
+
+import { IPlayer } from "./IPlayer";
+
 import 'isomorphic-fetch';
 import * as React from "react";
 
-import { auth } from 'src/Services/AuthService';
 import { wss, WesketchEventType, IWesketchEvent } from 'src/Services/WebsocketService';
 
 import { Chat } from './Chat';
 import { Painter } from './Painter';
 
+
 interface IWesketchState {
-    players: string[];
+    phase: PhaseTypes,
+    players: IPlayer[],
 }
 
 export class Wesketch extends React.Component<{}, IWesketchState> {
@@ -17,16 +22,13 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
         super(props, state);
 
         this.state = {
+            phase: PhaseTypes.Lobby,
             players: []
         };
     }
 
     public componentDidMount() {
         wss.on('event', this.onEvent);
-        
-        wss.emit(WesketchEventType.PlayerJoined, {
-            player: auth.currentUser().name
-        });
     }
 
     public render() {
@@ -41,11 +43,10 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
     }
 
     private onEvent = (event: IWesketchEvent) => {
-        if (event.type === WesketchEventType.PlayerJoined) {
-            const players = this.state.players;
-            players.push(event.value.player)
+        if (event.type === WesketchEventType.UpdateGameState) {            
             this.setState({
-                players
+                phase: event.value.phase,
+                players: event.value.players
             })
         }
         console.log('Wesketch:', event);

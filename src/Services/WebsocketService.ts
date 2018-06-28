@@ -1,15 +1,9 @@
 import * as io from 'socket.io-client';
-// import {auth} from './AuthService';
 import { AppConfig } from '../AppConfig';
-
-export interface IWesketchEvent {
-    client: string
-    timestamp: Date
-    type: WesketchEventType
-    value: any
-}
+import { auth } from 'src/Services/AuthService';
 
 export enum WesketchEventType {
+    ServerError,
     PlayerJoined,
     PlayerLeft,
     Message,
@@ -18,11 +12,19 @@ export enum WesketchEventType {
     Draw,
     StopDraw,
     ClearCanvas,
-    GameStateChange
+    UpdateGameState
+}
+
+export interface IWesketchEvent {
+    client: string;
+    userId: string;
+    timestamp: Date;
+    type: WesketchEventType;
+    value: any;
 }
 
 class WebSocketService {
-    public socket: any
+    public socket: SocketIOClient.Socket;
 
     constructor() {
         // Create socket
@@ -31,17 +33,29 @@ class WebSocketService {
         // Client connected
         this.socket.on('connect', () => {
             console.log('WebSocketService:connect')
-            // this.emit(WesketchEventType.PlayerJoined, {
-            //     player: auth.currentUser().name
-            // })
+            const event = {
+                client: this.socket.id,
+                userId: auth.currentUser().guid,
+                timestamp: new Date(),
+                type: WesketchEventType.PlayerJoined,
+                value: {
+                    player: auth.currentUser().name
+                }
+            } as IWesketchEvent;
+            this.socket.emit('event', event);
         })
 
         // Client disconnected
         this.socket.on('disconnect', () => {
             console.log('WebSocketService:disconnect')
-            // this.emit(WesketchEventType.PlayerLeft, {
-            //     player: auth.currentUser().name
-            // })
+            !!!!! connect og disconnect må leve i wesketch-component!
+            const event = {
+                client: this.socket.id,
+                userId: auth.currentUser().guid,
+                timestamp: new Date(),
+                type: WesketchEventType.PlayerLeft
+            } as IWesketchEvent;
+            this.socket.emit('event', event);
         })
     }
 
@@ -66,14 +80,16 @@ class WebSocketService {
     // }
 
     public emit(type: WesketchEventType, value: any) {
-        const clientEvent = {
+        const event = {
             client: this.socket.id,
+            userId: auth.currentUser().guid,
             timestamp: new Date(),
             type,
             value
         } as IWesketchEvent;
-
-        this.socket.emit('event', clientEvent)
+        console.log(event);
+        
+        this.socket.emit('event', event)
     }
 }
 

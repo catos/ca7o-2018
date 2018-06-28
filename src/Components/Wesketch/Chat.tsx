@@ -6,20 +6,14 @@ import './Wesketch.css';
 import { auth } from 'src/Services/AuthService';
 import { wss, WesketchEventType, IWesketchEvent } from 'src/Services/WebsocketService';
 import { ChatMessage } from './ChatMessage';
-
-export interface IMessage {
-    senderId: string;
-    sender: string;
-    message: string;
-    date: Date;
-}
+import { IPlayer } from './IPlayer';
 
 interface IChatProps {
-    players: string[];
+    players: IPlayer[];
 }
 
 interface IChatState {
-    messages: IMessage[];
+    messageEvents: IWesketchEvent[];
     currentMessage: string;
 }
 
@@ -31,7 +25,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         super(props);
 
         this.state = {
-            messages: [],
+            messageEvents: [],
             currentMessage: ''
         }
     }
@@ -48,13 +42,13 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                     <div className="col-4">
                         <h3>Players: </h3>
                         {this.props.players.map((player, idx) =>
-                            <div key={idx}>{player}</div>
+                            <div key={idx}>{player.name} - {player.clientId} - {player.userId}</div>
                         )}
                     </div>
                     <div className="col-8">
                         <div className="messages border" ref={el => { this.messagesEl = el }}>
-                            {this.state.messages.map((message, idx) =>
-                                <ChatMessage key={idx} message={message}/>
+                            {this.state.messageEvents.map((event, idx) =>
+                                <ChatMessage key={idx} event={event}/>
                             )}
                         </div>
                         <form onSubmit={this.onSubmit} autoComplete="off">
@@ -81,37 +75,33 @@ export class Chat extends React.Component<IChatProps, IChatState> {
             return;
         }
 
-        const msg = {
-            senderId: auth.currentUser().guid,
+        wss.emit(WesketchEventType.Message, {
             sender: auth.currentUser().name,
             message: this.state.currentMessage
-        } as IMessage;
-
-        wss.emit(WesketchEventType.Message, msg);
+        });
     }
 
     private onEvent = (event: IWesketchEvent) => {
         if (event.type === WesketchEventType.Message ||
             event.type === WesketchEventType.SystemMessage) {
 
-            const from = event.value.sender || 'system'
-            const messageText = event.value.message
-                || WesketchEventType[event.type]
-                || '';
+            // const from = event.value.sender || 'system'
+            // const messageText = event.value.message
+            //     || WesketchEventType[event.type]
+            //     || '';
 
-            const message = {
-                senderId: event.client,
-                sender: from,
-                message: messageText,
-                date: event.timestamp
-            } as IMessage
+            // const message = {
+            //     sender: from,
+            //     message: messageText
+            // } as IMessage
 
-            const messages = this.state.messages;
-            messages.push(message);
+            const messageEvents = this.state.messageEvents;
+            messageEvents.push(event);
             this.setState({
-                messages,
+                messageEvents,
                 currentMessage: ''
             });
+            
             this.scrollDown();
         }
     }
