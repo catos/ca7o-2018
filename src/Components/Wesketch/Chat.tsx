@@ -114,8 +114,6 @@ export class Chat extends React.Component<IChatProps, IChatState> {
             });
             this.scrollDown();
         }
-
-        console.log('Chat:', event);
     }
 
     private handleMessageChange = (event: any) => {

@@ -1,8 +1,6 @@
 import * as io from 'socket.io-client';
-import {auth} from './AuthService';
-
-// const BASE_URL = 'http://localhost:8080/';
-const BASE_URL = 'https://ca7o-server.herokuapp.com/';
+// import {auth} from './AuthService';
+import { AppConfig } from '../AppConfig';
 
 export interface IWesketchEvent {
     client: string
@@ -16,7 +14,6 @@ export enum WesketchEventType {
     PlayerLeft,
     Message,
     SystemMessage,
-
     StartDraw,
     Draw,
     StopDraw,
@@ -29,20 +26,22 @@ class WebSocketService {
 
     constructor() {
         // Create socket
-        this.socket = io(BASE_URL);
+        this.socket = io(AppConfig.serverUrl);
 
         // Client connected
         this.socket.on('connect', () => {
-            this.emit(WesketchEventType.PlayerJoined, {
-                player: auth.currentUser().name
-            })
+            console.log('WebSocketService:connect')
+            // this.emit(WesketchEventType.PlayerJoined, {
+            //     player: auth.currentUser().name
+            // })
         })
 
         // Client disconnected
         this.socket.on('disconnect', () => {
-            this.emit(WesketchEventType.PlayerLeft, {
-                player: auth.currentUser().name
-            })
+            console.log('WebSocketService:disconnect')
+            // this.emit(WesketchEventType.PlayerLeft, {
+            //     player: auth.currentUser().name
+            // })
         })
     }
 

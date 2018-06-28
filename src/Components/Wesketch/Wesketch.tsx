@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 import * as React from "react";
 
+import { auth } from 'src/Services/AuthService';
 import { wss, WesketchEventType, IWesketchEvent } from 'src/Services/WebsocketService';
 
 import { Chat } from './Chat';
@@ -22,6 +23,10 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
 
     public componentDidMount() {
         wss.on('event', this.onEvent);
+        
+        wss.emit(WesketchEventType.PlayerJoined, {
+            player: auth.currentUser().name
+        });
     }
 
     public render() {

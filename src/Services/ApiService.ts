@@ -1,9 +1,7 @@
 import 'isomorphic-fetch';
 
+import { AppConfig } from 'src/AppConfig';
 import { auth } from './AuthService';
-
-// const BASE_URL = 'http://localhost:8080/';
-const BASE_URL = 'https://ca7o-server.herokuapp.com/';
 
 export interface IApiError {
     field: string;
@@ -18,7 +16,7 @@ export interface IApiErrorResponse {
 class ApiService {
 
     public async get(endpoint: string) {
-        const response = await fetch(BASE_URL + endpoint, this.getOptions());
+        const response = await fetch(AppConfig.serverUrl + endpoint, this.getOptions());
         return await this.checkStatus(response);
     }
 
@@ -28,7 +26,7 @@ class ApiService {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         });
-        const response = await fetch(BASE_URL + endpoint, options) as Response;
+        const response = await fetch(AppConfig.serverUrl + endpoint, options) as Response;
         return await this.checkStatus(response);
     }
 
