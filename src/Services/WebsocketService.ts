@@ -1,17 +1,19 @@
 import * as io from 'socket.io-client';
 import {auth} from './AuthService';
 
-const BASE_URL = 'http://localhost:8080/';
-// const BASE_URL = 'https://ca7o-server.herokuapp.com/api/';
+// const BASE_URL = 'http://localhost:8080/';
+const BASE_URL = 'https://ca7o-server.herokuapp.com/api/';
 
-export interface IClientEvent {
+export interface IWesketchEvent {
     client: string
     timestamp: Date
-    type: ClientEventType
+    type: WesketchEventType
     value: any
 }
 
-export enum ClientEventType {
+export enum WesketchEventType {
+    PlayerJoined,
+    PlayerLeft,
     Message,
     SystemMessage,
 
@@ -31,23 +33,21 @@ class WebSocketService {
 
         // Client connected
         this.socket.on('connect', () => {
-            this.emit(ClientEventType.SystemMessage, {
-                sender: 'system',
-                message: `${auth.currentUser().name} joined`
+            this.emit(WesketchEventType.PlayerJoined, {
+                player: auth.currentUser().name
             })
         })
 
         // Client disconnected
         this.socket.on('disconnect', () => {
-            this.emit(ClientEventType.SystemMessage, {
-                sender: 'system',
-                message: `${auth.currentUser().name} left`
+            this.emit(WesketchEventType.PlayerLeft, {
+                player: auth.currentUser().name
             })
         })
     }
 
     // TODO: make fancier
-    public on = (eventName: string, cb: (event: IClientEvent) => any) => {
+    public on = (eventName: string, cb: (event: IWesketchEvent) => any) => {
         this.socket.on(eventName, cb);
     }
 
@@ -66,13 +66,13 @@ class WebSocketService {
     //     });
     // }
 
-    public emit(type: ClientEventType, value: any) {
+    public emit(type: WesketchEventType, value: any) {
         const clientEvent = {
             client: this.socket.id,
             timestamp: new Date(),
             type,
             value
-        } as IClientEvent;
+        } as IWesketchEvent;
 
         this.socket.emit('event', clientEvent)
     }

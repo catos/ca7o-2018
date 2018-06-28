@@ -1,10 +1,21 @@
 import * as jwt_decode from 'jwt-decode';
 
-import { IUser } from '../Models/User';
+import { IUser, UserTypes } from '../Models/User';
 
 class AuthService {
-    public currentUser(): IUser {
-        return jwt_decode(localStorage.getItem('token') || '') as IUser;
+
+    public currentUser() {
+        let user: IUser = {
+            guid: '',
+            name: '',
+            username: '',
+            type: UserTypes.NotDefined
+        };
+        if (this.isAuthenticated()) {
+            user = jwt_decode(localStorage.getItem('token') || '') as IUser;
+        }
+
+        return user;
     }
 
     public isAuthenticated() {

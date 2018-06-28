@@ -22,6 +22,17 @@ export class DevMenu extends React.Component {
                         <li className="nav-item">
                             <a className="dropdown-item" href="https://jwt.io/">Jwt.io</a>
                         </li>
+                        <li className="nav-item">
+                            <a className="dropdown-item" href="https://www.typescriptlang.org/docs/handbook/jsx.html">.tsx</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="dropdown-item" href="https://reactjs.org/docs/hello-world.html">React</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="dropdown-item" href="https://socket.io/docs/">socket.io</a>
+                        </li>
+                        
+                        
                     </ul>
                 </div>
             </nav >

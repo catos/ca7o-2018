@@ -68,7 +68,9 @@ export class Login extends React.Component<RouteComponentProps<{}>, ILoginState>
                         </div>
 
                         <div className="form-group text-danger text-center">
-                            <a onClick={() => this.easyLogin('cskogholt@gmail.com', 'cato123')}>cskogholt@gmail.com</a>
+                        <a onClick={() => this.easyLogin('cskogholt@gmail.com', 'cato123')}>cskogholt@gmail.com</a>
+                            <span className="ml-2 mr-2">|</span>
+                            <a onClick={() => this.easyLogin('test@gmail.com', 'test123')}>test@gmail.com</a>
                             <span className="ml-2 mr-2">|</span>
                             <a onClick={() => this.easyLogin('notfound@gmail.com', 'monzter1')}>notfound@gmail.com</a>
                         </div>
