@@ -1,10 +1,11 @@
 import * as React from 'react';
 
 
-import { auth } from 'src/Services/AuthService';
-import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
-import { ChatMessage } from './ChatMessage';
 import { IPlayer } from './IPlayer';
+import { auth } from '../../Common/AuthService';
+import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
+import { snip } from '../../Common/StringHelper';
+import { ChatMessage } from './ChatMessage';
 
 interface IChatProps {
     wss: WesketchService;
@@ -33,12 +34,12 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         this.focusField();
         this.props.wss.on('event', this.onEvent);
     }
-
+    
     public render() {
         return (
             <div id="chat">
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-2">
                         <small>Players: </small>
                         {this.props.players.map((player, idx) =>
                             <div 
@@ -46,7 +47,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                                 className={player.isReady ? 'font-weight-bold' : ''} 
                                 title={`${player.clientId} - ${player.userId}`} 
                                 onClick={() => this.togglePlayerReady(player)}>
-                                {player.name}
+                                {snip(player.name, 10)}
                             </div>
                         )}
                     </div>

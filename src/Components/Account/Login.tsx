@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 
-import { api } from '../../Services/ApiService';
-import { auth } from '../../Services/AuthService';
+import { api } from '../../Common/ApiService';
+import { auth } from '../../Common/AuthService';
 
 interface ILoginState {
     errorMessage: string;

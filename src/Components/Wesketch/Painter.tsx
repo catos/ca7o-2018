@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Vector2 } from "./Vector2";
 import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
-import { auth } from '../../Services/AuthService';
+import { auth } from '../../Common/AuthService';
 
 import { ClearCanvasButton } from './ClearCanvasButton';
 

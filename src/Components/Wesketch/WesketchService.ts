@@ -1,7 +1,7 @@
 import * as io from 'socket.io-client';
 
 import { AppConfig } from '../../AppConfig';
-import { auth } from 'src/Services/AuthService';
+import { auth } from '../../Common/AuthService';
 
 export enum WesketchEventType {
     ServerError,

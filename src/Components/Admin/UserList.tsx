@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { IUser, UserTypes } from '../../Models/User';
-import { api } from 'src/Services/ApiService';
+import { api } from 'src/Common/ApiService';
 
 interface IUserListState {
     users: IUser[]

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import { api } from '../../Services/ApiService';
+import { api } from '../../Common/ApiService';
 
 interface IRegisterState extends IRegisterRequestDto {
     errorMessage: string;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Redirect } from 'react-router';
-import { auth } from '../../Services/AuthService';
+import { auth } from '../../Common/AuthService';
 
 interface ILogoutState {
     redirect: boolean;
