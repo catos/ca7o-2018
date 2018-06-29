@@ -4,10 +4,13 @@ import * as React from "react";
 import './Wesketch.css';
 import { IPlayer } from "./IPlayer";
 import { PhaseTypes } from "./PhaseTypes";
+
 import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
+
 import { Chat } from './Chat';
 import { Painter } from './Painter';
 import { Debug } from "./Debug";
+import { InfoBar } from './InfoBar';
 
 export interface IWesketchGameState {
     phase: PhaseTypes;
@@ -47,9 +50,17 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
         const { gameState } = this.state;
         return (
             <div id="wesketch">
-                <Chat players={gameState.players} wss={this.state.wss} />
-                <Painter wss={this.state.wss} />
-                <Debug gameState={gameState} events={this.state.events} />
+                <div className="container">
+                    <InfoBar gameState={gameState} />
+                </div>
+                <div className="container">
+                    <Chat players={gameState.players} wss={this.state.wss} />
+                    <Painter wss={this.state.wss} />
+                </div>
+
+                <div className="container">
+                    <Debug gameState={gameState} events={this.state.events} />
+                </div>
             </div>
         );
     }
@@ -60,7 +71,7 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
                 gameState: event.value
             })
         }
-        
+
         const events = this.state.events;
         events.push(event);
         this.setState({
