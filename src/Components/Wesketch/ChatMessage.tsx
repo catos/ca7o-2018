@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as moment from 'moment';
 
-import { IWesketchEvent } from 'src/Services/WebsocketService';
+import { IWesketchEvent } from './WesketchService';
 
 interface IChatMessageProps {
     event: IWesketchEvent

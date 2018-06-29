@@ -1,5 +1,6 @@
 import * as io from 'socket.io-client';
-import { AppConfig } from '../AppConfig';
+
+import { AppConfig } from '../../AppConfig';
 import { auth } from 'src/Services/AuthService';
 
 export enum WesketchEventType {
@@ -23,8 +24,9 @@ export interface IWesketchEvent {
     value: any;
 }
 
-class WebSocketService {
-    public socket: SocketIOClient.Socket;
+export class WesketchService {
+    private socket: SocketIOClient.Socket;
+    private socketId: string;
 
     constructor() {
         // Create socket
@@ -33,8 +35,9 @@ class WebSocketService {
         // Client connected
         this.socket.on('connect', () => {
             console.log('WebSocketService:connect')
+            this.socketId = this.socket.id;
             const event = {
-                client: this.socket.id,
+                client: this.socketId,
                 userId: auth.currentUser().guid,
                 timestamp: new Date(),
                 type: WesketchEventType.PlayerJoined,
@@ -47,50 +50,22 @@ class WebSocketService {
 
         // Client disconnected
         this.socket.on('disconnect', () => {
-            console.log('WebSocketService:disconnect')
-            !!!!! connect og disconnect må leve i wesketch-component!
-            const event = {
-                client: this.socket.id,
-                userId: auth.currentUser().guid,
-                timestamp: new Date(),
-                type: WesketchEventType.PlayerLeft
-            } as IWesketchEvent;
-            this.socket.emit('event', event);
+            console.log('WebSocketService:on-disconnect')
         })
     }
 
-    // TODO: make fancier
     public on = (eventName: string, cb: (event: IWesketchEvent) => any) => {
         this.socket.on(eventName, cb);
     }
 
-    // on(eventName: string): Observable<any> {
-    //     return new Observable(observer => {
-
-    //         this.socket.on(eventName, data => {
-    //             observer.next(data);
-    //         });
-
-    //         // observable is disposed
-    //         return () => {
-    //             this.socket.off(eventName);
-    //         }
-
-    //     });
-    // }
-
     public emit(type: WesketchEventType, value: any) {
         const event = {
-            client: this.socket.id,
+            client: this.socketId,
             userId: auth.currentUser().guid,
             timestamp: new Date(),
             type,
             value
         } as IWesketchEvent;
-        console.log(event);
-        
         this.socket.emit('event', event)
     }
 }
-
-export const wss = new WebSocketService();

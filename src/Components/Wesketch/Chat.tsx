@@ -1,14 +1,13 @@
 import * as React from 'react';
-// import * as moment from 'moment';
 
-import './Wesketch.css';
 
 import { auth } from 'src/Services/AuthService';
-import { wss, WesketchEventType, IWesketchEvent } from 'src/Services/WebsocketService';
+import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
 import { ChatMessage } from './ChatMessage';
 import { IPlayer } from './IPlayer';
 
 interface IChatProps {
+    wss: WesketchService;
     players: IPlayer[];
 }
 
@@ -32,7 +31,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
 
     public componentDidMount() {
         this.focusField();
-        wss.on('event', this.onEvent);
+        this.props.wss.on('event', this.onEvent);
     }
 
     public render() {
@@ -42,7 +41,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                     <div className="col-4">
                         <h3>Players: </h3>
                         {this.props.players.map((player, idx) =>
-                            <div key={idx}>{player.name} - {player.clientId} - {player.userId}</div>
+                            <div key={idx} title={`${player.clientId} - ${player.userId}`}>{player.name}</div>
                         )}
                     </div>
                     <div className="col-8">
@@ -75,7 +74,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
             return;
         }
 
-        wss.emit(WesketchEventType.Message, {
+        this.props.wss.emit(WesketchEventType.Message, {
             sender: auth.currentUser().name,
             message: this.state.currentMessage
         });

@@ -14,3 +14,21 @@
     padding: 1rem;
     color: #000000;
 }
+
+#wesketch .debug-info {
+    position: fixed;
+    background-color: #f8d7daab;
+    bottom: 10px;
+    left: 10px;
+    padding: 10px 20px;
+    width: 45%;
+}
+
+#wesketch .debug-events {
+    position: fixed;
+    background-color: #f8d7daab;
+    bottom: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    width: 45%;
+}
