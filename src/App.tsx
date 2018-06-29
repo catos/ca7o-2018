@@ -17,7 +17,7 @@ class App extends React.Component {
                         <MainMenu />
                         <DevMenu />
                     </header>
-                    <div className="container">
+                    <div className="container-fluid">
                         <Routes />
                     </div>
                 </div>

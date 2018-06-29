@@ -7,6 +7,7 @@ export enum WesketchEventType {
     ServerError,
     PlayerJoined,
     PlayerLeft,
+    PlayerReady,
     Message,
     SystemMessage,
     StartDraw,

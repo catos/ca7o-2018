@@ -1,18 +1,5 @@
-#chat {
-    flex: 1;
-    background-color: #f1f1f1;
-    border: 1px solid #333;
-    padding: 2rem;
-    margin-right: 1rem;
-}
-
-#chat .messages {
-    background-color: #ffffff;
-    height: 300px;
-    border: 1px solid #333;
-    overflow-y: scroll;
-    padding: 1rem;
-    color: #000000;
+#wesketch {
+    display: flex;
 }
 
 #wesketch .debug-info {
@@ -26,9 +13,92 @@
 
 #wesketch .debug-events {
     position: fixed;
-    background-color: #f8d7daab;
+    background-color: #f8ead7ab;
     bottom: 10px;
     right: 10px;
     padding: 10px 20px;
     width: 45%;
+}
+
+#chat {
+    flex: 1;
+    background-color: #f1f1f1;
+    padding: 2rem;
+    margin-left: -15px;
+}
+
+#chat .messages {
+    background-color: #ffffff;
+    height: 300px;
+    border: 1px solid #333;
+    overflow-y: scroll;
+    padding: 1rem;
+    color: #000000;
+}
+
+#painter {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #ccc;
+    padding: 2rem;
+    margin-right: -15px;
+}
+
+#painter .canvas canvas {
+    cursor: crosshair;
+    border: 4px solid #333;
+    background-color: white;
+}
+/* .brush-1px {
+    cursor: url(./cursors/brush-1-px.png), auto;
+}
+.brush-5px {
+    cursor: url(./cursors/brush-5-px.png), auto;
+}
+.brush-9px {
+    cursor: url(./cursors/brush-9-px.png), auto;
+}
+.brush-13px {
+    cursor: url(./cursors/brush-13-px.png), auto;
+}
+.brush-17px {
+    cursor: url(./cursors/brush-17-px.png), auto;
+} */
+#painter .tools {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: var(--dark);
+    padding: 0.5rem;
+    width: 6rem;
+    border-radius: 1rem;
+}
+
+#painter .tools button {
+    width: 2rem;
+    margin: 0.25rem;
+    border-radius: 1rem;
+}
+
+#painter .colors {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#painter .color {
+    width: 2rem;
+    height: 2rem;
+    margin: 0.25rem;
+    cursor: pointer;
+    border-radius: 1rem;
+}
+
+#painter .current-color {
+    box-shadow: 
+        inset 0.2em 0.2em rgba(0, 0, 0, 0.2), 
+        0 0 0 0.2rem rgba(255, 255, 255, 0.25)
 }

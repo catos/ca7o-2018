@@ -39,9 +39,15 @@ export class Chat extends React.Component<IChatProps, IChatState> {
             <div id="chat">
                 <div className="row">
                     <div className="col-4">
-                        <h3>Players: </h3>
+                        <small>Players: </small>
                         {this.props.players.map((player, idx) =>
-                            <div key={idx} title={`${player.clientId} - ${player.userId}`}>{player.name}</div>
+                            <div 
+                                key={idx} 
+                                className={player.isReady ? 'font-weight-bold' : ''} 
+                                title={`${player.clientId} - ${player.userId}`} 
+                                onClick={() => this.togglePlayerReady(player)}>
+                                {player.name}
+                            </div>
                         )}
                     </div>
                     <div className="col-8">
@@ -117,5 +123,9 @@ export class Chat extends React.Component<IChatProps, IChatState> {
 
     private scrollDown() {
         this.messagesEl.scrollTop = this.messagesEl.scrollHeight - this.messagesEl.clientHeight;
+    }
+
+    private togglePlayerReady(player: IPlayer) {
+        this.props.wss.emit(WesketchEventType.PlayerReady, player);
     }
 }
