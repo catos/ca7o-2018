@@ -62,16 +62,17 @@ export class Mdk extends React.Component<{}, IState> {
         return (
             <div id="mdk">
                 <h1>Ukesmeny</h1>
-                <div className="card-group">
+                <div className="card-group week-menu">
                     {this.state.days.map((day, idx) =>
                         <div key={idx}
-                            className={"card w-20 week-menu " + (day.selected ? 'selected' : '')}
+                            className={"card w-20 week-menu-item " + (day.selected ? 'selected' : '')}
                             onClick={() => this.selectDay(day)}
                         >
                             <h1 className="day">{day.name}</h1>
                             <div className="card-img-top center-cropped week-thumbnail" style={{ backgroundImage: 'url(' + day.recipe.thumbnail + ')' }} />
                             <div className="card-body">
-                                <h5 className="card-title">{day.recipe.name} <small>{day.recipe.time}m</small></h5>
+                                <h5 className="card-title">{day.recipe.name}</h5>
+                                <div><small>{day.recipe.time} <i className="far fa-clock" /></small></div>
                                 <p className="card-text">{day.recipe.description}</p>
                             </div>
                         </div>

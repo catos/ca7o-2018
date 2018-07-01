@@ -5,6 +5,28 @@
     background-size: cover;
 }
 
+#mdk .week-menu-item {
+    cursor: pointer;
+}
+
+#mdk .week-menu-item.selected {
+    background-color: #f1f1f1;
+}
+
+#mdk .week-menu-item h1 {
+    font-size: 1.1em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0.5rem 0;
+    position: absolute;
+    color: #ffffff;
+    text-shadow: 1px 1px 1px #333;
+    font-weight: 700;
+    left: 10px;
+    right: 10px;
+}
+
 #mdk .week-thumbnail {
     height: 150px;
 }
@@ -55,26 +77,4 @@
     color: #fff;
     font-weight: 500;
     padding: 0.3rem;
-}
-
-.week-menu {
-    cursor: pointer;
-}
-
-.week-menu.selected {
-    background-color: #f1f1f1;
-}
-
-.week-menu h1 {
-    font-size: 1.1em;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-align: center;
-    margin: 0.5rem 0;
-    position: absolute;
-    color: #ffffff;
-    text-shadow: 1px 1px 1px #333;
-    font-weight: 700;
-    left: 10px;
-    right: 10px;
 }
