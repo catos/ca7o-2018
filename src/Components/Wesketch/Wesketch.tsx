@@ -44,6 +44,7 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
 
     public componentWillUnmount() {
         this.state.wss.emit(WesketchEventType.PlayerLeft, {});
+        this.state.wss.disconnect();
     }
 
     public render() {
@@ -51,7 +52,7 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
         return (
             <div id="wesketch">
                 <div className="container">
-                    <InfoBar gameState={gameState} />
+                    <InfoBar gameState={gameState} resetGame={this.resetGame} />
                 </div>
                 <div className="container">
                     <Chat players={gameState.players} wss={this.state.wss} />
@@ -77,5 +78,11 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
         this.setState({
             events
         })
+    }
+
+    private resetGame = () => {
+        console.log('resetGame!');
+        
+        this.state.wss.emit(WesketchEventType.ResetGame, {});
     }
 }

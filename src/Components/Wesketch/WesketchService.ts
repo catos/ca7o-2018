@@ -14,12 +14,14 @@ export enum WesketchEventType {
     Draw,
     StopDraw,
     ClearCanvas,
-    UpdateGameState
+    UpdateGameState,
+    ResetGame
 }
 
 export interface IWesketchEvent {
     client: string;
     userId: string;
+    userName: string;
     timestamp: Date;
     type: WesketchEventType;
     value: any;
@@ -40,11 +42,9 @@ export class WesketchService {
             const event = {
                 client: this.socketId,
                 userId: auth.currentUser().guid,
+                userName: auth.currentUser().name,
                 timestamp: new Date(),
-                type: WesketchEventType.PlayerJoined,
-                value: {
-                    player: auth.currentUser().name
-                }
+                type: WesketchEventType.PlayerJoined
             } as IWesketchEvent;
             this.socket.emit('event', event);
         })
@@ -55,18 +55,26 @@ export class WesketchService {
         })
     }
 
+    public disconnect = () => {
+        this.socket.close();
+    }
+
     public on = (eventName: string, cb: (event: IWesketchEvent) => any) => {
         this.socket.on(eventName, cb);
     }
 
-    public emit(type: WesketchEventType, value: any) {
+    public emit = (type: WesketchEventType, value: any) => {
+        const user = auth.currentUser();
         const event = {
             client: this.socketId,
-            userId: auth.currentUser().guid,
+            userId: user.guid,
+            userName: user.name,
             timestamp: new Date(),
             type,
             value
         } as IWesketchEvent;
+        console.log('wss.emit: ', event);
+        
         this.socket.emit('event', event)
     }
 }

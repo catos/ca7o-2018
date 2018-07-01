@@ -151,6 +151,7 @@ export class Painter extends React.Component<IProps, IState> {
         if (event.type === WesketchEventType.Draw) {
 
             // Do not redraw your own drawing :D
+            // TODO: check why auth is null (chrome debug) ?!?
             if (event.userId !== auth.currentUser().guid) {
                 this.draw(event.value.from, event.value.to);
             }

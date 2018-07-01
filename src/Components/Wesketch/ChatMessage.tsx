@@ -11,7 +11,7 @@ export const ChatMessage: React.SFC<IChatMessageProps> = (props) => {
     return (
         <div>
             <small>{moment(props.event.timestamp).format('HH:mm:ss')}</small>
-            <strong> {props.event.value.sender}: </strong>
+            <strong> {props.event.userName}: </strong>
             {props.event.value.message}
         </div>
     );

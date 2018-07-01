@@ -7,6 +7,7 @@ import { UserList } from "../Admin/UserList";
 
 import { Register } from "../Account/Register";
 import { Wesketch } from "../Wesketch/Wesketch";
+import { Mdk } from "../Mdk/Mdk";
 
 import { NotFound } from './NotFound';
 
@@ -16,11 +17,13 @@ export class Routes extends React.Component {
             <Switch>
                 <Route exact={true} path="/" component={Home} />
                 <Route path="/login" component={Login} />
-                
+
                 <Route path="/users" component={UserList} />
 
                 <Route path="/register" component={Register} />
-                <Route path="/wesketch" component={Wesketch} />                
+                <Route path="/mdk" component={Mdk} />
+                <Route path="/wesketch" component={Wesketch} />
+
                 <Route component={NotFound} />
             </Switch>
         );

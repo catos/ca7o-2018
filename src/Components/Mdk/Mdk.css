@@ -1,0 +1,80 @@
+.center-cropped {
+    width: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#mdk .week-thumbnail {
+    height: 150px;
+}
+
+#mdk .search-thumbnail {
+    height: 50px;
+}
+
+#mdk .shopping-list ul {
+    columns: 4;
+    list-style: none;
+}
+
+#mdk .search-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#mdk .search-filters a {
+    border-radius: 0.25rem;
+}
+
+#mdk .search-result {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#mdk .search-result div {
+    position: relative;
+    width: 8rem;
+    height: 8rem;
+    margin: 0.5rem;
+    cursor: pointer;
+}
+
+#mdk .search-result div h1 {
+    font-size: 1em;
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    right: -0.5rem;
+    overflow: hidden;
+    z-index: 1;
+    text-align: center;
+    text-shadow: 1px 1px 1px #000;
+    color: #fff;
+    font-weight: 500;
+    padding: 0.3rem;
+}
+
+.week-menu {
+    cursor: pointer;
+}
+
+.week-menu.selected {
+    background-color: #f1f1f1;
+}
+
+.week-menu h1 {
+    font-size: 1.1em;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0.5rem 0;
+    position: absolute;
+    color: #ffffff;
+    text-shadow: 1px 1px 1px #333;
+    font-weight: 700;
+    left: 10px;
+    right: 10px;
+}

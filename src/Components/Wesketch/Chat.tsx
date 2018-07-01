@@ -2,7 +2,6 @@ import * as React from 'react';
 
 
 import { IPlayer } from './IPlayer';
-import { auth } from '../../Common/AuthService';
 import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
 import { snip } from '../../Common/StringHelper';
 import { ChatMessage } from './ChatMessage';
@@ -34,7 +33,12 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         this.focusField();
         this.props.wss.on('event', this.onEvent);
     }
-    
+
+    public componentWillUnmount() {
+        this.messageInputEl = null;
+        this.messagesEl = null;
+    }
+
     public render() {
         return (
             <div id="chat">
@@ -42,10 +46,10 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                     <div className="col-2">
                         <small>Players: </small>
                         {this.props.players.map((player, idx) =>
-                            <div 
-                                key={idx} 
-                                className={player.isReady ? 'font-weight-bold' : ''} 
-                                title={`${player.clientId} - ${player.userId}`} 
+                            <div
+                                key={idx}
+                                className={player.isReady ? 'font-weight-bold' : ''}
+                                title={player.clientId + '' + player.userId}
                                 onClick={() => this.togglePlayerReady(player)}>
                                 {snip(player.name, 10)}
                             </div>
@@ -54,7 +58,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                     <div className="col-8">
                         <div className="messages border" ref={el => { this.messagesEl = el }}>
                             {this.state.messageEvents.map((event, idx) =>
-                                <ChatMessage key={idx} event={event}/>
+                                <ChatMessage key={idx} event={event} />
                             )}
                         </div>
                         <form onSubmit={this.onSubmit} autoComplete="off">
@@ -81,25 +85,12 @@ export class Chat extends React.Component<IChatProps, IChatState> {
             return;
         }
 
-        this.props.wss.emit(WesketchEventType.Message, {
-            sender: auth.currentUser().name,
-            message: this.state.currentMessage
-        });
+        this.props.wss.emit(WesketchEventType.Message, { message: this.state.currentMessage });
     }
 
     private onEvent = (event: IWesketchEvent) => {
         if (event.type === WesketchEventType.Message ||
             event.type === WesketchEventType.SystemMessage) {
-
-            // const from = event.value.sender || 'system'
-            // const messageText = event.value.message
-            //     || WesketchEventType[event.type]
-            //     || '';
-
-            // const message = {
-            //     sender: from,
-            //     message: messageText
-            // } as IMessage
 
             const messageEvents = this.state.messageEvents;
             messageEvents.push(event);
@@ -107,7 +98,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                 messageEvents,
                 currentMessage: ''
             });
-            
+
             this.scrollDown();
         }
     }
@@ -119,11 +110,15 @@ export class Chat extends React.Component<IChatProps, IChatState> {
     }
 
     private focusField() {
-        this.messageInputEl.focus();
+        if (this.messagesEl !== null) {
+            this.messageInputEl.focus();
+        }
     }
 
     private scrollDown() {
-        this.messagesEl.scrollTop = this.messagesEl.scrollHeight - this.messagesEl.clientHeight;
+        if (this.messagesEl !== null) {
+            this.messagesEl.scrollTop = this.messagesEl.scrollHeight - this.messagesEl.clientHeight;
+        }
     }
 
     private togglePlayerReady(player: IPlayer) {
