@@ -31,7 +31,7 @@ export class Mdk extends React.Component<{}, IState> {
     public componentDidMount() {
         const recipes = RECIPES.sort(() => .5 - Math.random()).slice(0, 5);
         const days = [
-            { name: 'Mandag', recipe: recipes[0], selected: true },
+            { name: 'Mandag', recipe: recipes[0], selected: false },
             { name: 'Tirsdag', recipe: recipes[1], selected: false },
             { name: 'Onsdag', recipe: recipes[2], selected: false },
             { name: 'Torsdag', recipe: recipes[3], selected: false },
