@@ -5,8 +5,12 @@ import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchSe
 import { auth } from '../../Common/AuthService';
 
 import { ClearCanvasButton } from './ClearCanvasButton';
+import { IWesketchGameState } from './Wesketch';
+import { Colors } from './Colors';
+import { BrushSizeButton } from './BrushSizeButton';
 
 interface IProps {
+    gameState: IWesketchGameState;
     wss: WesketchService;
 }
 
@@ -17,9 +21,6 @@ interface IState {
     mousePos: Vector2;
     from: Vector2;
     to: Vector2;
-
-    lineWidth: number;
-    currentColor: string;
 }
 
 export class Painter extends React.Component<IProps, IState> {
@@ -35,12 +36,15 @@ export class Painter extends React.Component<IProps, IState> {
             isDrawing: false,
             mousePos: new Vector2(0, 0),
             from: new Vector2(0, 0),
-            to: new Vector2(0, 0),
-            lineWidth: 3,
-            currentColor: '#000000',
+            to: new Vector2(0, 0)
         };
 
         // this.canvas = null;
+    }
+
+    public componentWillReceiveProps() {
+        this.ctx.strokeStyle = this.props.gameState.currentColor;
+        this.ctx.lineWidth = this.props.gameState.brushSize;
     }
 
     public componentDidMount() {
@@ -51,8 +55,8 @@ export class Painter extends React.Component<IProps, IState> {
             this.ctx = this.canvas.getContext('2d')!;
             this.ctx.lineJoin = 'round';
             this.ctx.lineCap = 'round';
-            this.ctx.lineWidth = this.state.lineWidth;
-            this.ctx.strokeStyle = this.state.currentColor;
+            this.ctx.lineWidth = this.props.gameState.brushSize;
+            this.ctx.strokeStyle = this.props.gameState.currentColor;
 
 
             this.setState({
@@ -74,11 +78,12 @@ export class Painter extends React.Component<IProps, IState> {
             <div id="painter" className="cursorClass">
 
                 <div className="tools">
-                    <ClearCanvasButton onClick={() => this.props.wss.emit(WesketchEventType.ClearCanvas, {})} />
-                    {/* <div><button className="btn btn-primary btn-sm">F</button></div>
-                    <BrushSizeButton label="+" modifier={3} onClick={this.createWesketchEvent} />
-                    <BrushSizeButton label="-" modifier={-3} onClick={this.createWesketchEvent} />
-                    <Colors currentColor={this.state.currentColor} onClick={this.createWesketchEvent} /> */}
+                    <ClearCanvasButton wss={this.props.wss} />
+                    <Colors currentColor={this.props.gameState.currentColor} wss={this.props.wss} />
+                    <BrushSizeButton label="+" modifier={3} wss={this.props.wss} />
+                    <BrushSizeButton label="-" modifier={-3} wss={this.props.wss} />
+
+                    {/* <div><button className="btn btn-primary btn-sm">F</button></div> */}
                 </div >
 
                 <div className="canvas">

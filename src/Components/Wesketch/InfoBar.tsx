@@ -11,10 +11,10 @@ interface IProps {
 export const InfoBar: React.SFC<IProps> = (props) => {
     return (
         <div id="info-bar">
-            
-            Phase: {PhaseTypes[props.gameState.phase]}
-
-            <button onClick={() => props.resetGame()}>Reset</button>
+            <ul>
+                <li>Phase: {PhaseTypes[props.gameState.phase]}</li>
+                <li><button onClick={() => props.resetGame()}>Reset</button></li>
+            </ul>
         </div>
     );
 }

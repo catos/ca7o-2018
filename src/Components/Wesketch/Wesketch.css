@@ -39,6 +39,17 @@
     padding: 0.5rem 0;
 }
 
+#info-bar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#info-bar ul li {
+    display: inline;
+    margin-right: 1rem;
+}
+
 #chat {
     flex: 1;
     background-color: #f1f1f1;
@@ -116,7 +127,7 @@
     border-radius: 1rem;
 }
 
-#painter .current-color {
+#painter .color.current-color {
     box-shadow: 
         inset 0.2em 0.2em rgba(0, 0, 0, 0.2), 
         0 0 0 0.2rem rgba(255, 255, 255, 0.25)

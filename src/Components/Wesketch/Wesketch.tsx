@@ -15,6 +15,11 @@ import { InfoBar } from './InfoBar';
 export interface IWesketchGameState {
     phase: PhaseTypes;
     players: IPlayer[];
+
+    round: number;
+    currentWord: string;
+    currentColor: string;
+    brushSize: number;
 }
 
 interface IWesketchState {
@@ -33,7 +38,11 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
             events: [],
             gameState: {
                 phase: PhaseTypes.Lobby,
-                players: []
+                players: [],
+                round: 1,
+                currentWord: '',
+                currentColor: '#000000',
+                brushSize: 3
             }
         };
     }
@@ -56,7 +65,7 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
                 </div>
                 <div className="container">
                     <Chat players={gameState.players} wss={this.state.wss} />
-                    <Painter wss={this.state.wss} />
+                    <Painter gameState={gameState} wss={this.state.wss} />
                 </div>
 
                 <div className="container">
@@ -81,8 +90,6 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
     }
 
     private resetGame = () => {
-        console.log('resetGame!');
-        
         this.state.wss.emit(WesketchEventType.ResetGame, {});
     }
 }
