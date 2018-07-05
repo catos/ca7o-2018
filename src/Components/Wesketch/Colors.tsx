@@ -25,7 +25,7 @@ export const Colors: React.SFC<IProps> = (props) => {
         <div id="colors">
             {COLORS.map((color, idx) =>
                 <div key={idx} 
-                    className={ "color " + (props.currentColor === color ? 'current-color' : '')} 
+                    className={ "button " + (props.currentColor === color ? 'current-color' : '')} 
                     style={{ backgroundColor: color }}
                     onClick={() => changeColor(color)} />
             )}

@@ -51,7 +51,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                                 className={player.isReady ? 'font-weight-bold' : ''}
                                 title={player.clientId + '' + player.userId}
                                 onClick={() => this.togglePlayerReady(player)}>
-                                {snip(player.name, 10)}
+                                {snip(player.name, 10)} - {player.drawCount}
                             </div>
                         )}
                     </div>

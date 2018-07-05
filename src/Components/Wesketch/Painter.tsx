@@ -74,18 +74,22 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     public render() {
+        const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing);
+        const drawingTools = drawingPlayer && drawingPlayer.userId === auth.currentUser().guid
+            ? <div className="tools">
+                <ClearCanvasButton wss={this.props.wss} />
+                <div className="button fa fa-question-circle" />
+                <div className="button fa fa-paint-brush" />
+                <div className="button fa fa-circle" />
+                <BrushSizeButton label="+" modifier={3} wss={this.props.wss} />
+                <BrushSizeButton label="-" modifier={-3} wss={this.props.wss} />
+                <Colors currentColor={this.props.gameState.currentColor} wss={this.props.wss} />
+                {/* <div><button className="btn btn-primary btn-sm">F</button></div> */}
+            </div>
+            : '';
         return (
             <div id="painter" className="cursorClass">
-
-                <div className="tools">
-                    <ClearCanvasButton wss={this.props.wss} />
-                    <Colors currentColor={this.props.gameState.currentColor} wss={this.props.wss} />
-                    <BrushSizeButton label="+" modifier={3} wss={this.props.wss} />
-                    <BrushSizeButton label="-" modifier={-3} wss={this.props.wss} />
-
-                    {/* <div><button className="btn btn-primary btn-sm">F</button></div> */}
-                </div >
-
+                {drawingTools}
                 <div className="canvas">
                     <canvas width="500" height="500"
                         ref={(el) => this.canvas = el as HTMLCanvasElement}
@@ -93,7 +97,7 @@ export class Painter extends React.Component<IProps, IState> {
                         onMouseUp={this.onMouseUp}
                         onMouseMove={this.onMouseMove}
                         onMouseOut={this.onMouseOut} />
-                </div >
+                </div>
 
                 {/* <DebugInfo painterState={this.state} /> */}
             </div >
@@ -122,7 +126,7 @@ export class Painter extends React.Component<IProps, IState> {
 
     private onMouseMove = (event: React.MouseEvent<HTMLElement>) => {
         const mousePosition = new Vector2(
-            event.clientX - this.state.canvasRect.left, 
+            event.clientX - this.state.canvasRect.left,
             event.clientY - this.state.canvasRect.top);
         this.setState({
             mousePos: mousePosition,

@@ -11,8 +11,6 @@ export const ClearCanvasButton: React.SFC<IProps> = (props) => {
     };
 
     return (
-        <div>
-            <button className="btn btn-primary btn-sm" onClick={clearCanvas}><i className="far fa-times-circle" /></button>
-        </div>
+        <div className="button fa fa-times-circle" onClick={clearCanvas} />
     );
 }

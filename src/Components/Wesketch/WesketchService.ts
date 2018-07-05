@@ -17,7 +17,9 @@ export enum WesketchEventType {
     ChangeColor,
     ChangeBrushSize,
     UpdateGameState,
-    ResetGame
+    ResetGame,
+    PauseGame,
+    ShowScores
 }
 
 export interface IWesketchEvent {

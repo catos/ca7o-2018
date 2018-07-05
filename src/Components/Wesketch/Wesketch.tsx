@@ -16,8 +16,11 @@ export interface IWesketchGameState {
     phase: PhaseTypes;
     players: IPlayer[];
 
+    gamePaused: boolean;
     round: number;
+    timeRemaining: number;
     currentWord: string;
+
     currentColor: string;
     brushSize: number;
 }
@@ -39,7 +42,9 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
             gameState: {
                 phase: PhaseTypes.Lobby,
                 players: [],
+                gamePaused: false,
                 round: 1,
+                timeRemaining: 0,
                 currentWord: '',
                 currentColor: '#000000',
                 brushSize: 3
@@ -60,15 +65,15 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
         const { gameState } = this.state;
         return (
             <div id="wesketch">
-                <div className="container">
-                    <InfoBar gameState={gameState} resetGame={this.resetGame} />
+                <div>
+                    <InfoBar gameState={gameState} wss={this.state.wss} />
                 </div>
-                <div className="container">
+                <div>
                     <Chat players={gameState.players} wss={this.state.wss} />
                     <Painter gameState={gameState} wss={this.state.wss} />
                 </div>
 
-                <div className="container">
+                <div>
                     <Debug gameState={gameState} events={this.state.events} />
                 </div>
             </div>
@@ -87,9 +92,5 @@ export class Wesketch extends React.Component<{}, IWesketchState> {
         this.setState({
             events
         })
-    }
-
-    private resetGame = () => {
-        this.state.wss.emit(WesketchEventType.ResetGame, {});
     }
 }

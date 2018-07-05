@@ -3,4 +3,7 @@ export interface IPlayer {
     userId: string;
     name: string;
     isReady: boolean;
+    drawCount: number;
+    isDrawing: boolean;
+    guessedWord: boolean;
 }
