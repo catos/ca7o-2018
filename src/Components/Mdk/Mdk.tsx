@@ -68,7 +68,9 @@ export class Mdk extends React.Component<{}, IState> {
                             className={"card w-20 week-menu-item " + (day.selected ? 'selected' : '')}
                             onClick={() => this.selectDay(day)}
                         >
-                            <h1 className="day">{day.name}</h1>
+                            <div className="title">
+                                <h1>{day.name}</h1>
+                            </div>
                             <div className="card-img-top center-cropped week-thumbnail" style={{ backgroundImage: 'url(' + day.recipe.thumbnail + ')' }} />
                             <div className="card-body">
                                 <h5 className="card-title">{day.recipe.name}</h5>

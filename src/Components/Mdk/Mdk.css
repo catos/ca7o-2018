@@ -13,18 +13,22 @@
     background-color: #f1f1f1;
 }
 
-#mdk .week-menu-item h1 {
+#mdk .week-menu-item .title {
+    background-color: #000000;
+    opacity: 0.5;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+#mdk .week-menu-item .title h1 {
     font-size: 1.1em;
     letter-spacing: 2px;
     text-transform: uppercase;
     text-align: center;
     margin: 0.5rem 0;
-    position: absolute;
     color: #ffffff;
-    text-shadow: 1px 1px 1px #333;
     font-weight: 700;
-    left: 10px;
-    right: 10px;
 }
 
 #mdk .week-thumbnail {
