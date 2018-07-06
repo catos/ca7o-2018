@@ -3,7 +3,10 @@ import * as React from 'react';
 import './Mdk.css';
 import { RECIPES, IRecipe } from './RecipesDb';
 
-interface IDay {
+import { MdkDay } from './MdkDay';
+import { SearchResultItem } from './SearchResultItem';
+
+export interface IDay {
     name: string;
     recipe: IRecipe;
     selected: boolean;
@@ -26,6 +29,8 @@ export class Mdk extends React.Component<{}, IState> {
             shoppingList: [],
             showShoppingList: false
         }
+
+        this.onDropReplaceRecipe = this.onDropReplaceRecipe.bind(this);
     }
 
     public componentDidMount() {
@@ -64,20 +69,10 @@ export class Mdk extends React.Component<{}, IState> {
                 <h1>Ukesmeny</h1>
                 <div className="card-group week-menu">
                     {this.state.days.map((day, idx) =>
-                        <div key={idx}
-                            className={"card w-20 week-menu-item " + (day.selected ? 'selected' : '')}
+                        <MdkDay key={idx}
+                            day={day}
                             onClick={() => this.selectDay(day)}
-                        >
-                            <div className="title">
-                                <h1>{day.name}</h1>
-                            </div>
-                            <div className="card-img-top center-cropped week-thumbnail" style={{ backgroundImage: 'url(' + day.recipe.thumbnail + ')' }} />
-                            <div className="card-body">
-                                <h5 className="card-title">{day.recipe.name}</h5>
-                                <div><small>{day.recipe.time} <i className="far fa-clock" /></small></div>
-                                <p className="card-text">{day.recipe.description}</p>
-                            </div>
-                        </div>
+                            onDrop={this.onDropReplaceRecipe} />
                     )}
                 </div>
 
@@ -102,11 +97,7 @@ export class Mdk extends React.Component<{}, IState> {
                 <div className="search-result">
 
                     {this.state.recipes.map((recipe, idx) =>
-                        <div key={idx} className="w-10"
-                            onClick={() => this.replaceRecipe(recipe)}>
-                            <h1>{recipe.name}</h1>
-                            <div className="card-img-top center-cropped search-thumbnail" style={{ backgroundImage: 'url(' + recipe.thumbnail + ')' }} />
-                        </div>
+                        <SearchResultItem key={idx} recipe={recipe} onClick={() => this.onClickReplaceRecipe(recipe)} />
                     )}
                 </div>
             </div>
@@ -130,12 +121,23 @@ export class Mdk extends React.Component<{}, IState> {
         });
     }
 
-    private replaceRecipe(recipe: IRecipe) {
-        const days = this.state.days.map(day => {
-            if (day.selected) {
-                day.recipe = recipe;
+    private onDropReplaceRecipe(day: IDay, recipe: IRecipe) {
+        this.replaceRecipe(day, recipe);
+    }
+
+    private onClickReplaceRecipe(recipe: IRecipe) {
+        const selectedDay = this.state.days.find(p => p.selected) as IDay;
+        if (selectedDay !== undefined) {
+            this.replaceRecipe(selectedDay, recipe);
+        }
+    }
+
+    private replaceRecipe(day: IDay, recipe: IRecipe) {
+        const days = this.state.days.map(d => {
+            if (d.name === day.name) {
+                d.recipe = recipe;
             }
-            return day;
+            return d;
         });
 
         this.setState({

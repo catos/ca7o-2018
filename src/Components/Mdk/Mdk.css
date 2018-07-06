@@ -9,10 +9,11 @@
     cursor: pointer;
 }
 
+#mdk .week-menu-item.drag-over, 
 #mdk .week-menu-item.selected {
     background-color: #f1f1f1;
 }
-
+ 
 #mdk .week-menu-item .title {
     background-color: #000000;
     opacity: 0.5;
