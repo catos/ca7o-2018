@@ -42,37 +42,37 @@ export class Chat extends React.Component<IChatProps, IChatState> {
     public render() {
         return (
             <div id="chat">
-                <div className="row">
-                    <div className="col-2">
-                        <small>Players: </small>
-                        {this.props.players.map((player, idx) =>
-                            <div
-                                key={idx}
-                                className={player.isReady ? 'font-weight-bold' : ''}
-                                title={player.clientId + '' + player.userId}
-                                onClick={() => this.togglePlayerReady(player)}>
-                                {snip(player.name, 10)} - {player.drawCount}
-                            </div>
+                <div className="players">
+                    {this.props.players.map((player, idx) =>
+                        <div
+                            key={idx}
+                            className={player.isReady ? 'font-weight-bold' : ''}
+                            title={player.clientId + '' + player.userId}
+                            onClick={() => this.togglePlayerReady(player)}>
+                            {snip(player.name, 10)}
+                            <span className="badge badge-dark">
+                                {player.drawCount} - {player.score}
+                            </span>
+                        </div>
+                    )}
+                </div>
+                <div className="messages-and-form">
+                    <div className="messages border" ref={el => { this.messagesEl = el }}>
+                        {this.state.messageEvents.map((event, idx) =>
+                            <ChatMessage key={idx} event={event} />
                         )}
                     </div>
-                    <div className="col-8">
-                        <div className="messages border" ref={el => { this.messagesEl = el }}>
-                            {this.state.messageEvents.map((event, idx) =>
-                                <ChatMessage key={idx} event={event} />
-                            )}
-                        </div>
-                        <form onSubmit={this.onSubmit} autoComplete="off">
-                            <div className="input-group">
-                                <input className="form-control" type="text" name="asdf" placeholder="Type your message here..."
-                                    ref={(el) => { this.messageInputEl = el }}
-                                    value={this.state.currentMessage}
-                                    onChange={this.handleMessageChange} />
-                                <div className="input-group-append">
-                                    <button type="submit" className="btn btn-dark">Send</button>
-                                </div>
+                    <form onSubmit={this.onSubmit} autoComplete="off">
+                        <div className="input-group">
+                            <input className="form-control" type="text" name="asdf" placeholder="Type your message here..."
+                                ref={(el) => { this.messageInputEl = el }}
+                                value={this.state.currentMessage}
+                                onChange={this.handleMessageChange} />
+                            <div className="input-group-append">
+                                <button type="submit" className="btn btn-dark">Send</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         );
