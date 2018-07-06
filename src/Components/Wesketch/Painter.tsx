@@ -8,6 +8,7 @@ import { ClearCanvasButton } from './ClearCanvasButton';
 import { IWesketchGameState } from './Wesketch';
 import { Colors } from './Colors';
 import { BrushSizeButton } from './BrushSizeButton';
+import { PhaseTypes } from './PhaseTypes';
 
 interface IProps {
     gameState: IWesketchGameState;
@@ -58,7 +59,6 @@ export class Painter extends React.Component<IProps, IState> {
             this.ctx.lineWidth = this.props.gameState.brushSize;
             this.ctx.strokeStyle = this.props.gameState.currentColor;
 
-
             this.setState({
                 canvasRect: this.canvas.getBoundingClientRect()
             })
@@ -75,7 +75,11 @@ export class Painter extends React.Component<IProps, IState> {
 
     public render() {
         const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing);
-        const drawingTools = drawingPlayer && drawingPlayer.userId === auth.currentUser().guid
+        const showDrawingTools =
+            (drawingPlayer && drawingPlayer.userId === auth.currentUser().guid)
+            || this.props.gameState.phase === PhaseTypes.Lobby;
+
+        const drawingTools = showDrawingTools
             ? <div className="tools">
                 <ClearCanvasButton wss={this.props.wss} />
                 <div className="button fa fa-question-circle" />
@@ -90,7 +94,7 @@ export class Painter extends React.Component<IProps, IState> {
         return (
             <div id="painter" className="cursorClass">
                 {drawingTools}
-                <div className="canvas">
+                <div id="canvas-wrapper">
                     <canvas width="500" height="500"
                         ref={(el) => this.canvas = el as HTMLCanvasElement}
                         onMouseDown={this.onMouseDown}

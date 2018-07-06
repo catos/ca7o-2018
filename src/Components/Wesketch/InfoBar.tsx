@@ -21,7 +21,11 @@ export class InfoBar extends React.Component<IProps, {}> {
                     <li>Drawing player: {drawingPlayerName}</li>
                     <li>Time remaining: {this.props.gameState.timeRemaining}</li>
                     <li>Word: {this.props.gameState.currentWord}</li>
-                    <li><span onClick={() => this.props.wss.emit(WesketchEventType.PauseGame, {})}>[Pause]</span></li>
+                    <li>
+                        <span onClick={() => this.props.wss.emit(WesketchEventType.PauseGame, {})}>
+                        {this.props.gameState.gamePaused ? 'Un-pause' : 'Pause'}
+                        </span>
+                    </li>
                     <li><span onClick={() => this.props.wss.emit(WesketchEventType.ResetGame, {})}>[Reset]</span></li>
                 </ul>
             </div>
