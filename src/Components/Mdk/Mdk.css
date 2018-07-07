@@ -5,6 +5,11 @@
     background-size: cover;
 }
 
+#mdk {
+    width: 768px;
+    margin: 1rem auto;
+}
+
 #mdk .week-menu-item {
     cursor: pointer;
 }
@@ -13,7 +18,7 @@
 #mdk .week-menu-item.selected {
     background-color: #f1f1f1;
 }
- 
+
 #mdk .week-menu-item .title {
     background-color: #000000;
     opacity: 0.5;
@@ -38,6 +43,14 @@
 
 #mdk .search-thumbnail {
     height: 50px;
+}
+
+#mdk .week-menu-item .card-body {
+    padding: 0.75rem;
+}
+
+#mdk .week-menu-item .card-footer {
+    padding: 0.5rem 0.75rem;
 }
 
 #mdk .shopping-list ul {

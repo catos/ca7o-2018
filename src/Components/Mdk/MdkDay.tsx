@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { IDay } from './Mdk';
 import { IRecipe } from './RecipesDb';
+import { snip } from '../../Common/Utils';
 
 interface IProps {
     day: IDay;
@@ -40,26 +41,28 @@ export class MdkDay extends React.Component<IProps, IState> {
             <div
                 className={className}
                 onClick={() => this.props.onClick(this.props.day)}
-                onDrop={this.onDrop} 
+                onDrop={this.onDrop}
                 onDragOver={this.onDragOver}
                 onDragLeave={this.onDragLeave}
                 onDragExit={this.onDragExit}
-                >
+            >
                 <div className="title">
                     <h1>{this.props.day.name}</h1>
                 </div>
                 <div className="card-img-top center-cropped week-thumbnail" style={{ backgroundImage: 'url(' + this.props.day.recipe.thumbnail + ')' }} />
                 <div className="card-body">
-                    <h5 className="card-title">{this.props.day.recipe.name}</h5>
-                    <div><small>{this.props.day.recipe.time} <i className="far fa-clock" /></small></div>
-                    <p className="card-text">{this.props.day.recipe.description}</p>
+                    <h5 className="card-title">{this.props.day.recipe.name}</h5>                    
+                    <p className="card-text">{snip(this.props.day.recipe.description, 50)}</p>
+                </div>
+                <div className="card-footer text-muted">
+                    <div className="meta"><small>{this.props.day.recipe.time} <i className="far fa-clock" /></small></div>
                 </div>
             </div>
         );
     }
 
     private onDragOver(event: any) {
-        event.preventDefault();        
+        event.preventDefault();
         this.setState({ dragOver: true });
     }
 

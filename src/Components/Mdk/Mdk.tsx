@@ -92,10 +92,29 @@ export class Mdk extends React.Component<{}, IState> {
                     <a href="#" className="m-1 p-2 badge badge-secondary">Kjapp</a>
                     <a href="#" className="m-1 p-2 badge badge-success">Billig</a>
                     <a href="#" className="m-1 p-2 badge badge-danger">Kos</a>
+
+                    <nav aria-label="Page navigation example">
+                        <ul className="pagination">
+                            <li className="page-item">
+                                <a className="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span className="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            {/* <li className="page-item"><a className="page-link" href="#">1</a></li>
+                            <li className="page-item"><a className="page-link" href="#">2</a></li>
+                            <li className="page-item"><a className="page-link" href="#">3</a></li> */}
+                            <li className="page-item">
+                                <a className="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span className="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
 
                 <div className="search-result">
-
                     {this.state.recipes.map((recipe, idx) =>
                         <SearchResultItem key={idx} recipe={recipe} onClick={() => this.onClickReplaceRecipe(recipe)} />
                     )}
