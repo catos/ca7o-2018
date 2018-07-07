@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Redirect } from 'react-router';
 import { auth } from '../../Common/AuthService';
 
-interface ILogoutState {
+interface IState {
     redirect: boolean;
 }
 
-export class Logout extends React.Component<{}, ILogoutState> {
+export class Logout extends React.Component<{}, IState> {
 
     constructor(props: any) {
         super(props);

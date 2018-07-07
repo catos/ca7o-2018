@@ -3,11 +3,11 @@ import * as React from 'react';
 import { IUser, UserTypes } from '../../Models/User';
 import { api } from 'src/Common/ApiService';
 
-interface IUserListState {
+interface IState {
     users: IUser[]
 }
 
-export class UserList extends React.Component<{}, IUserListState> {
+export class UserList extends React.Component<{}, IState> {
 
     constructor(props: any) {
         super(props);

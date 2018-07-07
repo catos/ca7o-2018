@@ -4,23 +4,16 @@ import { Link } from 'react-router-dom';
 
 import { api } from '../../Common/ApiService';
 
-interface IRegisterState extends IRegisterRequestDto {
+interface IState {
     errorMessage: string;
     redirect: boolean;
-}
-
-interface IRegisterRequestDto {
     name: string;
     username: string;
     password: string;
     confirmPassword: string;
 }
 
-// interface IRegisterResponse {
-//     token: string,
-// }
-
-export class Register extends React.Component<RouteComponentProps<{}>, IRegisterState> {
+export class Register extends React.Component<RouteComponentProps<{}>, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -113,22 +106,6 @@ export class Register extends React.Component<RouteComponentProps<{}>, IRegister
                 console.log(errors);
             });
     }
-
-    // private async register() {
-    //     try {
-    //         const response = await api.post('auth/register', this.state);
-    //         localStorage.setItem('token', response.token)
-    //         this.setState({
-    //             errorMessage: '',
-    //             redirect: true
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //         this.setState({
-    //             errorMessage: error.message
-    //         })
-    //     }
-    // }
 
     private easyRegister = () => {
         const randomName = Math.random().toString(36).substring(7);

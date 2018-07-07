@@ -6,21 +6,21 @@ import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchSe
 import { snip } from '../../Common/Utils';
 import { ChatMessage } from './ChatMessage';
 
-interface IChatProps {
+interface IProps {
     wss: WesketchService;
     players: IPlayer[];
 }
 
-interface IChatState {
+interface IState {
     messageEvents: IWesketchEvent[];
     currentMessage: string;
 }
 
-export class Chat extends React.Component<IChatProps, IChatState> {
+export class Chat extends React.Component<IProps, IState> {
     private messageInputEl: any;
     private messagesEl: any;
 
-    constructor(props: IChatProps) {
+    constructor(props: IProps) {
         super(props);
 
         this.state = {

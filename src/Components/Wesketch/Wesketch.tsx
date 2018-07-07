@@ -25,15 +25,15 @@ export interface IWesketchGameState {
     brushSize: number;
 }
 
-interface IWesketchState {
+interface IState {
     wss: WesketchService;
     events: IWesketchEvent[];
     gameState: IWesketchGameState;
 }
 
-export class Wesketch extends React.Component<{}, IWesketchState> {
+export class Wesketch extends React.Component<{}, IState> {
 
-    constructor(props: any, state: IWesketchState) {
+    constructor(props: any, state: IState) {
         super(props, state);
 
         this.state = {

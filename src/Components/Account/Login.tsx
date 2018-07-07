@@ -5,7 +5,7 @@ import { Redirect, RouteComponentProps } from 'react-router-dom';
 import { api } from '../../Common/ApiService';
 import { auth } from '../../Common/AuthService';
 
-interface ILoginState {
+interface IState {
     errorMessage: string;
     password: string;
     redirect: boolean;
@@ -13,7 +13,7 @@ interface ILoginState {
     username: string;
 }
 
-export class Login extends React.Component<RouteComponentProps<{}>, ILoginState> {
+export class Login extends React.Component<RouteComponentProps<{}>, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
