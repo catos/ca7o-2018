@@ -29,7 +29,7 @@ export class UserList extends React.Component<{}, IUserListState> {
     public render() {
         return (
             <div>
-                <table className="table table-bordered">
+                <table className="table table-sm table-bordered">
                     <tbody>
                         <tr>
                             <th>Guid</th>

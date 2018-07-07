@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { IPlayer } from './IPlayer';
 import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
-import { snip } from '../../Common/StringHelper';
+import { snip } from '../../Common/Utils';
 import { ChatMessage } from './ChatMessage';
 
 interface IChatProps {

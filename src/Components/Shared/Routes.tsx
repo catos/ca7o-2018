@@ -3,7 +3,9 @@ import { Route, Switch } from "react-router-dom";
 
 import { Home } from "./Home";
 import { Login } from "../Account/Login";
+
 import { UserList } from "../Admin/UserList";
+import { RecipeList } from "../Admin/RecipeList";
 
 import { Register } from "../Account/Register";
 import { Wesketch } from "../Wesketch/Wesketch";
@@ -19,6 +21,7 @@ export class Routes extends React.Component {
                 <Route path="/login" component={Login} />
 
                 <Route path="/users" component={UserList} />
+                <Route path="/recipes" component={RecipeList} />
 
                 <Route path="/register" component={Register} />
                 <Route path="/mdk" component={Mdk} />
