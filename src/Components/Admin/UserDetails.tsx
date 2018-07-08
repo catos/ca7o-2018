@@ -23,6 +23,7 @@ export class UserDetails extends React.Component<IProps, IState> {
                 guid: '',
                 name: '',
                 username: '',
+                password: '',
                 type: -1
             },
             redirect: false
@@ -33,7 +34,11 @@ export class UserDetails extends React.Component<IProps, IState> {
 
     public componentDidMount() {
         api.get(`api/users/${this.props.match.params.id}`)
-            .then(result => this.setState({ user: result as IUser }))
+            .then(result => {
+                const user = result as IUser;
+                user.password = '';
+                this.setState({ user });
+            })
             .catch(error => console.log(error));
     }
 
@@ -62,6 +67,12 @@ export class UserDetails extends React.Component<IProps, IState> {
                         required={true}
                         error="A username is required" />
                     <Input
+                        name="password"
+                        label="Password"
+                        value={user.password} 
+                        onChange={this.onFieldValueChange}
+                        required={false} />
+                    <Input
                         name="type"
                         label="Type"
                         value={user.type.toString()}
@@ -87,10 +98,12 @@ export class UserDetails extends React.Component<IProps, IState> {
     }
 
     private onSave = () => {
+        const user = this.state.user;
         const updatedUser = {
-            name: this.state.user.name,
-            username: this.state.user.username,
-            type: this.state.user.type
+            name: user.name,
+            username: user.username,
+            password: user.password,
+            type: user.type
         };
 
         api.put(`api/users/${this.state.user.guid}`, updatedUser)

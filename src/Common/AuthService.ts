@@ -10,6 +10,7 @@ class AuthService {
             guid: '',
             name: '',
             username: '',
+            password: '',
             type: UserTypes.NotDefined
         };
 

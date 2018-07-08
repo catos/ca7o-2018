@@ -8,6 +8,7 @@ export interface IUser {
     guid: string;
     name: string;
     username: string;
+    password: string;
     type: UserTypes;
     avatarUrl?: string;
 }

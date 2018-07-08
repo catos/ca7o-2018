@@ -43,6 +43,11 @@ export class DevMenu extends React.Component {
                         <li className="nav-item">
                             <a className="nav-link" href="https://socket.io/docs/">socket.io</a>
                         </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="https://github.com/Lemoncode/react-typescript-samples/tree/master/04%20DisplayData">Lemoncode</a>
+                        </li>
+
+                        
                     </ul>
                 </div>
             </nav >
