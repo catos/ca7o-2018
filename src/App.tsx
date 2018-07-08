@@ -5,18 +5,14 @@ import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { Routes } from './Components/Shared/Routes';
-import { MainMenu } from './Components/Shared/MainMenu';
-import { DevMenu } from './Components/Shared/DevMenu';
+import { Header } from './Components/Shared/Header';
 
 class App extends React.Component {
     public render() {
         return (
             <BrowserRouter>
                 <div>
-                    <header>
-                        <MainMenu />
-                        <DevMenu />
-                    </header>
+                    <Header />
                     <div className="container-fluid">
                         <Routes />
                     </div>

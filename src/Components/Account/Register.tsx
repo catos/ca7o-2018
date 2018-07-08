@@ -3,6 +3,7 @@ import { RouteComponentProps, Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import { api } from '../../Common/ApiService';
+import { Input, Button } from '../Shared/Form';
 
 interface IState {
     errorMessage: string;
@@ -24,7 +25,9 @@ export class Register extends React.Component<RouteComponentProps<{}>, IState> {
             username: '',
             password: '',
             confirmPassword: ''
-        }
+        };
+
+        this.onFieldValueChange = this.onFieldValueChange.bind(this);
     }
 
     public render() {
@@ -42,32 +45,30 @@ export class Register extends React.Component<RouteComponentProps<{}>, IState> {
                     <h2>Register</h2>
                     {error}
                     <form onSubmit={this.onSubmit} autoComplete="off">
-                        <div className="form-group">
-                            <label htmlFor="name">Name</label>
-                            <input id="name" className="form-control" type="text" name="name" placeholder="lollerdk"
-                                value={this.state.name}
-                                onChange={(event) => this.setState({ name: event.target.value })} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="username">Username</label>
-                            <input id="username" className="form-control" type="username" name="username" placeholder="user@name.here"
-                                value={this.state.username}
-                                onChange={(event) => this.setState({ username: event.target.value })} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <input id="password" className="form-control" type="password" name="password"
-                                value={this.state.password}
-                                onChange={(event) => this.setState({ password: event.target.value })} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="confirmPassword">Confirm Password</label>
-                            <input id="confirmPassword" className="form-control" type="password" name="confirmPassword"
-                                value={this.state.confirmPassword}
-                                onChange={(event) => this.setState({ confirmPassword: event.target.value })} />
-                        </div>
+                        <Input
+                            name="name"
+                            label="Name"
+                            value={this.state.name}
+                            onChange={this.onFieldValueChange} />
+                        <Input
+                            name="username"
+                            label="Username"
+                            value={this.state.username}
+                            onChange={this.onFieldValueChange} />
+                        <Input
+                            type="password"
+                            name="password"
+                            label="Password"
+                            value={this.state.password}
+                            onChange={this.onFieldValueChange} />
+                        <Input
+                            type="password"
+                            name="confirmPassword"
+                            label="Confirm Password"
+                            value={this.state.confirmPassword}
+                            onChange={this.onFieldValueChange} />
                         <div className="form-group text-center mt-4">
-                            <button type="submit" className="btn btn-primary w-100">Register</button>
+                            <Button className="btn btn-primary w-100" label="Register" onClick={this.onSubmit} />
                             <div className="mt-3">Already registered ? <Link to={'/login'}>Login here</Link></div>
                         </div>
 
@@ -80,12 +81,15 @@ export class Register extends React.Component<RouteComponentProps<{}>, IState> {
         );
     }
 
-    private onSubmit = (event: any) => {
-        event.preventDefault();
-        this.register();
+    private onFieldValueChange(fieldName: string, value: string) {
+        const nextState = {
+            ...this.state,
+            [fieldName]: value
+        };
+        this.setState(nextState);
     }
 
-    private register() {
+    private onSubmit = () => {
         api.post('auth/register', this.state)
             .then(response => {
                 localStorage.setItem('token', response)

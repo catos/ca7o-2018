@@ -5,6 +5,7 @@ import { Home } from "./Home";
 import { Login } from "../Account/Login";
 
 import { UserList } from "../Admin/UserList";
+import { UserDetails } from "../Admin/UserDetails";
 import { RecipeList } from "../Admin/RecipeList";
 
 import { Register } from "../Account/Register";
@@ -20,7 +21,8 @@ export class Routes extends React.Component {
                 <Route exact={true} path="/" component={Home} />
                 <Route path="/login" component={Login} />
 
-                <Route path="/users" component={UserList} />
+                <Route exact={true} path="/users" component={UserList} />
+                <Route path="/users/:id" component={UserDetails} />
                 <Route path="/recipes" component={RecipeList} />
 
                 <Route path="/register" component={Register} />

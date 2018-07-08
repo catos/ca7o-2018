@@ -16,29 +16,44 @@ export interface IApiErrorResponse {
 class ApiService {
 
     public async get(endpoint: string) {
-        const response = await fetch(AppConfig.serverUrl + endpoint, this.getOptions());
+        const response = await fetch(AppConfig.serverUrl + endpoint, this.getOptions('GET'));
         return await this.checkStatus(response);
     }
 
     public async post(endpoint: string, body: any) {
-        const options = this.getOptions({
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-        });
+        const options = this.getOptions('POST', body);
         const response = await fetch(AppConfig.serverUrl + endpoint, options) as Response;
         return await this.checkStatus(response);
     }
 
-    private getOptions(options: RequestInit = {}): RequestInit {
+    public async put(endpoint: string, body: any) {
+        const options = this.getOptions('PUT', body);
+        const response = await fetch(AppConfig.serverUrl + endpoint, options) as Response;
+        return await this.checkStatus(response);
+    }
+
+    // TODO: codereview needed!
+    private getOptions(method: string, body?: any): RequestInit {
+        const options = {
+            method,
+        } as RequestInit;
+
+        if (body) {
+            options.body = JSON.stringify(body)
+        }
+
+        const headers = {
+            'Content-Type': 'application/json'   
+        }
         const token = localStorage.getItem('token');
         if (auth.isAuthenticated() && token !== null) {
             Object.assign(
-                options, 
-                options.headers = { 'Authorization': token }
+                headers, 
+                { 'Authorization': token }
             );
         }
 
+        options.headers = headers;
         return options;
     }
 

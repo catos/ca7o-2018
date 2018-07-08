@@ -4,6 +4,7 @@ import { Redirect, RouteComponentProps } from 'react-router-dom';
 
 import { api } from '../../Common/ApiService';
 import { auth } from '../../Common/AuthService';
+import { Input, Button } from '../Shared/Form';
 
 interface IState {
     errorMessage: string;
@@ -18,11 +19,13 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
         super(props);
         this.state = {
             errorMessage: '',
+            username: '',
             password: '',
             redirect: auth.isAuthenticated(),
             redirectUrl: '',
-            username: '',
         }
+
+        this.onFieldValueChange = this.onFieldValueChange.bind(this);
     }
 
     public componentDidMount() {
@@ -48,27 +51,26 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
                     <h2>Login</h2>
                     {errorMessage}
                     <form onSubmit={this.onSubmit} autoComplete="off">
-                        <div className="form-group">
-                            <label htmlFor="username">Username</label>
-                            <input id="username" className="form-control" type="username" name="username" placeholder="user@name.here"
-                                value={this.state.username}
-                                onChange={(event) => this.setState({ username: event.target.value })} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <input id="password" className="form-control" type="password" name="password"
-                                value={this.state.password}
-                                onChange={(event) => this.setState({ password: event.target.value })} />
-                        </div>
+                        <Input
+                            name="username"
+                            label="Username"
+                            value={this.state.username}
+                            onChange={this.onFieldValueChange} />
+                        <Input
+                            type="password" 
+                            name="password"
+                            label="Password"
+                            value={this.state.password}
+                            onChange={this.onFieldValueChange} />
                         <div className="form-group mt-4">
-                            <button type="submit" className="btn btn-primary w-100">Login</button>
+                            <Button className="btn btn-primary w-100" label="Login" onClick={this.onSubmit} />
                             <div className="mt-3 text-center">
                                 Not registered ? <Link to={'/register'}>Register here</Link>
                             </div>
                         </div>
 
                         <div className="form-group text-danger text-center">
-                        <a onClick={() => this.easyLogin('cskogholt@gmail.com', 'monzter1')}>cskogholt@gmail.com</a>
+                            <a onClick={() => this.easyLogin('cskogholt@gmail.com', 'monzter1')}>cskogholt@gmail.com</a>
                             <span className="ml-2 mr-2">|</span>
                             <a onClick={() => this.easyLogin('test@gmail.com', 'test123')}>test@gmail.com</a>
                             <span className="ml-2 mr-2">|</span>
@@ -80,12 +82,17 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
         );
     }
 
-    private onSubmit = (event: any) => {
-        event.preventDefault();
-        this.login(this.state.username, this.state.password);
+    private onFieldValueChange(fieldName: string, value: string) {
+        const nextState = {
+            ...this.state,
+            [fieldName]: value
+        };
+        this.setState(nextState);
     }
 
-    private async login(username: string, password: string) {
+    private onSubmit = () => {
+        const username = this.state.username;
+        const password = this.state.password;
         api.post('auth/login', { username, password })
             .then(response => {
                 localStorage.setItem('token', response)
@@ -101,24 +108,6 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
                 });
                 console.log(errors);
             });
-
-        // const body = { username, password };
-
-        // try {
-        //     const response = await api.post('auth/login', body);
-
-        //     localStorage.setItem('token', response.toString())
-        //     this.setState({ redirect: true });
-
-        // } catch (error) {
-        //     const errors = '';
-        //     if (error.errors.length) {
-        //         error.errors.reduce((a: string, b: string) => a + ', ' + b);
-        //     }
-        //     this.setState({
-        //         errorMessage: errors
-        //     });
-        // }
     }
 
     private easyLogin(username: string, password: string) {

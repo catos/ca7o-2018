@@ -9,4 +9,5 @@ export interface IUser {
     name: string;
     username: string;
     type: UserTypes;
+    avatarUrl?: string;
 }

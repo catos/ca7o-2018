@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 import { IUser, UserTypes } from '../../Models/User';
 import { api } from 'src/Common/ApiService';
@@ -28,7 +29,7 @@ export class UserList extends React.Component<{}, IState> {
 
     public render() {
         return (
-            <div>
+            <div className="mt-3">
                 <table className="table table-sm table-bordered">
                     <tbody>
                         <tr>
@@ -39,7 +40,7 @@ export class UserList extends React.Component<{}, IState> {
                         </tr>
                         {this.state.users.map((user, idx) =>
                             <tr key={idx}>
-                                <td>{user.guid}</td>
+                                <td><Link to={`/users/${user.guid}`}>{user.guid}...</Link></td>
                                 <td>{user.name}</td>
                                 <td>{user.username}</td>
                                 <td>{UserTypes[user.type]}</td>
