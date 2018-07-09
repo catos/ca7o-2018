@@ -90,7 +90,7 @@ export class Register extends React.Component<RouteComponentProps<{}>, IState> {
     }
 
     private onSubmit = () => {
-        api.post('auth/register', this.state)
+        api.post('/auth/register', this.state)
             .then(response => {
                 localStorage.setItem('token', response)
                 this.setState({

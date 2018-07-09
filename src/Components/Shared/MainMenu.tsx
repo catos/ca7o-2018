@@ -2,6 +2,7 @@ import * as React from "react";
 import { NavLink } from "react-router-dom";
 import { auth } from "../../Common/AuthService";
 import { Logout } from "../Account/Logout";
+import { avatarUrl } from "../../Common/Utils";
 
 export const MainMenu: React.StatelessComponent = () => {
     const loginLogout = auth.isAuthenticated()
@@ -16,7 +17,7 @@ export const MainMenu: React.StatelessComponent = () => {
                 </span>
             </li>
             <li className="nav-item">
-                <img className="pt-1" src={auth.currentUser().avatarUrl} />
+                <img className="pt-1" src={avatarUrl(auth.currentUser().name)} />
             </li>
         </ul>
         :

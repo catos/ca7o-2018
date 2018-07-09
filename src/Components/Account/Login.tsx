@@ -93,7 +93,7 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
     private onSubmit = () => {
         const username = this.state.username;
         const password = this.state.password;
-        api.post('auth/login', { username, password })
+        api.post('/auth/login', { username, password })
             .then(response => {
                 localStorage.setItem('token', response)
                 this.setState({ redirect: true });

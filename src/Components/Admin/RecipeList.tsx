@@ -20,7 +20,7 @@ export class RecipeList extends React.Component<{}, IState> {
     }
 
     public componentDidMount() {
-        api.get('api/recipes')
+        api.get('/api/recipes')
             .then(response => {
                 this.setState({
                     recipes: response as IRecipe[]

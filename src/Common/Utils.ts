@@ -13,3 +13,8 @@ export const randomHexColor = () => {
     }
     return color;
 }
+
+export const avatarUrl = (name: string) => {
+    // TODO: ${randomHexColor()} not random, but custom color plz
+    return `https://ui-avatars.com/api/?background=336699&color=fff&size=32&name=${name}`;
+}

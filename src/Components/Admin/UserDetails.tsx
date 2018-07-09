@@ -33,7 +33,7 @@ export class UserDetails extends React.Component<IProps, IState> {
     }
 
     public componentDidMount() {
-        api.get(`api/users/${this.props.match.params.id}`)
+        api.get(`/api/users/${this.props.match.params.id}`)
             .then(result => {
                 const user = result as IUser;
                 user.password = '';
@@ -106,7 +106,7 @@ export class UserDetails extends React.Component<IProps, IState> {
             type: user.type
         };
 
-        api.put(`api/users/${this.state.user.guid}`, updatedUser)
+        api.put(`/api/users/${this.state.user.guid}`, updatedUser)
             .then(result => {
                 this.setState({
                     redirect: true

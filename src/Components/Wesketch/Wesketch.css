@@ -40,6 +40,23 @@
     padding: 0.5rem 0;
 }
 
+#info-bar .timer {
+    position: absolute;
+    top: 2.5rem;
+    left: 50%;
+    font-size: 2rem;
+    text-align: center;
+    background-color: #f1f1f1;
+    z-index: 1;
+    color: #333;
+    margin-left: -3rem;
+    border-radius: 2rem;
+    width: 4rem;
+    height: 4rem;
+    box-shadow: 2px 2px 10px;
+    line-height: 1.9;
+}
+
 #info-bar ul {
     list-style: none;
     margin: 0;
@@ -59,10 +76,28 @@
 }
 
 #chat .players {
-    /* flex: 1; */
-    width: 200px;
-    background-color: aqua;
+    width: 4rem;
 }
+
+#chat .players .player {
+    background-color: #ccc;
+    border-bottom: 2px solid #999;
+}
+
+#chat .players .player:last-child {
+    border: none;
+}
+
+#chat .players .player-score {
+    display: inline-block;
+    width: 2rem;
+    text-align: center;
+}
+
+#chat .players .player-ready {
+    background-color: #aaaaaa;
+}
+
 
 #chat .messages-and-form {
     flex: 1;
@@ -76,6 +111,11 @@
     overflow-y: scroll;
     padding: 1rem;
     color: #000000;
+}
+
+#chat .messages .system-message {
+    font-style: italic;
+    color: #666;
 }
 
 #painter {

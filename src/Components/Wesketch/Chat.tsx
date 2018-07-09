@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { IPlayer } from './IPlayer';
 import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
-import { snip } from '../../Common/Utils';
+import { avatarUrl } from '../../Common/Utils';
 import { ChatMessage } from './ChatMessage';
 
 interface IProps {
@@ -46,13 +46,15 @@ export class Chat extends React.Component<IProps, IState> {
                     {this.props.players.map((player, idx) =>
                         <div
                             key={idx}
-                            className={player.isReady ? 'font-weight-bold' : ''}
+                            className={ 'player' + (player.isReady ? ' player-ready' : '')}
                             title={player.clientId + '' + player.userId}
                             onClick={() => this.togglePlayerReady(player)}>
-                            {snip(player.name, 10)}
-                            <span className="badge badge-dark">
-                                {player.drawCount} - {player.score}
-                            </span>
+                            
+                            <img src={avatarUrl(player.name)} />
+
+                            <div className="player-score">
+                                {player.score}
+                            </div>
                         </div>
                     )}
                 </div>

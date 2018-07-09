@@ -18,7 +18,7 @@ export class UserList extends React.Component<{}, IState> {
     }
 
     public componentDidMount() {
-        api.get('api/users')
+        api.get('/api/users')
             .then(response => {
                 this.setState({
                     users: response as IUser[]

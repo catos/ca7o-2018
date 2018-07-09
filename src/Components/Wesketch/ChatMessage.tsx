@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as moment from 'moment';
 
-import { IWesketchEvent } from './WesketchService';
+import { IWesketchEvent, WesketchEventType } from './WesketchService';
 
 interface IChatMessageProps {
     event: IWesketchEvent
@@ -9,7 +9,7 @@ interface IChatMessageProps {
 
 export const ChatMessage: React.SFC<IChatMessageProps> = (props) => {
     return (
-        <div>
+        <div className={ props.event.type === WesketchEventType.SystemMessage ? 'system-message' : '' }>
             <small>{moment(props.event.timestamp).format('HH:mm:ss')}</small>
             <strong> {props.event.userName}: </strong>
             {props.event.value.message}

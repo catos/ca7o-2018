@@ -37,7 +37,7 @@ export class WesketchService {
 
     constructor() {
         // Create socket
-        this.socket = io(AppConfig.serverUrl);
+        this.socket = io(`${AppConfig.serverUrl}/wesketch`);
 
         // Client connected
         this.socket.on('connect', () => {

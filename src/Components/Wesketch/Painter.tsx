@@ -17,7 +17,7 @@ interface IProps {
 
 interface IState {
     canvasRect: ClientRect;
-
+    canDraw: boolean;
     isDrawing: boolean;
     mousePos: Vector2;
     from: Vector2;
@@ -34,6 +34,7 @@ export class Painter extends React.Component<IProps, IState> {
 
         this.state = {
             canvasRect: { bottom: 0, height: 0, left: 0, right: 0, top: 0, width: 0 },
+            canDraw: false,
             isDrawing: false,
             mousePos: new Vector2(0, 0),
             from: new Vector2(0, 0),
@@ -46,6 +47,15 @@ export class Painter extends React.Component<IProps, IState> {
     public componentWillReceiveProps() {
         this.ctx.strokeStyle = this.props.gameState.currentColor;
         this.ctx.lineWidth = this.props.gameState.brushSize;
+
+        const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing);
+        if (drawingPlayer) {
+            const canDraw: boolean = this.props.gameState.phase === PhaseTypes.Drawing
+                && drawingPlayer.userId === auth.currentUser().guid;
+            this.setState({
+                canDraw
+            });
+        }
     }
 
     public componentDidMount() {
@@ -74,12 +84,7 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     public render() {
-        const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing);
-        const showDrawingTools =
-            (drawingPlayer && drawingPlayer.userId === auth.currentUser().guid)
-            || this.props.gameState.phase === PhaseTypes.Lobby;
-
-        const drawingTools = showDrawingTools
+        const drawingTools = this.state.canDraw
             ? <div className="tools">
                 <ClearCanvasButton wss={this.props.wss} />
                 <div className="button fa fa-question-circle" />
@@ -119,13 +124,13 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     private onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
-        // if (this.currentTool === PainterTool.Brush) {
-        this.setState({
-            isDrawing: true,
-            from: this.state.mousePos
-        });
-        this.draw(this.state.from, this.state.from)
-        // }
+        if (this.state.canDraw) {
+            this.setState({
+                isDrawing: true,
+                from: this.state.mousePos
+            });
+            this.draw(this.state.from, this.state.from)
+        }
     }
 
     private onMouseMove = (event: React.MouseEvent<HTMLElement>) => {
@@ -162,7 +167,6 @@ export class Painter extends React.Component<IProps, IState> {
 
     private onEvent = (event: IWesketchEvent) => {
         if (event.type === WesketchEventType.Draw) {
-
             // Do not redraw your own drawing :D
             // TODO: check why auth is null (chrome debug) ?!?
             if (event.userId !== auth.currentUser().guid) {
