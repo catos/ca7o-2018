@@ -28,7 +28,7 @@ export const MainMenu: React.StatelessComponent = () => {
         </ul>;
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark pt-3 pb-3">
+        <nav className="navbar navbar-expand-md navbar-dark bg-dark pt-3 pb-3">
             <NavLink to={'/'} exact={true} className="navbar-brand">ca7o</NavLink>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon" />
