@@ -5,34 +5,23 @@
     padding-bottom: 3rem;
 }
 
-#wesketch > div {
+#wesketch .wrapper {
     display: flex;
 }
 
 #wesketch .debug-info {
     zoom: 50%;
     background-color: #f8d7daab;
-    position: fixed;
-    bottom: 10px;
-    left: 10px;
     padding: 10px 20px;
-    width: 45%;
 }
 #wesketch .debug-info:hover {
     zoom: 100%;
 }
 
 #wesketch .debug-events {
-    zoom: 50%;
     background-color: #f8ead7ab;
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
     padding: 10px 20px;
-    width: 45%;
-}
-#wesketch .debug-events:hover {
-    zoom: 100%;
+    font-size: 0.75rem;
 }
 
 #info-bar {
@@ -125,6 +114,10 @@
     flex-direction: column;
     background-color: #ccc;
     padding: 1rem;
+}
+
+#painter.can-draw {
+    background-color: blueviolet;
 }
 
 #painter #canvas-wrapper {

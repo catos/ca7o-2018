@@ -48,14 +48,13 @@ export class Painter extends React.Component<IProps, IState> {
         this.ctx.strokeStyle = this.props.gameState.currentColor;
         this.ctx.lineWidth = this.props.gameState.brushSize;
 
+        let canDraw = false;
         const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing);
         if (drawingPlayer) {
-            const canDraw: boolean = this.props.gameState.phase === PhaseTypes.Drawing
+            canDraw = this.props.gameState.phase === PhaseTypes.Drawing
                 && drawingPlayer.userId === auth.currentUser().guid;
-            this.setState({
-                canDraw
-            });
         }
+        this.setState({ canDraw });
     }
 
     public componentDidMount() {
@@ -97,7 +96,7 @@ export class Painter extends React.Component<IProps, IState> {
             </div>
             : '';
         return (
-            <div id="painter" className="cursorClass">
+            <div id="painter" className={this.state.canDraw ? 'can-draw' : ''}>
                 {drawingTools}
                 <div id="canvas-wrapper">
                     <canvas width="500" height="500"
@@ -178,6 +177,4 @@ export class Painter extends React.Component<IProps, IState> {
             this.ctx.clearRect(0, 0, this.state.canvasRect.width, this.state.canvasRect.height);
         }
     }
-
-
 }
