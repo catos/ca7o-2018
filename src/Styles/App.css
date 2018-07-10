@@ -1,0 +1,56 @@
+body, html, #layout {
+    height: 100vh;
+}
+
+#layout {
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 7% auto 10%;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+}
+
+aside {
+    display: none;
+    grid-area: sidebar;
+    background-color: #cccccc;
+}
+
+header {
+    grid-area: header;
+    background-color: #dddddd;
+}
+
+header nav {
+    height: 100%;
+}
+
+main {
+    grid-area: main;
+    background-color: #f1f1f1;
+}
+
+footer {
+    grid-area: footer;
+    background-color: #aaaaaa;
+}
+
+@media only screen and (min-width: 992px) {
+    aside { 
+        display: initial; 
+    }
+    
+    #layout {
+        margin: 0;
+        display: grid;
+        grid-template-columns: 15% auto;
+        grid-template-rows: 7% auto 10%;
+        grid-template-areas:
+            "header header"
+            "sidebar main"
+            "footer footer";
+    }
+}

@@ -22,18 +22,19 @@ export class InfoBar extends React.Component<IProps, {}> {
                 <ul>
                     <li>Phase: {PhaseTypes[this.props.gameState.phase]}</li>
                     <li>Round: {this.props.gameState.round} of {this.props.gameState.players.length * 3}</li>
-                    <li>Drawing player: {drawingPlayerName}</li>                    
+                    <li>Drawing player: {drawingPlayerName}</li>
                     <li>Word: {this.props.gameState.currentWord}</li>
+                </ul>
+                <ul>
                     <li>
-                        <button onClick={() => this.props.wss.emit(WesketchEventType.PauseGame, {})}>
-                            {this.props.gameState.gamePaused ? 'Un-pause' : 'Pause'}
-                        </button>
+                        <div className={ "fa" + (this.props.gameState.gamePaused ? ' fa-play-circle' : ' fa-pause-circle') } 
+                            onClick={() => this.props.wss.emit(WesketchEventType.PauseGame, {})} />
                     </li>
                     <li>
-                        <button onClick={() => this.props.wss.emit(WesketchEventType.ResetGame, {})}>
-                            Reset
-                        </button>
+                        <div className="fa fa-power-off" 
+                            onClick={() => this.props.wss.emit(WesketchEventType.ResetGame, {})} />
                     </li>
+
                 </ul>
             </div>
         );

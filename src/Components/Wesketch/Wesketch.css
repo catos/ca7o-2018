@@ -1,8 +1,7 @@
 #wesketch {
     position: relative;
     background-color: #405d70;
-    margin: 0 -15px;
-    padding-bottom: 3rem;
+    height: 100%;
 }
 
 #wesketch .wrapper {
@@ -26,7 +25,8 @@
 
 #info-bar {
     color: #ffffff;
-    padding: 0.5rem 0;
+    padding: 0.5rem 1rem;
+    display: flex;
 }
 
 #info-bar .timer {
@@ -50,6 +50,11 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    flex: 1;
+}
+
+#info-bar ul:last-child {
+    text-align: right;
 }
 
 #info-bar ul li {
@@ -126,7 +131,7 @@
 
 #painter canvas {
     max-width: 500px;
-    cursor: crosshair;
+    /* cursor: crosshair; */
     background-color: white;
 }
 /* .brush-1px {

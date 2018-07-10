@@ -8,7 +8,6 @@ import { ClearCanvasButton } from './ClearCanvasButton';
 import { IWesketchGameState } from './Wesketch';
 import { Colors } from './Colors';
 import { BrushSizeButton } from './BrushSizeButton';
-import { PhaseTypes } from './PhaseTypes';
 
 interface IProps {
     gameState: IWesketchGameState;
@@ -48,13 +47,14 @@ export class Painter extends React.Component<IProps, IState> {
         this.ctx.strokeStyle = this.props.gameState.currentColor;
         this.ctx.lineWidth = this.props.gameState.brushSize;
 
-        let canDraw = false;
-        const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing);
-        if (drawingPlayer) {
-            canDraw = this.props.gameState.phase === PhaseTypes.Drawing
-                && drawingPlayer.userId === auth.currentUser().guid;
-        }
-        this.setState({ canDraw });
+        // TODO: maybe reenable canDraw
+        // let canDraw = false;
+        // const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing);
+        // if (drawingPlayer) {
+        //     canDraw = this.props.gameState.phase === PhaseTypes.Drawing
+        //         && drawingPlayer.userId === auth.currentUser().guid;
+        // }
+        this.setState({ canDraw: true });
     }
 
     public componentDidMount() {
@@ -70,10 +70,14 @@ export class Painter extends React.Component<IProps, IState> {
 
             this.setState({
                 canvasRect: this.canvas.getBoundingClientRect()
-            })
+            });
+            console.log('componentDidMount', this.canvas.getBoundingClientRect());
+
         }
 
         window.addEventListener("resize", () => {
+            console.log('resize', this.canvas.getBoundingClientRect());
+            
             if (this.canvas !== null) {
                 this.setState({
                     canvasRect: this.canvas.getBoundingClientRect()
@@ -83,21 +87,19 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     public render() {
-        const drawingTools = this.state.canDraw
-            ? <div className="tools">
-                <ClearCanvasButton wss={this.props.wss} />
-                <div className="button fa fa-question-circle" />
-                <div className="button fa fa-paint-brush" />
-                <div className="button fa fa-circle" />
-                <BrushSizeButton label="+" modifier={3} wss={this.props.wss} />
-                <BrushSizeButton label="-" modifier={-3} wss={this.props.wss} />
-                <Colors currentColor={this.props.gameState.currentColor} wss={this.props.wss} />
-                {/* <div><button className="btn btn-primary btn-sm">F</button></div> */}
-            </div>
-            : '';
+
         return (
             <div id="painter" className={this.state.canDraw ? 'can-draw' : ''}>
-                {drawingTools}
+                <div className="tools">
+                    <ClearCanvasButton wss={this.props.wss} />
+                    <div className="button fa fa-question-circle" />
+                    <div className="button fa fa-paint-brush" />
+                    <div className="button fa fa-circle" />
+                    <BrushSizeButton label="+" modifier={3} wss={this.props.wss} />
+                    <BrushSizeButton label="-" modifier={-3} wss={this.props.wss} />
+                    <Colors currentColor={this.props.gameState.currentColor} wss={this.props.wss} />
+                    <div style={{width: '200px' }}>{JSON.stringify(this.state.canvasRect)}</div>
+                </div>
                 <div id="canvas-wrapper">
                     <canvas width="500" height="500"
                         ref={(el) => this.canvas = el as HTMLCanvasElement}
@@ -115,7 +117,7 @@ export class Painter extends React.Component<IProps, IState> {
     private draw(from: Vector2, to: Vector2) {
         this.ctx.beginPath()
 
-        const brushOffset = -5; // Math.floor(this.ctx.lineWidth / 2);
+        const brushOffset = 0; // Math.floor(this.ctx.lineWidth / 2);
         this.ctx.moveTo(from.x + brushOffset, from.y + brushOffset)
         this.ctx.lineTo(to.x + brushOffset, to.y + brushOffset)
 
