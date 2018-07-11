@@ -8,6 +8,7 @@ import { ClearCanvasButton } from './ClearCanvasButton';
 import { IWesketchGameState } from './Wesketch';
 import { Colors } from './Colors';
 import { BrushSizeButton } from './BrushSizeButton';
+import { PhaseTypes } from './PhaseTypes';
 
 interface IProps {
     gameState: IWesketchGameState;
@@ -47,14 +48,13 @@ export class Painter extends React.Component<IProps, IState> {
         this.ctx.strokeStyle = this.props.gameState.currentColor;
         this.ctx.lineWidth = this.props.gameState.brushSize;
 
-        // TODO: maybe reenable canDraw
-        // let canDraw = false;
-        // const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing);
-        // if (drawingPlayer) {
-        //     canDraw = this.props.gameState.phase === PhaseTypes.Drawing
-        //         && drawingPlayer.userId === auth.currentUser().guid;
-        // }
-        this.setState({ canDraw: true });
+        let canDraw = false;
+        const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing);
+        if (drawingPlayer) {
+            canDraw = this.props.gameState.phase === PhaseTypes.Drawing
+                && drawingPlayer.userId === auth.currentUser().guid;
+        }
+        this.setState({ canDraw });
     }
 
     public componentDidMount() {
@@ -85,18 +85,33 @@ export class Painter extends React.Component<IProps, IState> {
 
     public render() {
 
+        const painterOnly = this.state.canDraw
+            ?
+            <div className="current-painter-panel">
+                <div className="current-word mb-1">Draw the word: {this.props.gameState.currentWord}</div>
+                <button className="btn btn-sm btn-warning" onClick={this.giveUp}>Give up</button>
+            </div>
+            : '';
+
+        const painterTools = this.state.canDraw
+            ?
+            <div className="tools">
+                <ClearCanvasButton wss={this.props.wss} />
+                <div className="button fa fa-paint-brush" />
+                <BrushSizeButton label="+" modifier={3} wss={this.props.wss} />
+                <BrushSizeButton label="-" modifier={-3} wss={this.props.wss} />
+                <Colors currentColor={this.props.gameState.currentColor} wss={this.props.wss} />
+            </div>
+            : '';
+
         return (
             <div id="painter" className={this.state.canDraw ? 'can-draw' : ''}>
                 <div id="time-remaining">
                     {this.props.gameState.timeRemaining}
                 </div>
-                <div className="tools">
-                    <ClearCanvasButton wss={this.props.wss} />
-                    <div className="button fa fa-paint-brush" />
-                    <BrushSizeButton label="+" modifier={3} wss={this.props.wss} />
-                    <BrushSizeButton label="-" modifier={-3} wss={this.props.wss} />
-                    <Colors currentColor={this.props.gameState.currentColor} wss={this.props.wss} />
-                </div>
+
+                {painterTools}
+
                 <canvas width="500" height="500"
                     ref={(el) => this.canvas = el as HTMLCanvasElement}
                     onMouseDown={this.onMouseDown}
@@ -104,7 +119,7 @@ export class Painter extends React.Component<IProps, IState> {
                     onMouseMove={this.onMouseMove}
                     onMouseOut={this.onMouseOut} />
 
-                {/* <DebugInfo painterState={this.state} /> */}
+                {painterOnly}
             </div >
         );
     }
@@ -173,5 +188,9 @@ export class Painter extends React.Component<IProps, IState> {
         if (event.type === WesketchEventType.ClearCanvas) {
             this.ctx.clearRect(0, 0, this.state.canvasRect.width, this.state.canvasRect.height);
         }
+    }
+
+    private giveUp = () => {
+        this.props.wss.emit(WesketchEventType.GiveUp, {});
     }
 }

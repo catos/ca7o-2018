@@ -12,15 +12,16 @@ interface IProps {
 export class InfoBar extends React.Component<IProps, {}> {
     public render() {
         const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing);
-        const drawingPlayerName = drawingPlayer !== undefined ? drawingPlayer.name : '';
+        const drawingPlayerInfo = drawingPlayer !== undefined
+            ? <li>Drawing player: {drawingPlayer.name}</li>
+            : '';
 
         return (
             <div id="info-bar">                
                 <ul>
                     <li>Phase: {PhaseTypes[this.props.gameState.phase]}</li>
                     <li>Round: {this.props.gameState.round} of {this.props.gameState.players.length * 3}</li>
-                    <li>Drawing player: {drawingPlayerName}</li>
-                    <li>Word: {this.props.gameState.currentWord}</li>
+                    {drawingPlayerInfo}
                 </ul>
                 <ul>
                     <li>
