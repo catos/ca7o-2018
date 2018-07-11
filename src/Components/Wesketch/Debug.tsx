@@ -11,7 +11,7 @@ interface IDebugProps {
 
 export const Debug: React.SFC<IDebugProps> = (props) => {
     return (
-        <div>
+        <div id="wesketch-footer">
             <div className="debug-info">
                 <small>gameState:</small><br />
                 {JSON.stringify(props.gameState, undefined, 2)}

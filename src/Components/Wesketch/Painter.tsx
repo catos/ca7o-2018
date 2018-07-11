@@ -71,13 +71,10 @@ export class Painter extends React.Component<IProps, IState> {
             this.setState({
                 canvasRect: this.canvas.getBoundingClientRect()
             });
-            console.log('componentDidMount', this.canvas.getBoundingClientRect());
 
         }
 
         window.addEventListener("resize", () => {
-            console.log('resize', this.canvas.getBoundingClientRect());
-            
             if (this.canvas !== null) {
                 this.setState({
                     canvasRect: this.canvas.getBoundingClientRect()
@@ -90,24 +87,22 @@ export class Painter extends React.Component<IProps, IState> {
 
         return (
             <div id="painter" className={this.state.canDraw ? 'can-draw' : ''}>
+                <div id="time-remaining">
+                    {this.props.gameState.timeRemaining}
+                </div>
                 <div className="tools">
                     <ClearCanvasButton wss={this.props.wss} />
-                    <div className="button fa fa-question-circle" />
                     <div className="button fa fa-paint-brush" />
-                    <div className="button fa fa-circle" />
                     <BrushSizeButton label="+" modifier={3} wss={this.props.wss} />
                     <BrushSizeButton label="-" modifier={-3} wss={this.props.wss} />
                     <Colors currentColor={this.props.gameState.currentColor} wss={this.props.wss} />
-                    <div style={{width: '200px' }}>{JSON.stringify(this.state.canvasRect)}</div>
                 </div>
-                <div id="canvas-wrapper">
-                    <canvas width="500" height="500"
-                        ref={(el) => this.canvas = el as HTMLCanvasElement}
-                        onMouseDown={this.onMouseDown}
-                        onMouseUp={this.onMouseUp}
-                        onMouseMove={this.onMouseMove}
-                        onMouseOut={this.onMouseOut} />
-                </div>
+                <canvas width="500" height="500"
+                    ref={(el) => this.canvas = el as HTMLCanvasElement}
+                    onMouseDown={this.onMouseDown}
+                    onMouseUp={this.onMouseUp}
+                    onMouseMove={this.onMouseMove}
+                    onMouseOut={this.onMouseOut} />
 
                 {/* <DebugInfo painterState={this.state} /> */}
             </div >

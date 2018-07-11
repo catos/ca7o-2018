@@ -1,44 +1,55 @@
+
 #wesketch {
     position: relative;
     background-color: #405d70;
     height: 100%;
+
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto 500px;
+    grid-template-rows: 4rem auto 16rem;
+    grid-template-areas:
+        "header header"
+        "chat painter"
+        "footer footer";
 }
 
-#wesketch .wrapper {
-    display: flex;
+#wesketch-footer {  
+    grid-area: footer;
 }
 
-#wesketch .debug-info {
+#wesketch-footer .debug-info {
     zoom: 50%;
     background-color: #f8d7daab;
     padding: 10px 20px;
 }
-#wesketch .debug-info:hover {
+#wesketch-footer .debug-info:hover {
     zoom: 100%;
 }
 
-#wesketch .debug-events {
+#wesketch-footer .debug-events {
     background-color: #f8ead7ab;
     padding: 10px 20px;
     font-size: 0.75rem;
 }
 
 #info-bar {
+    grid-area: header;
     color: #ffffff;
     padding: 0.5rem 1rem;
     display: flex;
+    align-items: center;
 }
 
-#info-bar .timer {
+#time-remaining {
     position: absolute;
-    top: 2.5rem;
-    left: 50%;
+    top: -1rem;
+    left: -2rem;
     font-size: 2rem;
     text-align: center;
     background-color: #f1f1f1;
     z-index: 1;
     color: #333;
-    margin-left: -3rem;
     border-radius: 2rem;
     width: 4rem;
     height: 4rem;
@@ -63,6 +74,7 @@
 }
 
 #chat {
+    grid-area: chat;
     flex: 1;
     background-color: #f1f1f1;
     padding: 1rem;
@@ -95,7 +107,6 @@
 
 #chat .messages-and-form {
     flex: 1;
-    background-color: blanchedalmond;
 }
     
 #chat .messages {
@@ -113,6 +124,7 @@
 }
 
 #painter {
+    grid-area: painter;
     flex: 1;
     position: relative;
     display: flex;
@@ -123,10 +135,6 @@
 
 #painter.can-draw {
     background-color: blueviolet;
-}
-
-#painter #canvas-wrapper {
-    background-color: coral;
 }
 
 #painter canvas {
@@ -151,16 +159,14 @@
 } */
 #painter .tools {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     position: absolute;
     align-content: space-evenly;
-    top: 1rem;
-    right: 1rem;
+    top: 1.5rem;
+    right: 1.5rem;
     background-color: var(--dark);
     padding: 0.5rem;
-    width: 5rem;
     border-radius: 1rem;
-    justify-content: center;
 }
 
 #painter .tools .button {
@@ -168,8 +174,13 @@
     height: 2rem;
     font-size: 2rem;
     border-radius: 1rem;
+    margin-bottom: 0.5rem;
     color: #ffffff;
     cursor: pointer;
+}
+
+#painter .tools .button:last-child {
+    margin: 0;
 }
 
 #painter .colors {

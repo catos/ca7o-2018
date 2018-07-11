@@ -15,10 +15,7 @@ export class InfoBar extends React.Component<IProps, {}> {
         const drawingPlayerName = drawingPlayer !== undefined ? drawingPlayer.name : '';
 
         return (
-            <div id="info-bar">
-                <div className="timer">
-                    {this.props.gameState.timeRemaining}
-                </div>
+            <div id="info-bar">                
                 <ul>
                     <li>Phase: {PhaseTypes[this.props.gameState.phase]}</li>
                     <li>Round: {this.props.gameState.round} of {this.props.gameState.players.length * 3}</li>

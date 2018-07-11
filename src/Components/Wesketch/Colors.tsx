@@ -8,12 +8,15 @@ interface IProps {
 
 const COLORS = [
     '#000000',
+    '#c0c0c0',
     '#ffffff',
-    '#123524',
-    '#003153',
-    '#584630',
-    '#E32636',
-    '#fff600'
+
+    '#2c4fa5',
+    '#00a446',
+    '#f1b700',
+    '#d9242a',
+    '#c50c70',
+    '#6c4b1f'
 ];
 
 export const Colors: React.SFC<IProps> = (props) => {

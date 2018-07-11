@@ -66,10 +66,8 @@ export class Wesketch extends React.Component<{}, IState> {
         return (
             <div id="wesketch">
                 <InfoBar gameState={gameState} wss={this.state.wss} />
-                <div className="wrapper">
-                    <Chat players={gameState.players} wss={this.state.wss} />
-                    <Painter gameState={gameState} wss={this.state.wss} />
-                </div>
+                <Chat players={gameState.players} wss={this.state.wss} />
+                <Painter gameState={gameState} wss={this.state.wss} />
                 <Debug gameState={gameState} events={this.state.events} />
             </div>
         );
