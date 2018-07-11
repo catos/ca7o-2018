@@ -9,10 +9,12 @@ interface IChatMessageProps {
 
 export const ChatMessage: React.SFC<IChatMessageProps> = (props) => {
     return (
-        <div className={ props.event.type === WesketchEventType.SystemMessage ? 'system-message' : '' }>
+        <div className={props.event.type === WesketchEventType.SystemMessage ? 'system-message' : ''}>
             <small>{moment(props.event.timestamp).format('HH:mm:ss')}</small>
-            <strong> {props.event.userName}: </strong>
-            {props.event.value.message}
+            {props.event.type === WesketchEventType.SystemMessage
+                ? ''
+                : <strong> {props.event.userName}:</strong>}
+            <span className="ml-1">{props.event.value.message}</span>
         </div>
     );
 }

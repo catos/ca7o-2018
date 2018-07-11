@@ -38,7 +38,8 @@ footer {
     background-color: #aaaaaa;
 }
 
-@media only screen and (min-width: 992px) {
+/* TODO: fix sidebar */
+/* @media only screen and (min-width: 992px) {
     aside { 
         display: initial; 
     }
@@ -53,4 +54,4 @@ footer {
             "sidebar main"
             "footer footer";
     }
-}
+} */

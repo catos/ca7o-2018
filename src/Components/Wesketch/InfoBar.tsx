@@ -25,6 +25,10 @@ export class InfoBar extends React.Component<IProps, {}> {
                 </ul>
                 <ul>
                     <li>
+                    <div className="fa fa-bug" 
+                            onClick={() => this.props.wss.emit(WesketchEventType.ToggleDebugMode, {})} />
+                    </li>
+                    <li>
                         <div className={ "fa" + (this.props.gameState.gamePaused ? ' fa-play-circle' : ' fa-pause-circle') } 
                             onClick={() => this.props.wss.emit(WesketchEventType.PauseGame, {})} />
                     </li>

@@ -26,8 +26,7 @@ interface IState {
 
 export class Painter extends React.Component<IProps, IState> {
     private canvas: HTMLCanvasElement;
-    // TODO: change type any to CanvasRenderingContext2D
-    private ctx: any; // CanvasRenderingContext2D;
+    private ctx: CanvasRenderingContext2D;
 
     constructor(props: IProps) {
         super(props);
@@ -45,24 +44,35 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     public componentWillReceiveProps() {
+        console.log('componentWillReceiveProps');
         this.ctx.strokeStyle = this.props.gameState.currentColor;
         this.ctx.lineWidth = this.props.gameState.brushSize;
 
         let canDraw = false;
+
+        // Only drawing player, in drawing-phase can draw
         const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing);
         if (drawingPlayer) {
             canDraw = this.props.gameState.phase === PhaseTypes.Drawing
                 && drawingPlayer.userId === auth.currentUser().guid;
         }
+
+        // Everyone can draw in debugmode
+        canDraw = this.props.gameState.debugMode ? true : canDraw;
+
         this.setState({ canDraw });
     }
 
     public componentDidMount() {
+        console.log('componentDidMount');
         this.props.wss.on('event', this.onEvent);
 
         if (this.canvas !== null) {
-
+            this.canvas.width = 500;
+            this.canvas.height = 500;
             this.ctx = this.canvas.getContext('2d')!;
+            //  TODO: sjekk hva dette er
+            // this.ctx.translate(0.5, 0.5);
             this.ctx.lineJoin = 'round';
             this.ctx.lineCap = 'round';
             this.ctx.lineWidth = this.props.gameState.brushSize;
@@ -71,7 +81,7 @@ export class Painter extends React.Component<IProps, IState> {
             this.setState({
                 canvasRect: this.canvas.getBoundingClientRect()
             });
-
+            console.log('canvasRect set');
         }
 
         window.addEventListener("resize", () => {
@@ -84,8 +94,9 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     public render() {
-
-        const painterOnly = this.state.canDraw
+        console.log('render: ', this.state.canDraw);
+        
+        const painterPanel = this.state.canDraw
             ?
             <div className="current-painter-panel">
                 <div className="current-word mb-1">Draw the word: {this.props.gameState.currentWord}</div>
@@ -119,15 +130,17 @@ export class Painter extends React.Component<IProps, IState> {
                     onMouseMove={this.onMouseMove}
                     onMouseOut={this.onMouseOut} />
 
-                {painterOnly}
-            </div >
+                {painterPanel}
+
+                <div>Mouse: {this.state.mousePos.x}, {this.state.mousePos.y}</div>
+            </div>
         );
     }
 
     private draw(from: Vector2, to: Vector2) {
         this.ctx.beginPath()
 
-        const brushOffset = 0; // Math.floor(this.ctx.lineWidth / 2);
+        const brushOffset = Math.floor(this.ctx.lineWidth / 2);
         this.ctx.moveTo(from.x + brushOffset, from.y + brushOffset)
         this.ctx.lineTo(to.x + brushOffset, to.y + brushOffset)
 
@@ -148,32 +161,23 @@ export class Painter extends React.Component<IProps, IState> {
         const mousePosition = new Vector2(
             event.clientX - this.state.canvasRect.left,
             event.clientY - this.state.canvasRect.top);
-        this.setState({
-            mousePos: mousePosition,
-            to: mousePosition
-        });
+        this.setState({ mousePos: mousePosition, to: mousePosition });
 
         if (this.state.isDrawing) {
             this.draw(this.state.from, this.state.to);
             this.props.wss.emit(WesketchEventType.Draw, { from: this.state.from, to: this.state.to })
         }
 
-        this.setState({
-            from: this.state.to
-        });
+        this.setState({ from: this.state.to });
     }
 
     private onMouseUp = (event: React.MouseEvent<HTMLElement>) => {
-        this.setState({
-            isDrawing: false
-        });
+        this.setState({ isDrawing: false });
         this.ctx.closePath();
     }
 
     private onMouseOut = (event: React.MouseEvent<HTMLElement>) => {
-        this.setState({
-            isDrawing: false
-        });
+        this.setState({ isDrawing: false });
     }
 
     private onEvent = (event: IWesketchEvent) => {

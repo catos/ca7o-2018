@@ -13,6 +13,7 @@ import { Debug } from "./Debug";
 import { InfoBar } from './InfoBar';
 
 export interface IWesketchGameState {
+    debugMode: boolean;
     phase: PhaseTypes;
     players: IPlayer[];
 
@@ -40,6 +41,7 @@ export class Wesketch extends React.Component<{}, IState> {
             wss: new WesketchService(),
             events: [],
             gameState: {
+                debugMode: false,
                 phase: PhaseTypes.Lobby,
                 players: [],
                 gamePaused: false,
@@ -53,7 +55,7 @@ export class Wesketch extends React.Component<{}, IState> {
     }
 
     public componentDidMount() {
-        this.state.wss.on('event', this.onEvent)
+        this.state.wss.on('event', this.onEvent);
     }
 
     public componentWillUnmount() {
@@ -64,7 +66,7 @@ export class Wesketch extends React.Component<{}, IState> {
     public render() {
         const { gameState } = this.state;
         return (
-            <div id="wesketch">
+            <div id="wesketch" className={this.state.gameState.debugMode ? 'debug-mode' : ''}>
                 <InfoBar gameState={gameState} wss={this.state.wss} />
                 <Chat players={gameState.players} wss={this.state.wss} />
                 <Painter gameState={gameState} wss={this.state.wss} />

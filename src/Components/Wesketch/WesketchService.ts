@@ -5,6 +5,7 @@ import { auth } from '../../Common/AuthService';
 
 export enum WesketchEventType {
     ServerError,
+    ToggleDebugMode,
     PlayerJoined,
     PlayerLeft,
     PlayerReady,

@@ -6,7 +6,7 @@
 
     margin: 0;
     display: grid;
-    grid-template-columns: auto 500px;
+    grid-template-columns: auto 700px;
     grid-template-rows: 4rem auto 16rem;
     grid-template-areas:
         "header header"
@@ -14,23 +14,24 @@
         "footer footer";
 }
 
+#wesketch.debug-mode {
+    background-color: crimson;
+}
+
 #wesketch-footer {  
     grid-area: footer;
 }
 
 #wesketch-footer .debug-info {
-    zoom: 50%;
     background-color: #f8d7daab;
     padding: 10px 20px;
-}
-#wesketch-footer .debug-info:hover {
-    zoom: 100%;
 }
 
 #wesketch-footer .debug-events {
     background-color: #f8ead7ab;
-    padding: 10px 20px;
     font-size: 0.75rem;
+    overflow-y: scroll;
+    height: 12rem;
 }
 
 #info-bar {
@@ -125,10 +126,7 @@
 
 #painter {
     grid-area: painter;
-    flex: 1;
     position: relative;
-    display: flex;
-    flex-direction: column;
     background-color: #ccc;
     padding: 1rem;
 }
@@ -138,8 +136,7 @@
 }
 
 #painter canvas {
-    max-width: 500px;
-    /* cursor: crosshair; */
+    cursor: crosshair;
     background-color: white;
 }
 /* .brush-1px {
