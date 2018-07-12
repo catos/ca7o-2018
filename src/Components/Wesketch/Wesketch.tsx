@@ -22,7 +22,8 @@ export interface IWesketchGameState {
     timeRemaining: number;
     currentWord: string;
 
-    currentColor: string;
+    primaryColor: string;
+    secondaryColor: string;
     brushSize: number;
 }
 
@@ -48,7 +49,8 @@ export class Wesketch extends React.Component<{}, IState> {
                 round: 1,
                 timeRemaining: 0,
                 currentWord: '',
-                currentColor: '#000000',
+                primaryColor: '#000000',
+                secondaryColor: '#ffffff',
                 brushSize: 3
             }
         };

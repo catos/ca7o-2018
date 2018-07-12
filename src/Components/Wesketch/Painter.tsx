@@ -22,6 +22,7 @@ interface IState {
     mousePos: Vector2;
     from: Vector2;
     to: Vector2;
+    color: string;
 }
 
 export class Painter extends React.Component<IProps, IState> {
@@ -37,15 +38,20 @@ export class Painter extends React.Component<IProps, IState> {
             isDrawing: false,
             mousePos: new Vector2(0, 0),
             from: new Vector2(0, 0),
-            to: new Vector2(0, 0)
+            to: new Vector2(0, 0),
+            color: '#000000'
         };
 
         // this.canvas = null;
+        this.onContextMenu = this.onContextMenu.bind(this);
+        this.onEvent = this.onEvent.bind(this);
+        this.onMouseDown = this.onMouseDown.bind(this);
+        this.onMouseMove = this.onMouseMove.bind(this);
+        this.onMouseOut = this.onMouseOut.bind(this);
+        this.onMouseUp = this.onMouseUp.bind(this);
     }
 
     public componentWillReceiveProps() {
-        console.log('componentWillReceiveProps');
-        this.ctx.strokeStyle = this.props.gameState.currentColor;
         this.ctx.lineWidth = this.props.gameState.brushSize;
 
         let canDraw = false;
@@ -64,24 +70,20 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     public componentDidMount() {
-        console.log('componentDidMount');
         this.props.wss.on('event', this.onEvent);
 
         if (this.canvas !== null) {
             this.canvas.width = 500;
             this.canvas.height = 500;
             this.ctx = this.canvas.getContext('2d')!;
-            //  TODO: sjekk hva dette er
-            // this.ctx.translate(0.5, 0.5);
             this.ctx.lineJoin = 'round';
             this.ctx.lineCap = 'round';
             this.ctx.lineWidth = this.props.gameState.brushSize;
-            this.ctx.strokeStyle = this.props.gameState.currentColor;
+            this.ctx.strokeStyle = this.props.gameState.primaryColor;
 
             this.setState({
                 canvasRect: this.canvas.getBoundingClientRect()
             });
-            console.log('canvasRect set');
         }
 
         window.addEventListener("resize", () => {
@@ -94,8 +96,6 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     public render() {
-        console.log('render: ', this.state.canDraw);
-        
         const painterPanel = this.state.canDraw
             ?
             <div className="current-painter-panel">
@@ -111,7 +111,7 @@ export class Painter extends React.Component<IProps, IState> {
                 <div className="button fa fa-paint-brush" />
                 <BrushSizeButton label="+" modifier={3} wss={this.props.wss} />
                 <BrushSizeButton label="-" modifier={-3} wss={this.props.wss} />
-                <Colors currentColor={this.props.gameState.currentColor} wss={this.props.wss} />
+                <Colors currentColor={this.props.gameState.primaryColor} wss={this.props.wss} />
             </div>
             : '';
 
@@ -128,7 +128,8 @@ export class Painter extends React.Component<IProps, IState> {
                     onMouseDown={this.onMouseDown}
                     onMouseUp={this.onMouseUp}
                     onMouseMove={this.onMouseMove}
-                    onMouseOut={this.onMouseOut} />
+                    onMouseOut={this.onMouseOut}
+                    onContextMenu={this.onContextMenu} />
 
                 {painterPanel}
 
@@ -137,23 +138,24 @@ export class Painter extends React.Component<IProps, IState> {
         );
     }
 
-    private draw(from: Vector2, to: Vector2) {
-        this.ctx.beginPath()
-
-        const brushOffset = Math.floor(this.ctx.lineWidth / 2);
-        this.ctx.moveTo(from.x + brushOffset, from.y + brushOffset)
-        this.ctx.lineTo(to.x + brushOffset, to.y + brushOffset)
-
-        this.ctx.stroke()
+    private draw(from: Vector2, to: Vector2, color: string) {
+        this.ctx.beginPath();
+        this.ctx.strokeStyle = color;
+        this.ctx.moveTo(from.x, from.y);
+        this.ctx.lineTo(to.x, to.y);
+        this.ctx.stroke();
     }
 
     private onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
         if (this.state.canDraw) {
+            const color = event.button === 2 ? this.props.gameState.secondaryColor : this.props.gameState.primaryColor;
             this.setState({
                 isDrawing: true,
-                from: this.state.mousePos
+                from: this.state.mousePos,
+                color
             });
-            this.draw(this.state.from, this.state.from)
+            this.draw(this.state.from, this.state.from, color)
+            this.props.wss.emit(WesketchEventType.Draw, { from: this.state.from, to: this.state.to, color })
         }
     }
 
@@ -164,8 +166,8 @@ export class Painter extends React.Component<IProps, IState> {
         this.setState({ mousePos: mousePosition, to: mousePosition });
 
         if (this.state.isDrawing) {
-            this.draw(this.state.from, this.state.to);
-            this.props.wss.emit(WesketchEventType.Draw, { from: this.state.from, to: this.state.to })
+            this.draw(this.state.from, this.state.to, this.state.color);
+            this.props.wss.emit(WesketchEventType.Draw, { from: this.state.from, to: this.state.to, color: this.state.color })
         }
 
         this.setState({ from: this.state.to });
@@ -180,12 +182,16 @@ export class Painter extends React.Component<IProps, IState> {
         this.setState({ isDrawing: false });
     }
 
+    private onContextMenu = (event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault();
+    }
+
     private onEvent = (event: IWesketchEvent) => {
         if (event.type === WesketchEventType.Draw) {
             // Do not redraw your own drawing :D
             // TODO: check why auth is null (chrome debug) ?!?
             if (event.userId !== auth.currentUser().guid) {
-                this.draw(event.value.from, event.value.to);
+                this.draw(event.value.from, event.value.to, event.value.color);
             }
         }
 
