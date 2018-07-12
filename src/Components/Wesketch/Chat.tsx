@@ -43,20 +43,22 @@ export class Chat extends React.Component<IProps, IState> {
         return (
             <div id="chat">
                 <div className="players">
-                    {this.props.players.map((player, idx) =>
-                        <div
-                            key={idx}
-                            className={ 'player' + (player.isReady ? ' player-ready' : '')}
-                            title={player.clientId + '' + player.userId}
-                            onClick={() => this.togglePlayerReady(player)}>
-                            
-                            <img src={avatarUrl(player.name)} />
+                    {this.props.players
+                        .sort((a, b) => b.score - a.score)
+                        .map((player, idx) =>
+                            <div
+                                key={idx}
+                                className={'player' + (player.isReady ? ' player-ready' : '')}
+                                title={player.clientId + '' + player.userId}
+                                onClick={() => this.togglePlayerReady(player)}>
 
-                            <div className="player-score">
-                                {player.score}
+                                <img src={avatarUrl(player.name)} />
+
+                                <div className="player-score">
+                                    {player.score}
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
                 </div>
                 <div className="messages-and-form">
                     <div className="messages border" ref={el => { this.messagesEl = el }}>
