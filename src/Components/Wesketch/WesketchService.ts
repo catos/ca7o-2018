@@ -34,8 +34,8 @@ export interface IWesketchEvent {
 }
 
 export class WesketchService {
+    public socketId: string;
     private socket: SocketIOClient.Socket;
-    private socketId: string;
 
     constructor() {
         // Create socket
@@ -44,21 +44,30 @@ export class WesketchService {
         // Client connected
         this.socket.on('connect', () => {
             console.log('WebSocketService:connect')
-            this.socketId = this.socket.id;
-            const event = {
-                client: this.socketId,
-                userId: auth.currentUser().guid,
-                userName: auth.currentUser().name,
-                timestamp: new Date(),
-                type: WesketchEventType.PlayerJoined
-            } as IWesketchEvent;
-            this.socket.emit('event', event);
+            // this.socketId = this.socket.id;
+            // const event = {
+            //     client: this.socketId,
+            //     userId: auth.currentUser().guid,
+            //     userName: auth.currentUser().name,
+            //     timestamp: new Date(),
+            //     type: WesketchEventType.PlayerJoined
+            // } as IWesketchEvent;
+            // this.socket.emit('event', event);
         })
 
         // Client disconnected
         this.socket.on('disconnect', () => {
             console.log('WebSocketService:on-disconnect')
-        })
+            // this.socketId = this.socket.id;
+            // const event = {
+            //     client: this.socketId,
+            //     userId: auth.currentUser().guid,
+            //     userName: auth.currentUser().name,
+            //     timestamp: new Date(),
+            //     type: WesketchEventType.PlayerLeft
+            // } as IWesketchEvent;
+            // this.socket.emit('event', event);
+        });
     }
 
     public disconnect = () => {
@@ -79,8 +88,8 @@ export class WesketchService {
             type,
             value
         } as IWesketchEvent;
-        // console.log('wss.emit: ', event);
-        
+        console.log('wss.emit: ', event);
+
         this.socket.emit('event', event)
     }
 }
