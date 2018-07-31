@@ -11,6 +11,12 @@ import { Chat } from './Chat';
 import { Painter } from './Painter';
 import { Debug } from "./Debug";
 import { InfoBar } from './InfoBar';
+import { Timer } from './Timer';
+
+export interface ITimer {
+    remaining: number;
+    duration: number;
+}
 
 export interface IWesketchGameState {
     debugMode: boolean;
@@ -19,7 +25,7 @@ export interface IWesketchGameState {
 
     gamePaused: boolean;
     round: number;
-    timeRemaining: number;
+    timer: ITimer;
     currentWord: string;
 
     currentColor: string;
@@ -46,7 +52,10 @@ export class Wesketch extends React.Component<{}, IState> {
                 players: [],
                 gamePaused: false,
                 round: 1,
-                timeRemaining: 0,
+                timer: {
+                    remaining: 0,
+                    duration: 0
+                },
                 currentWord: '',
                 currentColor: '#000000',
                 brushSize: 3
@@ -67,6 +76,7 @@ export class Wesketch extends React.Component<{}, IState> {
         const { gameState } = this.state;
         return (
             <div id="wesketch" className={this.state.gameState.debugMode ? 'debug-mode' : ''}>
+                <Timer phase={gameState.phase} timer={gameState.timer} />
                 <InfoBar gameState={gameState} wss={this.state.wss} />
                 <Chat players={gameState.players} wss={this.state.wss} />
                 <Painter gameState={gameState} wss={this.state.wss} />

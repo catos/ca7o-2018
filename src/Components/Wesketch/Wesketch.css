@@ -7,8 +7,9 @@
     margin: 0;
     display: grid;
     grid-template-columns: auto 700px;
-    grid-template-rows: 4rem auto 16rem;
+    grid-template-rows: 0.5rem 4rem auto 16rem;
     grid-template-areas:
+        "timer timer"
         "header header"
         "chat painter"
         "footer footer";
@@ -34,28 +35,23 @@
     height: 12rem;
 }
 
+#timer {
+    grid-area: timer;
+    background-color: #8E5C35;
+}
+
+#timer .timer-bar {
+    height: 0.5rem;
+    background-color: #FF9947;
+    transition-duration: 0.5s;
+}
+
 #info-bar {
     grid-area: header;
     color: #ffffff;
     padding: 0.5rem 1rem;
     display: flex;
     align-items: center;
-}
-
-#time-remaining {
-    position: absolute;
-    top: -1rem;
-    left: -2rem;
-    font-size: 2rem;
-    text-align: center;
-    background-color: #f1f1f1;
-    z-index: 1;
-    color: #333;
-    border-radius: 2rem;
-    width: 4rem;
-    height: 4rem;
-    box-shadow: 2px 2px 10px;
-    line-height: 1.9;
 }
 
 #info-bar ul {

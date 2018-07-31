@@ -117,10 +117,6 @@ export class Painter extends React.Component<IProps, IState> {
 
         return (
             <div id="painter" className={this.state.canDraw ? 'can-draw' : ''}>
-                <div id="time-remaining">
-                    {this.props.gameState.timeRemaining}
-                </div>
-
                 {painterTools}
 
                 <canvas width="500" height="500"
