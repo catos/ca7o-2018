@@ -3,38 +3,90 @@ import * as moment from 'moment';
 
 import { IWesketchGameState } from './Wesketch';
 import { IWesketchEvent, WesketchEventType } from './WesketchService';
+import { PhaseTypes } from './PhaseTypes';
 
-interface IDebugProps {
+interface IProps {
     gameState: IWesketchGameState;
     events: IWesketchEvent[];
 }
 
-export const Debug: React.SFC<IDebugProps> = (props) => {
-    return (
-        <div id="wesketch-footer">
-            <div className="debug-info">
-                <small>gameState:</small><br />
-                {JSON.stringify(props.gameState, undefined, 2)}
+interface IState {
+    showGameState: boolean;
+    showEvents: boolean;
+}
+
+export class Debug extends React.Component<IProps, IState> {
+
+    constructor(props: IProps) {
+        super(props);
+
+        this.state = {
+            showGameState: false,
+            showEvents: false
+        };
+    }
+
+    public render() {
+        const { gameState } = this.props;
+
+        const gameStateString = this.state.showGameState
+            // ? JSON.stringify(this.props.gameState, undefined, 2)
+            ? <ul>
+                <li>debugMode: {gameState.debugMode.toString()}</li>
+                <li>phase: {PhaseTypes[gameState.phase]}</li>
+                <li>paused: {gameState.paused.toString()}</li>
+                <li>round: {gameState.round}</li>
+                <li>timer: {gameState.timer.remaining} / {gameState.timer.duration}</li>
+                <li>currentWord: {gameState.currentWord}</li>
+                <li>currentColor: {gameState.currentColor}</li>
+                <li>brushSize: {gameState.brushSize}</li>
+                <li>players: ....</li>
+            </ul>
+            : '';
+
+        const events = this.state.showEvents
+            ? <table className="table table-bordered table-sm">
+                <tbody>
+                    {this.props.events.slice(Math.max(this.props.events.length - 10, 1)).map((event, idx) =>
+                        <tr key={idx}>
+                            <td>{moment(event.timestamp).format('HH:mm:ss')}</td>
+                            <td>{WesketchEventType[event.type]}</td>
+                            <td>
+                                {(event.type !== WesketchEventType.UpdateGameState)
+                                    ? JSON.stringify(event.value, undefined, 2)
+                                    : ''
+                                }
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+            : '';
+
+        return (
+            <div id="debug">
+                <div className="info">
+                    <div><i className="fa fa-info" onClick={this.toggleShowGameState} /></div>
+                    {gameStateString}
+                </div>
+
+                <div className="events">
+                    <div><i className="fa fa-list" onClick={this.toggleShowEvents} /></div>
+                    {events}
+                </div>
             </div>
-            <div className="debug-events">
-                <small>Events from server:</small><br />
-                <table className="table table-bordered table-sm">
-                    <tbody>
-                        {props.events.slice(Math.max(props.events.length - 10, 1)).map((event, idx) =>
-                            <tr key={idx}>
-                                <td>{moment(event.timestamp).format('HH:mm:ss')}</td>
-                                <td>{WesketchEventType[event.type]}</td>
-                                <td>
-                                    {(event.type !== WesketchEventType.UpdateGameState)
-                                        ? JSON.stringify(event.value, undefined, 2)
-                                        : ''
-                                    }
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
+        );
+    }
+
+    private toggleShowGameState = () => {
+        this.setState({
+            showGameState: !this.state.showGameState
+        });
+    }
+
+    private toggleShowEvents = () => {
+        this.setState({
+            showEvents: !this.state.showEvents
+        })
+    }
 }

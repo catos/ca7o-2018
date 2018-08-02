@@ -6,34 +6,21 @@
 
     margin: 0;
     display: grid;
-    grid-template-columns: auto 700px;
-    grid-template-rows: 0.5rem 4rem auto 16rem;
+    grid-template-columns: 100%;
+    grid-template-rows: 0.5rem 34rem 3rem 19rem;
     grid-template-areas:
-        "timer timer"
-        "header header"
-        "chat painter"
-        "footer footer";
+        "timer"
+        "painter"
+        "infobar"
+        "chat"
+        "debug";
 }
 
 #wesketch.debug-mode {
     background-color: crimson;
 }
 
-#wesketch-footer {  
-    grid-area: footer;
-}
-
-#wesketch-footer .debug-info {
-    background-color: #f8d7daab;
-    padding: 10px 20px;
-}
-
-#wesketch-footer .debug-events {
-    background-color: #f8ead7ab;
-    font-size: 0.75rem;
-    overflow-y: scroll;
-    height: 12rem;
-}
+/*** TIMER ***************************/
 
 #timer {
     grid-area: timer;
@@ -46,35 +33,57 @@
     transition-duration: 0.5s;
 }
 
+/*** INFOBAR ***************************/
+
 #info-bar {
-    grid-area: header;
+    grid-area: infobar;
     color: #ffffff;
-    padding: 0.5rem 1rem;
+    padding: 0 1rem;
     display: flex;
     align-items: center;
+    position: relative;
 }
 
-#info-bar ul {
+#info-bar .info-round {
+    position: absolute;
+    left: 50%;
+    margin-left: -10rem;
+}
+
+#info-bar .info-timer {
+    position: absolute;
+    left: 50%;
+    font-size: 4rem;
+    margin-left: -2rem;  
+}
+
+#info-bar .info-word,
+#info-bar .info-drawing-player
+{
+    position: absolute;
+    left: 50%;
+    margin-left: 4rem;
+}
+
+#info-bar ul.game-options {
     list-style: none;
     margin: 0;
     padding: 0;
-    flex: 1;
+    position: absolute;
+    right: 1rem;
 }
 
-#info-bar ul:last-child {
-    text-align: right;
-}
-
-#info-bar ul li {
+#info-bar ul.game-options li {
     display: inline;
     margin-right: 1rem;
 }
 
+/*** CHAT ***************************/
+
 #chat {
     grid-area: chat;
     flex: 1;
-    background-color: #f1f1f1;
-    padding: 1rem;
+    background-color: #cccccc;
     display: flex;
 }
 
@@ -108,7 +117,7 @@
     
 #chat .messages {
     background-color: #ffffff;
-    height: 469px;
+    height: 14rem;
     border: 1px solid #333;
     overflow-y: scroll;
     padding: 1rem;
@@ -120,11 +129,12 @@
     color: #666;
 }
 
+/*** PAINTER ***************************/
+
 #painter {
     grid-area: painter;
     position: relative;
     background-color: #ccc;
-    padding: 1rem;
 }
 
 #painter.can-draw {
@@ -198,4 +208,33 @@
 #painter .current-painter-panel .current-word {
     font-size: 1.5rem;
     text-transform: uppercase;
+}
+
+#painter .debug {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+}
+
+/*** DEBUG ***************************/
+
+#debug {
+    grid-area: debug;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    max-width: 50%;
+}
+
+#debug .info {
+    background-color: #f8d7daab;
+    padding: 0.5rem 1rem;
+}
+
+#debug .events {
+    background-color: #f8ead7ab;
+    padding: 0.5rem 1rem;
+    /* font-size: 0.75rem; */
+    /* overflow-y: scroll; */
+    /* height: 12rem; */
 }

@@ -44,7 +44,6 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     public componentWillReceiveProps() {
-        console.log('componentWillReceiveProps');
         this.ctx.strokeStyle = this.props.gameState.currentColor;
         this.ctx.lineWidth = this.props.gameState.brushSize;
 
@@ -68,8 +67,8 @@ export class Painter extends React.Component<IProps, IState> {
         this.props.wss.on('event', this.onEvent);
 
         if (this.canvas !== null) {
-            this.canvas.width = 500;
-            this.canvas.height = 500;
+            this.canvas.width = 960;
+            this.canvas.height = 544;
             this.ctx = this.canvas.getContext('2d')!;
             //  TODO: sjekk hva dette er
             // this.ctx.translate(0.5, 0.5);
@@ -94,16 +93,6 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     public render() {
-        console.log('render: ', this.state.canDraw);
-        
-        const painterPanel = this.state.canDraw
-            ?
-            <div className="current-painter-panel">
-                <div className="current-word mb-1">Draw the word: {this.props.gameState.currentWord}</div>
-                <button className="btn btn-sm btn-warning" onClick={this.giveUp}>Give up</button>
-            </div>
-            : '';
-
         const painterTools = this.state.canDraw
             ?
             <div className="tools">
@@ -119,16 +108,14 @@ export class Painter extends React.Component<IProps, IState> {
             <div id="painter" className={this.state.canDraw ? 'can-draw' : ''}>
                 {painterTools}
 
-                <canvas width="500" height="500"
+                <canvas width="960" height="544"
                     ref={(el) => this.canvas = el as HTMLCanvasElement}
                     onMouseDown={this.onMouseDown}
                     onMouseUp={this.onMouseUp}
                     onMouseMove={this.onMouseMove}
                     onMouseOut={this.onMouseOut} />
 
-                {painterPanel}
-
-                <div>Mouse: {this.state.mousePos.x}, {this.state.mousePos.y}</div>
+                <div className="debug">Mouse: {this.state.mousePos.x}, {this.state.mousePos.y}</div>
             </div>
         );
     }
@@ -190,7 +177,4 @@ export class Painter extends React.Component<IProps, IState> {
         }
     }
 
-    private giveUp = () => {
-        this.props.wss.emit(WesketchEventType.GiveUp, {});
-    }
 }

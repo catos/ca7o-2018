@@ -1,12 +1,14 @@
 body, html, #layout {
     height: 100vh;
+    background-color: #f1f1f1;
 }
 
 #layout {
-    margin: 0;
+    margin: 0 auto;
+    width: 960px;
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: 7% auto 10%;
+    grid-template-rows: 4rem auto 8rem;
     grid-template-areas:
         "header"
         "main"

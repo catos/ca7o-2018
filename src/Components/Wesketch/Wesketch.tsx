@@ -23,7 +23,7 @@ export interface IWesketchGameState {
     phase: PhaseTypes;
     players: IPlayer[];
 
-    gamePaused: boolean;
+    paused: boolean;
     round: number;
     timer: ITimer;
     currentWord: string;
@@ -50,7 +50,7 @@ export class Wesketch extends React.Component<{}, IState> {
                 debugMode: false,
                 phase: PhaseTypes.Lobby,
                 players: [],
-                gamePaused: false,
+                paused: false,
                 round: 1,
                 timer: {
                     remaining: 0,
@@ -77,9 +77,9 @@ export class Wesketch extends React.Component<{}, IState> {
         return (
             <div id="wesketch" className={this.state.gameState.debugMode ? 'debug-mode' : ''}>
                 <Timer phase={gameState.phase} timer={gameState.timer} />
+                <Painter gameState={gameState} wss={this.state.wss} />
                 <InfoBar gameState={gameState} wss={this.state.wss} />
                 <Chat players={gameState.players} wss={this.state.wss} />
-                <Painter gameState={gameState} wss={this.state.wss} />
                 <Debug gameState={gameState} events={this.state.events} />
             </div>
         );

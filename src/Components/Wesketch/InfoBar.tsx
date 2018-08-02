@@ -1,8 +1,9 @@
 import * as React from 'react'
 
 import { IWesketchGameState } from './Wesketch';
-import { PhaseTypes } from './PhaseTypes';
 import { WesketchService, WesketchEventType } from './WesketchService';
+// import { PhaseTypes } from './PhaseTypes';
+import { auth } from '../../Common/AuthService';
 
 interface IProps {
     gameState: IWesketchGameState;
@@ -13,35 +14,77 @@ export class InfoBar extends React.Component<IProps, {}> {
     public render() {
         const { gameState } = this.props;
 
+        let imDrawing = false;
+        // let canDraw = false;
+
         const drawingPlayer = gameState.players.find(p => p.isDrawing);
-        const drawingPlayerInfo = drawingPlayer !== undefined
-            ? <li>Drawing player: {drawingPlayer.name}</li>
+        if (drawingPlayer) {
+            imDrawing = drawingPlayer.userId === auth.currentUser().guid;
+
+            // Everyone can draw in debugmode
+            // canDraw = gameState.phase === PhaseTypes.Drawing && imDrawing || gameState.debugMode;
+        }
+
+        const infoWord = imDrawing
+            ? <div className="info-word">DRAW THE WORD: {gameState.currentWord}</div>
+            : '';
+
+        const infoDrawingPlayer = drawingPlayer !== undefined && !imDrawing
+            ? <div className="info-drawing-player">DRAWING: {drawingPlayer.name}</div>
+            : '';
+
+        const drawingPlayerOptions = drawingPlayer !== undefined && imDrawing
+            ? <div>
+                <button className="info-give-hint btn btn-sm btn-info mr-3" onClick={this.giveHint}>Give hint</button>
+                <button className="info-give-up btn btn-sm btn-warning" onClick={this.giveUp}>I give up!</button>
+            </div>
             : '';
 
         return (
             <div id="info-bar">
-                <ul>
-                    <li>Phase: {PhaseTypes[gameState.phase]}</li>
-                    <li>Round: {gameState.round} of {gameState.players.length * 3}</li>
-                    {drawingPlayerInfo}
-                    <li>Timer: {gameState.timer.remaining} / {gameState.timer.duration}</li>
-                </ul>
-                <ul>
+                {drawingPlayerOptions}
+
+                <div className="info-round">ROUND: {gameState.round} of {gameState.players.length * 3}</div>
+                <div className="info-timer">{gameState.timer.remaining}</div>
+
+                {infoWord}
+                {infoDrawingPlayer}
+
+                <ul className="game-options">
                     <li>
-                        <div className="fa fa-bug"
-                            onClick={() => this.props.wss.emit(WesketchEventType.ToggleDebugMode, {})} />
+                        <div className="fa fa-bug" onClick={this.toggleDebugMode} />
                     </li>
                     <li>
-                        <div className={"fa" + (gameState.gamePaused ? ' fa-play-circle' : ' fa-pause-circle')}
-                            onClick={() => this.props.wss.emit(WesketchEventType.PauseGame, {})} />
+                        <div className={"fa" + (gameState.paused ? ' fa-play-circle' : ' fa-pause-circle')}
+                            onClick={this.pauseGame} />
                     </li>
                     <li>
                         <div className="fa fa-power-off"
-                            onClick={() => this.props.wss.emit(WesketchEventType.ResetGame, {})} />
+                            onClick={this.resetGame} />
                     </li>
 
                 </ul>
             </div>
         );
+    }
+
+    private giveHint = () => {
+        console.log('give hint');
+    }
+
+    private giveUp = () => {
+        this.props.wss.emit(WesketchEventType.GiveUp, {});
+    }
+
+    private toggleDebugMode = () => {
+        this.props.wss.emit(WesketchEventType.ToggleDebugMode, {});
+    }
+
+    private pauseGame = () => {
+        this.props.wss.emit(WesketchEventType.PauseGame, {});
+    }
+
+    private resetGame = () => {
+        this.props.wss.emit(WesketchEventType.ResetGame, {});
     }
 }
