@@ -81,7 +81,7 @@ export class Wesketch extends React.Component<{}, IState> {
                 <Timer phase={gameState.phase} timer={gameState.timer} />
                 <Painter gameState={gameState} wss={this.state.wss} />
                 <InfoBar gameState={gameState} wss={this.state.wss} />
-                <Chat players={gameState.players} wss={this.state.wss} />
+                <Chat gameState={gameState} wss={this.state.wss} />
                 <Debug gameState={gameState} events={this.state.events} />
             </div>
         );

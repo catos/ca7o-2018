@@ -45,26 +45,28 @@ export class Debug extends React.Component<IProps, IState> {
                     <li>players: ....</li>
                 </ul>
                 <table className="table table-bordered table-sm">
-                    <tr>
-                        <th>ClientId / UserId</th>                        
-                        <th>Name</th>
-                        <th>Score</th>
-                        <th>IsReady</th>
-                        <th>IsDrawing</th>
-                        <th>DrawCount</th>
-                        <th>GuessedWord</th>
-                    </tr>
-                    {gameState.players.map((player, idx) =>
-                        <tr key={idx}>
-                            <td>{player.clientId}<br />{player.userId}</td>
-                            <td>{player.name}</td>
-                            <td>{player.score}</td>
-                            <td>{player.isReady.toString()}</td>
-                            <td>{player.isDrawing.toString()}</td>
-                            <td>{player.drawCount}</td>
-                            <td>{player.guessedWord.toString()}</td>
+                    <tbody>
+                        <tr>
+                            <th>ClientId / UserId</th>
+                            <th>Name</th>
+                            <th>Score</th>
+                            <th>IsReady</th>
+                            <th>IsDrawing</th>
+                            <th>DrawCount</th>
+                            <th>GuessedWord</th>
                         </tr>
-                    )}
+                        {gameState.players.map((player, idx) =>
+                            <tr key={idx}>
+                                <td>{player.clientId}<br />{player.userId}</td>
+                                <td>{player.name}</td>
+                                <td>{player.score}</td>
+                                <td>{player.isReady.toString()}</td>
+                                <td>{player.isDrawing.toString()}</td>
+                                <td>{player.drawCount}</td>
+                                <td>{player.guessedWord.toString()}</td>
+                            </tr>
+                        )}
+                    </tbody>
                 </table>
             </div>
             : '';

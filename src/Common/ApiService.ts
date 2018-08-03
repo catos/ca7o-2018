@@ -1,6 +1,6 @@
 import 'isomorphic-fetch';
 
-import { AppConfig } from 'src/AppConfig';
+import { AppConfig } from '../AppConfig';
 import { auth } from './AuthService';
 
 export interface IApiError {

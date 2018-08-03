@@ -1,18 +1,20 @@
 import * as React from 'react';
 
-
 import { IPlayer } from './IPlayer';
 import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
 import { avatarUrl } from '../../Common/Utils';
 import { ChatMessage } from './ChatMessage';
+import { IWesketchGameState } from './Wesketch';
+import { PhaseTypes } from './PhaseTypes';
 
 interface IProps {
     wss: WesketchService;
-    players: IPlayer[];
+    gameState: IWesketchGameState;
 }
 
 interface IState {
     messageEvents: IWesketchEvent[];
+    previousMessage: string;
     currentMessage: string;
 }
 
@@ -25,6 +27,7 @@ export class Chat extends React.Component<IProps, IState> {
 
         this.state = {
             messageEvents: [],
+            previousMessage: '',
             currentMessage: ''
         }
     }
@@ -40,10 +43,11 @@ export class Chat extends React.Component<IProps, IState> {
     }
 
     public render() {
+        const { players } = this.props.gameState;
         return (
             <div id="chat">
                 <div className="players">
-                    {this.props.players.map((player, idx) =>
+                    {players.map((player, idx) =>
                         <div
                             key={idx}
                             className={'player' + (player.isReady ? ' player-ready' : '')}
@@ -69,7 +73,8 @@ export class Chat extends React.Component<IProps, IState> {
                             <input className="form-control" type="text" name="asdf" placeholder="Type your message here..."
                                 ref={(el) => { this.messageInputEl = el }}
                                 value={this.state.currentMessage}
-                                onChange={this.handleMessageChange} />
+                                onChange={this.onChange}
+                                onKeyDown={this.onKeyDown} />
                             <div className="input-group-append">
                                 <button type="submit" className="btn btn-dark">Send</button>
                             </div>
@@ -87,7 +92,10 @@ export class Chat extends React.Component<IProps, IState> {
             return;
         }
 
-        this.setState({ currentMessage: '' });
+        this.setState((prevState) => ({
+            previousMessage: prevState.currentMessage,
+            currentMessage: ''
+        }));
         this.props.wss.emit(WesketchEventType.Message, { message: this.state.currentMessage });
     }
 
@@ -103,10 +111,18 @@ export class Chat extends React.Component<IProps, IState> {
         }
     }
 
-    private handleMessageChange = (event: any) => {
+    private onChange = (event: any) => {
         this.setState({
             currentMessage: event.target.value
-        })
+        });
+    }
+
+    private onKeyDown = (event: React.KeyboardEvent) => {
+        if (event.keyCode === 38) {
+            this.setState({
+                currentMessage: this.state.previousMessage
+            });
+        }
     }
 
     private focusField() {
@@ -121,7 +137,10 @@ export class Chat extends React.Component<IProps, IState> {
         }
     }
 
-    private togglePlayerReady(player: IPlayer) {
-        this.props.wss.emit(WesketchEventType.PlayerReady, player);
+    private togglePlayerReady = (player: IPlayer) => {
+        const { gameState } = this.props;
+        if (gameState.phase === PhaseTypes.Lobby && gameState.players.every(p => p.isReady)) {
+            this.props.wss.emit(WesketchEventType.PlayerReady, player);
+        }
     }
 }

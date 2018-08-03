@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { IUser, UserTypes } from '../../Models/User';
-import { api } from 'src/Common/ApiService';
+import { api } from '../../Common/ApiService';
 
 interface IState {
     users: IUser[]
