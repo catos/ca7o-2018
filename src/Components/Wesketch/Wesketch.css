@@ -88,7 +88,7 @@
 }
 
 #chat .players {
-    width: 4rem;
+    width: 8rem;
 }
 
 #chat .players .player {
@@ -229,12 +229,11 @@
 #debug .info {
     background-color: #f8d7daab;
     padding: 0.5rem 1rem;
+    font-size: 75%;
 }
 
 #debug .events {
     background-color: #f8ead7ab;
     padding: 0.5rem 1rem;
-    /* font-size: 0.75rem; */
-    /* overflow-y: scroll; */
-    /* height: 12rem; */
+    font-size: 75%;
 }

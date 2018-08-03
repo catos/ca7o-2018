@@ -23,12 +23,13 @@ export interface IWesketchGameState {
     phase: PhaseTypes;
     players: IPlayer[];
 
-    paused: boolean;
+    stop: boolean;
     round: number;
     timer: ITimer;
     currentWord: string;
 
-    currentColor: string;
+    primaryColor: string;
+    secondaryColor: string;
     brushSize: number;
 }
 
@@ -50,14 +51,15 @@ export class Wesketch extends React.Component<{}, IState> {
                 debugMode: false,
                 phase: PhaseTypes.Lobby,
                 players: [],
-                paused: false,
+                stop: false,
                 round: 1,
                 timer: {
                     remaining: 0,
                     duration: 0
                 },
                 currentWord: '',
-                currentColor: '#000000',
+                primaryColor: '#000000',
+                secondaryColor: '#ffffff',
                 brushSize: 3
             }
         };

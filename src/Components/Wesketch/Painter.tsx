@@ -44,7 +44,7 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     public componentWillReceiveProps() {
-        this.ctx.strokeStyle = this.props.gameState.currentColor;
+        this.ctx.strokeStyle = this.props.gameState.primaryColor;
         this.ctx.lineWidth = this.props.gameState.brushSize;
 
         let canDraw = false;
@@ -75,7 +75,7 @@ export class Painter extends React.Component<IProps, IState> {
             this.ctx.lineJoin = 'round';
             this.ctx.lineCap = 'round';
             this.ctx.lineWidth = this.props.gameState.brushSize;
-            this.ctx.strokeStyle = this.props.gameState.currentColor;
+            this.ctx.strokeStyle = this.props.gameState.primaryColor;
 
             this.setState({
                 canvasRect: this.canvas.getBoundingClientRect()
@@ -100,7 +100,7 @@ export class Painter extends React.Component<IProps, IState> {
                 <div className="button fa fa-paint-brush" />
                 <BrushSizeButton label="+" modifier={3} wss={this.props.wss} />
                 <BrushSizeButton label="-" modifier={-3} wss={this.props.wss} />
-                <Colors currentColor={this.props.gameState.currentColor} wss={this.props.wss} />
+                <Colors currentColor={this.props.gameState.primaryColor} wss={this.props.wss} />
             </div>
             : '';
 
@@ -113,9 +113,13 @@ export class Painter extends React.Component<IProps, IState> {
                     onMouseDown={this.onMouseDown}
                     onMouseUp={this.onMouseUp}
                     onMouseMove={this.onMouseMove}
-                    onMouseOut={this.onMouseOut} />
+                    onMouseOut={this.onMouseOut} 
+                    onContextMenu={this.onContextMenu} />
 
-                <div className="debug">Mouse: {this.state.mousePos.x}, {this.state.mousePos.y}</div>
+                <div className="debug">
+                    <div>CanDraw: {this.state.canDraw.toString()}</div>
+                    <div>Mouse: {this.state.mousePos.x}, {this.state.mousePos.y}</div>
+                </div>
             </div>
         );
     }
@@ -136,7 +140,6 @@ export class Painter extends React.Component<IProps, IState> {
                 isDrawing: true,
                 from: this.state.mousePos
             });
-            this.draw(this.state.from, this.state.from)
         }
     }
 
@@ -161,6 +164,11 @@ export class Painter extends React.Component<IProps, IState> {
 
     private onMouseOut = (event: React.MouseEvent<HTMLElement>) => {
         this.setState({ isDrawing: false });
+    }
+
+    private onContextMenu = (event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault();
+        return;
     }
 
     private onEvent = (event: IWesketchEvent) => {

@@ -46,10 +46,10 @@ export class Chat extends React.Component<IProps, IState> {
                     {this.props.players.map((player, idx) =>
                         <div
                             key={idx}
-                            className={ 'player' + (player.isReady ? ' player-ready' : '')}
+                            className={'player' + (player.isReady ? ' player-ready' : '')}
                             title={player.clientId + '' + player.userId}
                             onClick={() => this.togglePlayerReady(player)}>
-                            
+
                             <img src={avatarUrl(player.name)} />
 
                             <div className="player-score">
@@ -87,6 +87,7 @@ export class Chat extends React.Component<IProps, IState> {
             return;
         }
 
+        this.setState({ currentMessage: '' });
         this.props.wss.emit(WesketchEventType.Message, { message: this.state.currentMessage });
     }
 
@@ -96,10 +97,7 @@ export class Chat extends React.Component<IProps, IState> {
 
             const messageEvents = this.state.messageEvents;
             messageEvents.push(event);
-            this.setState({
-                messageEvents,
-                currentMessage: ''
-            });
+            this.setState({ messageEvents });
 
             this.scrollDown();
         }

@@ -31,17 +31,42 @@ export class Debug extends React.Component<IProps, IState> {
 
         const gameStateString = this.state.showGameState
             // ? JSON.stringify(this.props.gameState, undefined, 2)
-            ? <ul>
-                <li>debugMode: {gameState.debugMode.toString()}</li>
-                <li>phase: {PhaseTypes[gameState.phase]}</li>
-                <li>paused: {gameState.paused.toString()}</li>
-                <li>round: {gameState.round}</li>
-                <li>timer: {gameState.timer.remaining} / {gameState.timer.duration}</li>
-                <li>currentWord: {gameState.currentWord}</li>
-                <li>currentColor: {gameState.currentColor}</li>
-                <li>brushSize: {gameState.brushSize}</li>
-                <li>players: ....</li>
-            </ul>
+            ? <div>
+                <ul>
+                    <li>debugMode: {gameState.debugMode.toString()}</li>
+                    <li>phase: {PhaseTypes[gameState.phase]}</li>
+                    <li>stop: {gameState.stop.toString()}</li>
+                    <li>round: {gameState.round}</li>
+                    <li>timer: {gameState.timer.remaining} / {gameState.timer.duration}</li>
+                    <li>currentWord: ******</li>
+                    <li>primaryColor: {gameState.primaryColor}</li>
+                    <li>secondaryColor: {gameState.secondaryColor}</li>
+                    <li>brushSize: {gameState.brushSize}</li>
+                    <li>players: ....</li>
+                </ul>
+                <table className="table table-bordered table-sm">
+                    <tr>
+                        <th>ClientId / UserId</th>                        
+                        <th>Name</th>
+                        <th>Score</th>
+                        <th>IsReady</th>
+                        <th>IsDrawing</th>
+                        <th>DrawCount</th>
+                        <th>GuessedWord</th>
+                    </tr>
+                    {gameState.players.map((player, idx) =>
+                        <tr key={idx}>
+                            <td>{player.clientId}<br />{player.userId}</td>
+                            <td>{player.name}</td>
+                            <td>{player.score}</td>
+                            <td>{player.isReady.toString()}</td>
+                            <td>{player.isDrawing.toString()}</td>
+                            <td>{player.drawCount}</td>
+                            <td>{player.guessedWord.toString()}</td>
+                        </tr>
+                    )}
+                </table>
+            </div>
             : '';
 
         const events = this.state.showEvents
@@ -66,7 +91,7 @@ export class Debug extends React.Component<IProps, IState> {
         return (
             <div id="debug">
                 <div className="info">
-                    <div><i className="fa fa-info" onClick={this.toggleShowGameState} /></div>
+                    <i className="fa fa-info" onClick={this.toggleShowGameState} />
                     {gameStateString}
                 </div>
 

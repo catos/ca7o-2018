@@ -54,10 +54,7 @@ export class InfoBar extends React.Component<IProps, {}> {
                     <li>
                         <div className="fa fa-bug" onClick={this.toggleDebugMode} />
                     </li>
-                    <li>
-                        <div className={"fa" + (gameState.paused ? ' fa-play-circle' : ' fa-pause-circle')}
-                            onClick={this.pauseGame} />
-                    </li>
+
                     <li>
                         <div className="fa fa-power-off"
                             onClick={this.resetGame} />
@@ -78,10 +75,6 @@ export class InfoBar extends React.Component<IProps, {}> {
 
     private toggleDebugMode = () => {
         this.props.wss.emit(WesketchEventType.ToggleDebugMode, {});
-    }
-
-    private pauseGame = () => {
-        this.props.wss.emit(WesketchEventType.PauseGame, {});
     }
 
     private resetGame = () => {
