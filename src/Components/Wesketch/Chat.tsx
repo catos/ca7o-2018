@@ -139,7 +139,7 @@ export class Chat extends React.Component<IProps, IState> {
 
     private togglePlayerReady = (player: IPlayer) => {
         const { gameState } = this.props;
-        if (gameState.phase === PhaseTypes.Lobby && gameState.players.every(p => p.isReady)) {
+        if (gameState.phase === PhaseTypes.Lobby && !gameState.players.every(p => p.isReady)) {
             this.props.wss.emit(WesketchEventType.PlayerReady, player);
         }
     }

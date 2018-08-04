@@ -91,7 +91,7 @@ export class Wesketch extends React.Component<{}, IState> {
         if (event.type === WesketchEventType.UpdateGameState) {
             this.setState({
                 gameState: event.value
-            })
+            });
         }
 
         const events = this.state.events;
