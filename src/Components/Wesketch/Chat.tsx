@@ -85,7 +85,7 @@ export class Chat extends React.Component<IProps, IState> {
                                 name="current-message"
                                 placeholder="Type your message here..."
                                 ref={(el) => { this.messageInputEl = el }}
-                                disabled={imDrawing ? true : false} 
+                                disabled={imDrawing ? true : false}
                                 value={this.state.currentMessage}
                                 onChange={this.onChange}
                                 onKeyDown={this.onKeyDown} />

@@ -5,6 +5,7 @@ import './Wesketch.css';
 import { IPlayer } from "./IPlayer";
 import { PhaseTypes } from "./PhaseTypes";
 
+import { auth } from '../../Common/AuthService';
 import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
 
 import { Chat } from './Chat';
@@ -68,11 +69,33 @@ export class Wesketch extends React.Component<{}, IState> {
     }
 
     public componentDidMount() {
+        console.log('mount');
+        
+        const user = auth.currentUser();
+        const event = {
+            client: this.state.wss.socketId,
+            userId: user.guid,
+            userName: user.name,
+            timestamp: new Date()
+        } as IWesketchEvent;
+        this.state.wss.emit(WesketchEventType.PlayerJoined, event);
+        console.log('WesketchEventType.PlayerJoined sent');
+        
+
         this.state.wss.on('event', this.onEvent);
     }
 
     public componentWillUnmount() {
-        this.state.wss.emit(WesketchEventType.PlayerLeft, {});
+        console.log('unmount');
+        
+        const user = auth.currentUser();
+        const event = {
+            client: this.state.wss.socketId,
+            userId: user.guid,
+            userName: user.name,
+            timestamp: new Date()
+        } as IWesketchEvent;
+        this.state.wss.emit(WesketchEventType.PlayerLeft, event);
         this.state.wss.disconnect();
     }
 
@@ -90,6 +113,8 @@ export class Wesketch extends React.Component<{}, IState> {
     }
 
     private onEvent = (event: IWesketchEvent) => {
+        console.log('onEvent: ', event);
+        
         if (event.type === WesketchEventType.UpdateGameState) {
             this.setState({
                 gameState: event.value
