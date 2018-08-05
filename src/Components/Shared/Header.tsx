@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { Logout } from '../Account/Logout';
 import { auth } from '../../Common/AuthService';
 import { avatarUrl } from '../../Common/Utils';
+import logo from '../../logo.png';
 
 export const Header: React.StatelessComponent = () => {
     const loginLogout = auth.isAuthenticated()
@@ -31,7 +32,7 @@ export const Header: React.StatelessComponent = () => {
     return (
         <header>
             <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-                <NavLink to={'/'} exact={true} className="navbar-brand">ca7o</NavLink>
+                <NavLink to={'/'} exact={true} className="navbar-brand"><img src={logo} alt="Logo" /></NavLink>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon" />
                 </button>

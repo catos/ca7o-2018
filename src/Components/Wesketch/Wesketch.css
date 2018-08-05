@@ -53,8 +53,12 @@
 #info-bar .info-timer {
     position: absolute;
     left: 50%;
-    font-size: 4rem;
-    margin-left: -2rem;  
+    font-size: 2.5rem;
+    margin-left: -2rem;
+    top: -6px;
+    width: 4rem;
+    background-color: #999;
+    text-align: center;
 }
 
 #info-bar .info-word,
@@ -63,6 +67,17 @@
     position: absolute;
     left: 50%;
     margin-left: 4rem;
+}
+
+#info-bar .info-word span,
+#info-bar .info-drawing-player span {
+    letter-spacing: 1px;
+}
+
+#info-bar .info-word span,
+#info-bar .info-drawing-player span,
+#info-bar .info-round span {
+    font-weight: 500;
 }
 
 #info-bar ul.game-options {
@@ -88,12 +103,16 @@
 }
 
 #chat .players {
-    width: 8rem;
+    width: 12rem;
+    background-color: #999;
 }
 
 #chat .players .player {
     background-color: #ccc;
     border-bottom: 2px solid #999;
+    transition-duration: 0.5s;
+    padding: 0.5rem;
+    text-align: right;
 }
 
 #chat .players .player:last-child {
@@ -104,6 +123,7 @@
     display: inline-block;
     width: 2rem;
     text-align: center;
+    font-weight: 500;
 }
 
 #chat .players .player-ready {

@@ -27,6 +27,7 @@ export interface IWesketchGameState {
     round: number;
     timer: ITimer;
     currentWord: string;
+    hintsGiven: number;
 
     primaryColor: string;
     secondaryColor: string;
@@ -58,6 +59,7 @@ export class Wesketch extends React.Component<{}, IState> {
                     duration: 0
                 },
                 currentWord: '',
+                hintsGiven: 0,
                 primaryColor: '#000000',
                 secondaryColor: '#ffffff',
                 brushSize: 3

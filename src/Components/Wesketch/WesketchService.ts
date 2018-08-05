@@ -15,6 +15,7 @@ export enum WesketchEventType {
     Draw,
     StopDraw,
     GiveUp,
+    GiveHint,
     ClearCanvas,
     ChangeColor,
     ChangeBrushSize,

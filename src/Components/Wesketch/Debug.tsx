@@ -39,6 +39,7 @@ export class Debug extends React.Component<IProps, IState> {
                     <li>round: {gameState.round}</li>
                     <li>timer: {gameState.timer.remaining} / {gameState.timer.duration}</li>
                     <li>currentWord: ******</li>
+                    <li>hintsGiven: {gameState.hintsGiven}</li>
                     <li>primaryColor: {gameState.primaryColor}</li>
                     <li>secondaryColor: {gameState.secondaryColor}</li>
                     <li>brushSize: {gameState.brushSize}</li>

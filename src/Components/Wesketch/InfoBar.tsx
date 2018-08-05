@@ -15,41 +15,43 @@ export class InfoBar extends React.Component<IProps, {}> {
         const { gameState } = this.props;
 
         let imDrawing = false;
-        // let canDraw = false;
-
         const drawingPlayer = gameState.players.find(p => p.isDrawing);
         if (drawingPlayer) {
             imDrawing = drawingPlayer.userId === auth.currentUser().guid;
-
-            // Everyone can draw in debugmode
-            // canDraw = gameState.phase === PhaseTypes.Drawing && imDrawing || gameState.debugMode;
         }
 
-        const infoWord = imDrawing
-            ? <div className="info-word">DRAW THE WORD: {gameState.currentWord}</div>
-            : '';
-
-        const infoDrawingPlayer = drawingPlayer !== undefined && !imDrawing
-            ? <div className="info-drawing-player">DRAWING: {drawingPlayer.name}</div>
-            : '';
-
-        const drawingPlayerOptions = drawingPlayer !== undefined && imDrawing
+        const drawingPlayerOptions = imDrawing
             ? <div>
                 <button className="info-give-hint btn btn-sm btn-info mr-3" onClick={this.giveHint}>Give hint</button>
                 <button className="info-give-up btn btn-sm btn-warning" onClick={this.giveUp}>I give up!</button>
             </div>
             : '';
 
+        const hints = !imDrawing && gameState.hintsGiven > 0
+            ? <div>
+                <span className="mr-1">HINT:</span>
+                {this.hintArray().map((char, idx) =>
+                    <span key={idx} className="mr-1">{char}</span>
+                )}
+            </div>
+            : '';
+
+        const infoWord = imDrawing
+            ? <div className="info-word">WORD: <span>{gameState.currentWord}</span></div>
+            : '';
+
+        const infoDrawingPlayer = drawingPlayer !== undefined && !imDrawing
+            ? <div className="info-drawing-player">DRAWING: <span>{drawingPlayer.name}</span></div>
+            : '';
+
         return (
             <div id="info-bar">
                 {drawingPlayerOptions}
-
-                <div className="info-round">ROUND: {gameState.round} of {gameState.players.length * 3}</div>
+                {hints}
+                <div className="info-round">ROUND: <span>{gameState.round}</span> of <span>{gameState.players.length * 3}</span></div>
                 <div className="info-timer">{gameState.timer.remaining}</div>
-
                 {infoWord}
                 {infoDrawingPlayer}
-
                 <ul className="game-options">
                     <li>
                         <div className="fa fa-bug" onClick={this.toggleDebugMode} />
@@ -66,7 +68,7 @@ export class InfoBar extends React.Component<IProps, {}> {
     }
 
     private giveHint = () => {
-        console.log('give hint');
+        this.props.wss.emit(WesketchEventType.GiveHint, {});
     }
 
     private giveUp = () => {
@@ -79,5 +81,22 @@ export class InfoBar extends React.Component<IProps, {}> {
 
     private resetGame = () => {
         this.props.wss.emit(WesketchEventType.ResetGame, {});
+    }
+
+    private hintArray = (): string[] => {
+        const { gameState } = this.props;
+        const result: string[] = [];
+        if (gameState.hintsGiven > 0) {
+            Array.from(gameState.currentWord, (v, i) => {
+                if (gameState.hintsGiven > 1 && i === 0) {
+                    result.push(v);
+                } else if (gameState.hintsGiven > 2 && i === 1) {
+                    result.push(v);
+                } else {
+                    result.push('_');
+                }
+            })
+        }
+        return result;
     }
 }
