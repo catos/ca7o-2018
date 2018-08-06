@@ -65,7 +65,7 @@ export class Chat extends React.Component<IProps, IState> {
                             title={player.clientId + '' + player.userId}
                             onClick={() => this.togglePlayerReady(player)}>
 
-                            {snip(player.name, 20)}
+                            <div>{snip(player.name, 20)}</div>
 
                             <div className="player-score">
                                 {player.score}

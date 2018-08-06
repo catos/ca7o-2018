@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 // import { Logout } from '../Account/Logout';
 import { auth } from '../../Common/AuthService';
 
-import logo from '../../Images/logo.png';
+import logo from '../../Images/logo.svg';
 import userIcon from '../../Images/user-icon.png';
 
 export const Header: React.StatelessComponent = () => {
@@ -31,7 +31,7 @@ export const Header: React.StatelessComponent = () => {
     return (
         <header>
             <nav>
-                <NavLink to={'/'} exact={true} className="logo"><img src={logo} alt="Logo" /></NavLink>
+                <NavLink to={'/'} exact={true} className="logo"><img width="49" src={logo} alt="Logo" /></NavLink>
 
                 <ul className="main-menu">
                     <li>

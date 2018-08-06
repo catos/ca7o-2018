@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import logo from '../../Images/logo.png';
+import logo from '../../Images/logo.svg';
 import socialIcons from '../../Images/social-icons.png';
 
 export const Footer: React.StatelessComponent = () => {
     return (
         <footer>
             <div className="footer-content">
-                <div className="logo"><img src={logo} alt="ca7o.com" /></div>
+                <div className="logo"><img width="100" src={logo} alt="ca7o.com" /></div>
                 <div className="menu">
                     <ul>
                         <li>

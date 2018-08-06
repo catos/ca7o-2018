@@ -88,7 +88,6 @@ export class WesketchService {
             type,
             value
         } as IWesketchEvent;
-        console.log('wss.emit: ', event);
 
         this.socket.emit('event', event)
     }

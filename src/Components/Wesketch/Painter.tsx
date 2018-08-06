@@ -4,11 +4,9 @@ import { Vector2 } from "./Vector2";
 import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
 import { auth } from '../../Common/AuthService';
 
-import { ClearCanvasButton } from './ClearCanvasButton';
 import { IWesketchGameState } from './Wesketch';
-import { Colors } from './Colors';
-import { BrushSizeButton } from './BrushSizeButton';
 import { PhaseTypes } from './PhaseTypes';
+import { PainterTools } from './PainterTools';
 
 interface IProps {
     gameState: IWesketchGameState;
@@ -97,20 +95,13 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     public render() {
-        const painterTools = this.state.canDraw
-            ?
-            <div className="tools">
-                <ClearCanvasButton wss={this.props.wss} />
-                <div className="button fa fa-paint-brush" />
-                <BrushSizeButton label="+" modifier={3} wss={this.props.wss} />
-                <BrushSizeButton label="-" modifier={-3} wss={this.props.wss} />
-                <Colors currentColor={this.props.gameState.primaryColor} wss={this.props.wss} />
-            </div>
-            : '';
+        const { wss, gameState } = this.props;
 
         return (
             <div id="painter" className={this.state.canDraw ? 'can-draw' : ''}>
-                {painterTools}
+                {this.state.canDraw
+                    ? <PainterTools wss={wss} gameState={gameState} />
+                    : ''}
 
                 <canvas width="960" height="544"
                     ref={(el) => this.canvas = el as HTMLCanvasElement}
@@ -144,7 +135,6 @@ export class Painter extends React.Component<IProps, IState> {
                 from: this.state.mousePos,
                 color
             });
-            this.draw(this.state.from, this.state.from, color)
             this.props.wss.emit(WesketchEventType.Draw, { from: this.state.from, to: this.state.to, color })
         }
     }

@@ -113,8 +113,6 @@ export class Wesketch extends React.Component<{}, IState> {
     }
 
     private onEvent = (event: IWesketchEvent) => {
-        console.log('onEvent: ', event);
-        
         if (event.type === WesketchEventType.UpdateGameState) {
             this.setState({
                 gameState: event.value

@@ -110,15 +110,17 @@
 }
 
 #chat .players {
-    width: 12rem;
+    width: 12rem;    
 }
 
 #chat .players .player {
-    background-color: #ccc;
-    border-bottom: 2px solid #999;
+    display: grid;
+    grid-template-columns: auto 2rem;
+    background-color: #ffffffb3;
     transition-duration: 0.5s;
     padding: 0.5rem;
     text-align: right;
+    margin-bottom: 0.25rem;
 }
 
 #chat .players .player:last-child {
@@ -186,31 +188,52 @@
 .brush-17px {
     cursor: url(./cursors/brush-17-px.png), auto;
 } */
+#painter .tools-wrapper {
+    background-color: #1D2731;
+
+}
+
 #painter .tools {
     display: flex;
     flex-direction: column;
     position: absolute;
     align-content: space-evenly;
-    top: 1.5rem;
-    right: 1.5rem;
-    background-color: var(--dark);
-    padding: 0.5rem;
-    border-radius: 1rem;
+    top: 1rem;
+    right: 1rem;
+    background-color: #0B3C5D;
+    display: grid;
+    /* user-select: none;  */
+    padding-top: 1rem;
 }
+
+#painter .tools .header {
+    height: 1.5rem;
+    padding: 0.25rem;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    background-color: #1D2731;
+}
+
+#painter .tools .header img {
+    width: 2rem;
+}
+
 
 #painter .tools .button {
     width: 2rem;
     height: 2rem;
     font-size: 2rem;
     border-radius: 1rem;
-    margin-bottom: 0.5rem;
+    margin: 0.25rem 0.5rem;
     color: #ffffff;
     cursor: pointer;
 }
 
-#painter .tools .button:last-child {
-    margin: 0;
+#painter .tools .button:first-child {
+    margin-top: 0.5rem;
 }
+
 
 #painter .colors {
     display: flex;
@@ -220,7 +243,7 @@
 #painter .button.current-color {
     box-shadow: 
         inset 0.2em 0.2em rgba(0, 0, 0, 0.2), 
-        0 0 0 0.2rem rgba(255, 255, 255, 0.25)
+        0 0 0 0.2rem #1D2731;
 }
 
 #painter .current-painter-panel {
