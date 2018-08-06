@@ -1,44 +1,159 @@
 body, html, #layout {
     height: 100vh;
-    background-color: #f1f1f1;
+    background-color: #D9D9D9;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+#header-bg {
+    height: 4rem;
+    background-color: #1D2731;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 0;
+}
+
 #layout {
-    margin: 0 auto;
-    width: 960px;
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: 4rem auto 8rem;
+    grid-template-rows: 4rem auto 8rem 3rem;
     grid-template-areas:
         "header"
         "main"
-        "footer";
-}
-
-aside {
-    display: none;
-    grid-area: sidebar;
-    background-color: #cccccc;
+        "footer"
+        "disclaimer";
 }
 
 header {
     grid-area: header;
-    background-color: #dddddd;
+    background-color: #1D2731;
 }
 
 header nav {
+    display: grid;
+    grid-template-columns: 12rem auto 12rem;
+
+    margin: 0 auto;
+    width: 960px;
     height: 100%;
+    align-items: center;
+
+    color: #ffffff;
+    font-size: 12pt;
+}
+
+header nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+header nav ul li {
+    display: inline-block;
+}
+
+header nav ul li a {
+    color: #ffffff;
+    padding: 1rem 2rem;
+}
+
+header nav ul li a:hover {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #2F4050;
+    transition-duration: 500ms;
+}
+
+header nav .logo {
+    margin-left: 2rem;
+    padding-bottom: 5px;
+}
+
+header nav .main-menu {    
+    text-align: center;
+    text-transform: uppercase;
+}
+
+header nav .user-menu {
+    text-align: right;
+    margin-right: 2rem;
+}
+
+header nav .user-menu img {
+    margin-right: 0.5rem;
 }
 
 main {
+    margin: 0 auto;
+    width: 960px;
     grid-area: main;
     background-color: #f1f1f1;
 }
 
 footer {
     grid-area: footer;
-    background-color: #aaaaaa;
+    background-color: #1D2731;
+}
+
+footer .footer-content {
+    display: grid;
+    grid-template-columns: 12rem auto 12rem;
+    margin: 0 auto;
+    width: 960px;
+    height: 100%;
+    align-items: center;
+    color: #ffffff;
+}
+
+footer .footer-content .logo {
+    margin-left: 2rem;
+}
+
+footer .footer-content .menu {
+    text-align: center;
+}
+
+footer .footer-content .menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+footer .footer-content .menu ul li {
+    display: inline-block;
+}
+
+footer .footer-content .menu ul li a {
+    color: #ffffff;
+    padding: 1rem 2rem;
+}
+
+footer .footer-content .menu ul li a:hover {
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #2F4050;
+    transition-duration: 500ms;
+}
+
+footer .footer-content .social {
+    margin-right: 2rem;
+    text-align: right;
+}
+
+#disclaimer {
+    grid-area: disclaimer;
+    border-top: 1px solid #D9B310;
+    background-color: #1D2731;
+}
+
+#disclaimer .content {
+    display: grid;
+    margin: 0 auto;
+    width: 960px;
+    height: 3rem;
+    align-items: center;
+    color: #D9B310;
+    text-align: center;
 }
 
 /* TODO: fix sidebar */

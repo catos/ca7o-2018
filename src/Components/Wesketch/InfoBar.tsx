@@ -4,6 +4,7 @@ import { IWesketchGameState } from './Wesketch';
 import { WesketchService, WesketchEventType } from './WesketchService';
 // import { PhaseTypes } from './PhaseTypes';
 import { auth } from '../../Common/AuthService';
+import { Timer } from './Timer';
 
 interface IProps {
     gameState: IWesketchGameState;
@@ -28,41 +29,48 @@ export class InfoBar extends React.Component<IProps, {}> {
             : '';
 
         const hints = !imDrawing && gameState.hintsGiven > 0
-            ? <div>
-                <span className="mr-1">HINT:</span>
+            ? <div className="info-hint">
+                <span className="label">HINT:</span>
                 {this.hintArray().map((char, idx) =>
-                    <span key={idx} className="mr-1">{char}</span>
+                    <span key={idx} className="bold character">{char}</span>
                 )}
             </div>
             : '';
 
         const infoWord = imDrawing
-            ? <div className="info-word">WORD: <span>{gameState.currentWord}</span></div>
+            ? <div className="info-word">WORD: <span className="bold">{gameState.currentWord}</span></div>
             : '';
 
         const infoDrawingPlayer = drawingPlayer !== undefined && !imDrawing
-            ? <div className="info-drawing-player">DRAWING: <span>{drawingPlayer.name}</span></div>
+            ? <div className="info-drawing-player">DRAWING: <span className="bold">{drawingPlayer.name}</span></div>
             : '';
 
         return (
             <div id="info-bar">
-                {drawingPlayerOptions}
-                {hints}
-                <div className="info-round">ROUND: <span>{gameState.round}</span> of <span>{gameState.players.length * 3}</span></div>
-                <div className="info-timer">{gameState.timer.remaining}</div>
-                {infoWord}
-                {infoDrawingPlayer}
-                <ul className="game-options">
-                    <li>
-                        <div className="fa fa-bug" onClick={this.toggleDebugMode} />
-                    </li>
+                <div className="info-bar-container">
 
-                    <li>
-                        <div className="fa fa-power-off"
-                            onClick={this.resetGame} />
-                    </li>
+                    <div className="info-col info-col-1">
+                        {drawingPlayerOptions}
+                        {hints}
+                    </div>
+                    <div className="info-col info-col-2">ROUND: <span className="bold">{gameState.round}</span> of <span className="bold">{gameState.players.length * 3}</span></div>
 
-                </ul>
+                    <div className="info-col info-col-3">
+                        <div className="info-timer-number">{gameState.timer.remaining}</div>
+                    </div>
+
+                    <div className="info-col info-col-4">
+                        {infoWord}
+                        {infoDrawingPlayer}
+                    </div>
+                    <div className="info-col info-col-5">
+                        <div className="info-options">
+                            <div className="fa fa-bug" onClick={this.toggleDebugMode} />
+                            <div className="fa fa-power-off" onClick={this.resetGame} />
+                        </div>
+                    </div>
+                </div>
+                <Timer phase={gameState.phase} timer={gameState.timer} />
             </div>
         );
     }

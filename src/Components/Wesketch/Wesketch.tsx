@@ -12,7 +12,7 @@ import { Chat } from './Chat';
 import { Painter } from './Painter';
 import { Debug } from "./Debug";
 import { InfoBar } from './InfoBar';
-import { Timer } from './Timer';
+// import { Timer } from './Timer';
 
 export interface ITimer {
     remaining: number;
@@ -103,7 +103,7 @@ export class Wesketch extends React.Component<{}, IState> {
         const { gameState } = this.state;
         return (
             <div id="wesketch" className={this.state.gameState.debugMode ? 'debug-mode' : ''}>
-                <Timer phase={gameState.phase} timer={gameState.timer} />
+                {/* <Timer phase={gameState.phase} timer={gameState.timer} /> */}
                 <Painter gameState={gameState} wss={this.state.wss} />
                 <InfoBar gameState={gameState} wss={this.state.wss} />
                 <Chat gameState={gameState} wss={this.state.wss} />

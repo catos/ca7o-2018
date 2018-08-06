@@ -6,19 +6,20 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { Routes } from './Components/Shared/Routes';
 import { Header } from './Components/Shared/Header';
-import { Aside } from './Components/Shared/Aside';
+import { Footer } from 'src/Components/Shared/Footer';
+import { Disclaimer } from './Components/Shared/Disclaimer';
 
 class App extends React.Component {
     public render() {
         return (
             <BrowserRouter>
                 <div id="layout">
-                    <Aside />
                     <Header />
                     <main>
                         <Routes />
                     </main>
-                    <footer>Footer</footer>
+                    <Footer />
+                    <Disclaimer />
                 </div>
             </BrowserRouter>
         );

@@ -1,96 +1,104 @@
 
 #wesketch {
     position: relative;
-    background-color: #405d70;
+    background-color: #3F556A;
     height: 100%;
 
     margin: 0;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 0.5rem 34rem 3rem 19rem;
+    grid-template-rows: 34rem 4rem 19rem;
     grid-template-areas:
-        "timer"
         "painter"
         "infobar"
-        "chat"
-        "debug";
+        "chat";
 }
 
 #wesketch.debug-mode {
     background-color: crimson;
 }
 
-/*** TIMER ***************************/
-
-#timer {
-    grid-area: timer;
-    background-color: #8E5C35;
-}
-
-#timer .timer-bar {
-    height: 0.5rem;
-    background-color: #FF9947;
-    transition-duration: 0.5s;
-}
-
 /*** INFOBAR ***************************/
 
 #info-bar {
     grid-area: infobar;
-    color: #ffffff;
-    padding: 0 1rem;
     display: flex;
-    align-items: center;
+    color: #ffffff;
+    background-color: #1D2731;
     position: relative;
 }
 
-#info-bar .info-round {
-    position: absolute;
-    left: 50%;
-    margin-left: -10rem;
+#info-bar .info-bar-container { 
+    z-index: 1;
+    flex: 1;
+    display: grid;
+    grid-template-columns: 12rem 16rem 4rem 16rem 12rem;
+    align-items: center;
 }
 
-#info-bar .info-timer {
-    position: absolute;
-    left: 50%;
-    font-size: 2.5rem;
-    margin-left: -2rem;
-    top: -6px;
-    width: 4rem;
-    background-color: #999;
+#info-bar .info-col {
+    flex: 1;
+}
+
+#info-bar .info-col-1 {
+    padding-left: 1rem;
+}
+
+#info-bar .info-col-2 {
+    text-align: right;
+    padding-right: 1rem;
+}
+
+#info-bar .info-col-3 {
     text-align: center;
+    height: 100%;
 }
 
-#info-bar .info-word,
-#info-bar .info-drawing-player
-{
-    position: absolute;
-    left: 50%;
-    margin-left: 4rem;
+#info-bar .info-col-4 {
+    padding-left: 1rem;
 }
 
-#info-bar .info-word span,
-#info-bar .info-drawing-player span {
-    letter-spacing: 1px;
+#info-bar .info-col-5 {
+    text-align: right;
+    padding-right: 1rem;
 }
 
-#info-bar .info-word span,
-#info-bar .info-drawing-player span,
-#info-bar .info-round span {
-    font-weight: 500;
+#info-bar .info-hint .label {
+    margin-right: 0.5rem;
 }
 
-#info-bar ul.game-options {
-    list-style: none;
+#info-bar .info-hint .character {
+    margin-right: 0.25rem;
+}
+
+#info-bar .info-timer-number {
+    height: 100%;
+    background-color: #0B3C5D;
+    border-radius: 4rem;
+    font-size: 2rem;
+    line-height: 3.75rem;
+}
+
+#info-bar .info-options div {
+    margin-right: 0.5rem;
+}
+
+#info-bar .info-options div:last-child {
     margin: 0;
-    padding: 0;
-    position: absolute;
-    right: 1rem;
 }
 
-#info-bar ul.game-options li {
-    display: inline;
-    margin-right: 1rem;
+#timer {
+    height: 3rem;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0.5rem;
+}
+
+#timer .timer-bar {
+    height: 3rem;
+    background-color: #0B3C5D;
+    transition-duration: 0.5s;
 }
 
 /*** CHAT ***************************/
@@ -98,13 +106,11 @@
 #chat {
     grid-area: chat;
     flex: 1;
-    background-color: #cccccc;
     display: flex;
 }
 
 #chat .players {
     width: 12rem;
-    background-color: #999;
 }
 
 #chat .players .player {
@@ -239,7 +245,6 @@
 /*** DEBUG ***************************/
 
 #debug {
-    grid-area: debug;
     position: fixed;
     top: 1rem;
     left: 1rem;
