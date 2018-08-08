@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "es6-promise": "4.2.4",
+    "howler": "^2.0.14",
     "isomorphic-fetch": "2.2.1",
     "jwt-decode": "2.2.0",
     "moment": "2.22.2",
@@ -20,6 +21,7 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
+    "@types/howler": "^2.0.5",
     "@types/isomorphic-fetch": "0.0.34",
     "@types/jest": "23.1.2",
     "@types/jwt-decode": "2.2.1",

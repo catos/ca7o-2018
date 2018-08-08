@@ -9,6 +9,7 @@ export enum WesketchEventType {
     PlayerJoined,
     PlayerLeft,
     PlayerReady,
+    PlaySound,
     Message,
     SystemMessage,
     StartDraw,
