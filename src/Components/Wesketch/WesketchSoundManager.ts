@@ -1,69 +1,59 @@
 import { Howl } from "howler";
 
-// interface IWesketchSounds {
-//     playerJoined: Howl;
-//     playerReady: Howl;
-//     playerRightAnswers: Howl;
-//     endRoundNoCorrect: Howl;
-//     timerTension: Howl;
-//     endGame: Howl;
-// }
 interface ISound {
     name: string;
-    sfx: Howl;
+    sfx: Howl | null;
 }
 
 export class WesketchSoundManager {
     public sounds: ISound[];
-    // public sounds: IWesketchSounds;
+    private sfx: any;
 
     constructor() {
         this.sounds = [];
     }
 
     public init = () => {
+        this.sfx = {
+            playerJoined: this.addSfx('SUCCESS TUNE Happy Sticks Short 01.wav'),
+            playerReady: this.addSfx('TECH INTERFACE Computer Beeps 08.wav'),
+            playerGuessedTheWord: this.addSfx('SUCCESS PICKUP Collect Beep 02.wav'),
+            playerIsClose: this.addSfx('SUCCESS PICKUP Collect Beep 01.wav'),
+            timerTension: this.addSfx('Time Strain.wav'),
+        };
+
         this.sounds.push(
-            {
-                name: 'PlayerJoined',
-                sfx: this.addSfx('SUCCESS TUNE Happy Sticks Short 01.wav')
-            },
-            {
-                name: 'PlayerReady',
-                sfx: this.addSfx('TECH INTERFACE Computer Beeps 08.wav')
-            },
-            {
-                name: 'PlayerGuessedTheWord',
-                sfx: this.addSfx('SUCCESS PICKUP Collect Beep 03.wav')
-            },
-            {
-                name: 'YouGuessedTheWord',
-                sfx: this.addSfx('SUCCESS PICKUP Collect Beep 02.wav')
-            },
-            {
-                name: 'PlayerGuessIsClose',
-                sfx: this.addSfx('SUCCESS PICKUP Collect Beep 01.wav')
-            },
-            {
-                // TODO: remove ?
-                name: 'EndRoundNoCorrect',
-                sfx: this.addSfx('SUCCESS TUNE Win Ending 09.wav')
-            },
-            {
-                name: 'TimerTension',
-                sfx: this.addSfx('Time Strain.wav')
-            },
-            {
-                // TODO: remove / replace sound ?
-                name: 'EndGame',
-                sfx: this.addSfx('SUCCESS TUNE Win Complete 07.wav')
-            },
+            { name: 'PlayerJoined', sfx: this.sfx.playerJoined },
+            { name: 'PlayerReady', sfx: this.sfx.playerReady },
+            { name: 'PlayerGuessedTheWord', sfx: this.sfx.playerGuessedTheWord },
+            { name: 'PlayerIsClose', sfx: this.sfx.playerIsClose },
+            { name: 'TimerTension', sfx: this.sfx.timerTension },
+
+            // {
+            //     // TODO: remove ?
+            //     name: 'EndRoundNoCorrect',
+            //     sfx: this.addSfx('SUCCESS TUNE Win Ending 09.wav')
+            // },           
+            // {
+            //     // TODO: remove / replace sound ?
+            //     name: 'EndGame',
+            //     sfx: this.addSfx('SUCCESS TUNE Win Complete 07.wav')
+            // },
         );
+
+
+
     }
 
-    public play = (name: string) => {
+    public play = (name: string, volume: number = 0.5) => {
         const sound = this.sounds.find(p => p.name === name);
         if (sound !== undefined) {
-            sound.sfx.play();
+            if (sound.sfx !== null) {
+                sound.sfx.volume(volume);
+                sound.sfx.play();
+            }
+        } else {
+            console.error(`Could not find sfx with name: ${name}`);            
         }
     }
 
@@ -74,6 +64,3 @@ export class WesketchSoundManager {
         });
     }
 }
-
-// const wesketchSoundManager = new WesketchSoundManager();
-// export default wesketchSoundManager;

@@ -123,18 +123,10 @@ export class Wesketch extends React.Component<{}, IState> {
         }
         
         if (event.type === WesketchEventType.PlaySound) {
-            let name = event.value.name;
-
-            
-            if (event.value.userId === auth.currentUser().guid) {
-                name = name.replace('Player', 'You');  
-                console.log('new name: ' + name);
-                
-            }
-
-            console.log('Play: ' + event.value.name + ', userId: ' + event.value.userId + ', currentUserId: ' + auth.currentUser().guid);
-            
-            this.state.wsm.play(name);
+            const volume = event.value.userId === auth.currentUser().guid 
+                ? 0.75
+                : 0.25;
+            this.state.wsm.play(event.value.name, volume);
         }
 
         const events = this.state.events;
