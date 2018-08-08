@@ -5,6 +5,7 @@ import { WesketchService, WesketchEventType } from './WesketchService';
 // import { PhaseTypes } from './PhaseTypes';
 import { auth } from '../../Common/AuthService';
 import { Timer } from './Timer';
+import { PhaseTypes } from './PhaseTypes';
 
 interface IProps {
     gameState: IWesketchGameState;
@@ -21,7 +22,7 @@ export class InfoBar extends React.Component<IProps, {}> {
             imDrawing = drawingPlayer.userId === auth.currentUser().guid;
         }
 
-        const drawingPlayerOptions = imDrawing
+        const drawingPlayerOptions = imDrawing && gameState.phase === PhaseTypes.Drawing
             ? <div>
                 <button className="info-give-hint btn btn-sm btn-info mr-3" onClick={this.giveHint}>Give hint</button>
                 <button className="info-give-up btn btn-sm btn-warning" onClick={this.giveUp}>I give up!</button>
@@ -37,12 +38,13 @@ export class InfoBar extends React.Component<IProps, {}> {
             </div>
             : '';
 
-        const infoWord = imDrawing
+        const infoWord = imDrawing && gameState.phase === PhaseTypes.Drawing
             ? <div className="info-word">WORD: <span className="bold">{gameState.currentWord}</span></div>
             : '';
 
-        const infoDrawingPlayer = drawingPlayer !== undefined && !imDrawing
-            ? <div className="info-drawing-player">DRAWING: <span className="bold">{drawingPlayer.name}</span></div>
+        // If drawing player is defined (and it is not me)
+        const infoDrawingPlayer = drawingPlayer !== undefined && (!imDrawing || gameState.phase !== PhaseTypes.Drawing)
+            ? <div className="info-drawing-player">DRAWING{gameState.phase !== PhaseTypes.Drawing ? ' NEXT' : ''}: <span className="bold">{drawingPlayer.name}</span></div>
             : '';
 
         return (
