@@ -1,19 +1,18 @@
 import * as React from 'react';
 
 import './Mdk.css';
-import { RECIPES, IRecipe } from './RecipesDb';
+import { IRecipe } from './RecipesDb';
 
 import { MdkDay } from './MdkDay';
-import { SearchResultItem } from './SearchResultItem';
+import { SearchResult } from './SearchResult';
 
 export interface IDay {
     name: string;
-    recipe: IRecipe;
+    recipe: IRecipe | null;
     selected: boolean;
 }
 
 interface IState {
-    recipes: IRecipe[];
     days: IDay[];
     shoppingList: string[];
     showShoppingList: boolean;
@@ -24,26 +23,26 @@ export class Mdk extends React.Component<{}, IState> {
         super(props);
 
         this.state = {
-            recipes: [],
+            // recipes: [],
             days: [],
             shoppingList: [],
             showShoppingList: false
         }
 
         this.onDropReplaceRecipe = this.onDropReplaceRecipe.bind(this);
+        this.onClickReplaceRecipe = this.onClickReplaceRecipe.bind(this);
     }
 
     public componentDidMount() {
-        const recipes = RECIPES.sort(() => .5 - Math.random()).slice(0, 5);
+        // const recipes = RECIPES.sort(() => .5 - Math.random()).slice(0, 5);
         const days = [
-            { name: 'Mandag', recipe: recipes[0], selected: false },
-            { name: 'Tirsdag', recipe: recipes[1], selected: false },
-            { name: 'Onsdag', recipe: recipes[2], selected: false },
-            { name: 'Torsdag', recipe: recipes[3], selected: false },
-            { name: 'Fredag', recipe: recipes[4], selected: false },
+            { name: 'Mandag', recipe: null, selected: false },
+            { name: 'Tirsdag', recipe: null, selected: false },
+            { name: 'Onsdag', recipe: null, selected: false },
+            { name: 'Torsdag', recipe: null, selected: false },
+            { name: 'Fredag', recipe: null, selected: false },
         ];
         this.setState({
-            recipes: RECIPES,
             days,
             shoppingList: this.getIngredients(days)
         })
@@ -87,38 +86,7 @@ export class Mdk extends React.Component<{}, IState> {
 
                 {shoppingList}
 
-                <div className="search-filters">
-                    <a href="#" className="m-1 p-2 badge badge-primary">Sunn</a>
-                    <a href="#" className="m-1 p-2 badge badge-secondary">Kjapp</a>
-                    <a href="#" className="m-1 p-2 badge badge-success">Billig</a>
-                    <a href="#" className="m-1 p-2 badge badge-danger">Kos</a>
-
-                    <nav aria-label="Page navigation example">
-                        <ul className="pagination">
-                            <li className="page-item">
-                                <a className="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span className="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            {/* <li className="page-item"><a className="page-link" href="#">1</a></li>
-                            <li className="page-item"><a className="page-link" href="#">2</a></li>
-                            <li className="page-item"><a className="page-link" href="#">3</a></li> */}
-                            <li className="page-item">
-                                <a className="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span className="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-
-                <div className="search-result">
-                    {this.state.recipes.map((recipe, idx) =>
-                        <SearchResultItem key={idx} recipe={recipe} onClick={() => this.onClickReplaceRecipe(recipe)} />
-                    )}
-                </div>
+                <SearchResult onClick={this.onClickReplaceRecipe} />
             </div>
         );
     }
@@ -168,7 +136,9 @@ export class Mdk extends React.Component<{}, IState> {
     private getIngredients(days: IDay[]): string[] {
         let ingredients: string[] = [];
         days.map(day => {
-            ingredients = ingredients.concat(day.recipe.ingredients)
+            if (day.recipe !== null) {
+                ingredients = ingredients.concat(day.recipe.ingredients)
+            }
         });
 
         return ingredients;

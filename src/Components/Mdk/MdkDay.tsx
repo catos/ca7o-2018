@@ -33,9 +33,28 @@ export class MdkDay extends React.Component<IProps, IState> {
         if (this.props.day.selected) {
             className += " selected"
         }
+
         if (this.state.dragOver) {
             className += " drag-over"
         }
+
+        const dayContents = this.props.day.recipe !== null
+            ? <div>
+                <div className="title">
+                    <h1>{this.props.day.name}</h1>
+                </div>
+                <div className="card-img-top center-cropped week-thumbnail" style={{ backgroundImage: 'url(' + this.props.day.recipe.thumbnail + ')' }} />
+                <div className="card-body">
+                    <h5 className="card-title">{this.props.day.recipe.name}</h5>
+                    <p className="card-text">{snip(this.props.day.recipe.description, 50)}</p>
+                </div>
+                <div className="card-footer text-muted">
+                    <div className="meta"><small>{this.props.day.recipe.time} <i className="far fa-clock" /></small></div>
+                </div>
+            </div>
+            : <div>
+                Tom dag, velg en oppskrift
+            </div>;
 
         return (
             <div
@@ -44,19 +63,9 @@ export class MdkDay extends React.Component<IProps, IState> {
                 onDrop={this.onDrop}
                 onDragOver={this.onDragOver}
                 onDragLeave={this.onDragLeave}
-                onDragExit={this.onDragExit}
-            >
-                <div className="title">
-                    <h1>{this.props.day.name}</h1>
-                </div>
-                <div className="card-img-top center-cropped week-thumbnail" style={{ backgroundImage: 'url(' + this.props.day.recipe.thumbnail + ')' }} />
-                <div className="card-body">
-                    <h5 className="card-title">{this.props.day.recipe.name}</h5>                    
-                    <p className="card-text">{snip(this.props.day.recipe.description, 50)}</p>
-                </div>
-                <div className="card-footer text-muted">
-                    <div className="meta"><small>{this.props.day.recipe.time} <i className="far fa-clock" /></small></div>
-                </div>
+                onDragExit={this.onDragExit}>
+                {dayContents}
+
             </div>
         );
     }

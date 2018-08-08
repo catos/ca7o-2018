@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { Routes } from './Components/Shared/Routes';
 import { Header } from './Components/Shared/Header';
-import { Footer } from 'src/Components/Shared/Footer';
+import { Footer } from './Components/Shared/Footer';
 import { Disclaimer } from './Components/Shared/Disclaimer';
 
 class App extends React.Component {
