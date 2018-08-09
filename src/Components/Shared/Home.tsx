@@ -39,6 +39,11 @@ export class Home extends React.Component {
                     <li className="list-group-item">
                         <a className="nav-link" href="https://github.com/Lemoncode/react-typescript-samples/tree/master/04%20DisplayData">Lemoncode</a>
                     </li>
+                    <li className="list-group-item">
+                        <a className="nav-link" href="https://github.com/goldfire/howler.js">Howler.js</a>
+                    </li>
+
+                    
                 </ul>
             </div>
         );

@@ -110,13 +110,14 @@
 }
 
 #chat .players {
-    width: 12rem;    
+    width: 12rem;
+    color: #ffffff;
 }
 
 #chat .players .player {
     display: grid;
     grid-template-columns: auto 2rem;
-    background-color: #ffffffb3;
+    background-color: #304050;
     transition-duration: 0.5s;
     padding: 0.5rem;
     text-align: right;
@@ -135,9 +136,16 @@
 }
 
 #chat .players .player-ready {
-    background-color: #aaaaaa;
+    background-color: #5F80A0;
 }
 
+#chat .players .player-guessed-word {
+    background-color: #46A263;
+}
+
+#chat .players .player-is-drawing {
+    background-color: #A24689;
+}
 
 #chat .messages-and-form {
     flex: 1;

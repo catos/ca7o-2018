@@ -81,9 +81,6 @@ export class Wesketch extends React.Component<{}, IState> {
         this.state.wss.emit(WesketchEventType.PlayerJoined, event);
         console.log('WesketchEventType.PlayerJoined sent');
 
-        // Init sounds
-        // this.state.wsm.init();
-
         // Watch events
         this.state.wss.on('event', this.onEvent);
     }

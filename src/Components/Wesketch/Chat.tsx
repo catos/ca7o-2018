@@ -61,7 +61,11 @@ export class Chat extends React.Component<IProps, IState> {
                     {sortedPlayers.map((player, idx) =>
                         <div
                             key={idx}
-                            className={'player' + (player.isReady ? ' player-ready' : '')}
+                            className={'player' + 
+                                (player.isReady ? ' player-ready' : '') + 
+                                (player.guessedWord ? ' player-guessed-word' : '') +
+                                (player.isDrawing ? ' player-is-drawing' : '')
+                            }
                             title={player.clientId + '' + player.userId}
                             onClick={() => this.togglePlayerReady(player)}>
 
