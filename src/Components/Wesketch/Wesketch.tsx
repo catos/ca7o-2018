@@ -82,8 +82,7 @@ export class Wesketch extends React.Component<{}, IState> {
         console.log('WesketchEventType.PlayerJoined sent');
 
         // Init sounds
-        // TODO: then...
-        this.state.wsm.init();
+        // this.state.wsm.init();
 
         // Watch events
         this.state.wss.on('event', this.onEvent);
@@ -116,6 +115,8 @@ export class Wesketch extends React.Component<{}, IState> {
     }
 
     private onEvent = (event: IWesketchEvent) => {
+        const { wsm } = this.state;
+        
         if (event.type === WesketchEventType.UpdateGameState) {
             this.setState({
                 gameState: event.value
@@ -123,10 +124,15 @@ export class Wesketch extends React.Component<{}, IState> {
         }
         
         if (event.type === WesketchEventType.PlaySound) {
-            const volume = event.value.userId === auth.currentUser().guid 
-                ? 0.75
+            const volume = !event.value.global &&
+                event.value.userId === auth.currentUser().guid && event.value
+                ? -1
                 : 0.25;
-            this.state.wsm.play(event.value.name, volume);
+            wsm.play(event.value.name, volume);
+        }
+
+        if (event.type === WesketchEventType.StopSound) {
+            wsm.fade();
         }
 
         const events = this.state.events;
