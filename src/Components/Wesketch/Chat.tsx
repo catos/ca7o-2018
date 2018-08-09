@@ -44,7 +44,7 @@ export class Chat extends React.Component<IProps, IState> {
     }
 
     public render() {
-        const { players } = this.props.gameState;
+        const { players, phase } = this.props.gameState;
         const sortedPlayers = players.sort((a: IPlayer, b: IPlayer) => {
             return a.score > b.score ? -1 : b.score > a.score ? 1 : 0;
         });
@@ -57,27 +57,33 @@ export class Chat extends React.Component<IProps, IState> {
 
         return (
             <div id="chat">
-                <div className="players">
-                    {sortedPlayers.map((player, idx) =>
-                        <div
-                            key={idx}
-                            className={'player' + 
-                                (player.isReady ? ' player-ready' : '') + 
-                                (player.guessedWord ? ' player-guessed-word' : '') +
-                                (player.isDrawing ? ' player-is-drawing' : '')
-                            }
-                            title={player.clientId + '' + player.userId}
-                            onClick={() => this.togglePlayerReady(player)}>
+                <div className="players-wrapper">
+                    <div className="players">
+                        {sortedPlayers.map((player, idx) =>
+                            <div
+                                key={idx}
+                                className={'player' +
+                                    (player.isReady ? ' player-ready' : '') +
+                                    (player.guessedWord ? ' player-guessed-word' : '') +
+                                    (player.isDrawing ? ' player-is-drawing' : '')
+                                }
+                                title={player.clientId + '' + player.userId}>
 
-                            <div>{snip(player.name, 20)}</div>
+                                <div>{snip(player.name, 20)}</div>
 
-                            <div className="player-score">
-                                {player.score}
+                                <div className="player-score">
+                                    {player.score}
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
+                    {phase === PhaseTypes.Lobby
+                        ? <button className="btn btn-light im-ready"
+                            onClick={this.togglePlayerReady}>I'm ready!</button>
+                        : ''}
                 </div>
-                <div className="messages-and-form">
+
+                <div className="messages-wrapper">
                     <div className="messages border" ref={el => { this.messagesEl = el }}>
                         {this.state.messageEvents.map((event, idx) =>
                             <ChatMessage key={idx} event={event} />
@@ -155,9 +161,13 @@ export class Chat extends React.Component<IProps, IState> {
         }
     }
 
-    private togglePlayerReady = (player: IPlayer) => {
+    private togglePlayerReady = () => {
         const { gameState } = this.props;
-        if (gameState.phase === PhaseTypes.Lobby && !gameState.players.every(p => p.isReady)) {
+        const player = gameState.players.find(p => p.userId === auth.currentUser().guid);
+
+        if (player !== undefined
+            && gameState.phase === PhaseTypes.Lobby
+            && !gameState.players.every(p => p.isReady)) {
             this.props.wss.emit(WesketchEventType.PlayerReady, player);
         }
     }

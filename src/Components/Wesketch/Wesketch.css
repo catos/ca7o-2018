@@ -109,9 +109,16 @@
     display: flex;
 }
 
-#chat .players {
+#chat .players-wrapper {
+    display: flex;
+    flex-direction: column;
     width: 12rem;
+}
+
+#chat .players {
+    height: 14rem;
     color: #ffffff;
+    margin: 0 0.25rem;
 }
 
 #chat .players .player {
@@ -147,7 +154,11 @@
     background-color: #A24689;
 }
 
-#chat .messages-and-form {
+#chat .im-ready {
+    margin: 0 0.25rem;    
+}
+
+#chat .messages-wrapper {
     flex: 1;
 }
     
