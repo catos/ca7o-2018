@@ -46,7 +46,7 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
             : '';
 
         return (
-            <div className="mt-2 row">
+            <div className="m-4 row">
                 <div className="col-md-6 offset-md-3">
                     <h2>Login</h2>
                     {errorMessage}

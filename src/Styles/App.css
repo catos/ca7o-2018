@@ -42,26 +42,30 @@ header nav {
     font-size: 12pt;
 }
 
-header nav ul {
+header > nav > ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-header nav ul li {
+header > nav > ul > li {
     display: inline-block;
 }
 
-header nav ul li a {
+header > nav > ul > li > a {
     color: #ffffff;
     padding: 1rem 2rem;
 }
 
-header nav ul li a:hover {
+header > nav > ul > li > a:hover {
     color: #ffffff;
     text-decoration: none;
     background-color: #2F4050;
     transition-duration: 500ms;
+}
+
+header > nav a.dropdown-toggle {
+    cursor: pointer;
 }
 
 header nav .logo {
@@ -78,6 +82,10 @@ header nav .user-menu {
     margin-right: 2rem;
 }
 
+header nav .user-menu .user-info {
+    cursor: pointer;
+}
+
 header nav .user-menu img {
     margin-right: 0.5rem;
 }
@@ -86,7 +94,7 @@ main {
     margin: 0 auto;
     width: 960px;
     grid-area: main;
-    background-color: #f1f1f1;
+    background-color: #ffffff;
 }
 
 footer {
@@ -155,21 +163,3 @@ footer .footer-content .social {
     color: #D9B310;
     text-align: center;
 }
-
-/* TODO: fix sidebar */
-/* @media only screen and (min-width: 992px) {
-    aside { 
-        display: initial; 
-    }
-    
-    #layout {
-        margin: 0;
-        display: grid;
-        grid-template-columns: 15% auto;
-        grid-template-rows: 7% auto 10%;
-        grid-template-areas:
-            "header header"
-            "sidebar main"
-            "footer footer";
-    }
-} */

@@ -64,7 +64,7 @@ export class Mdk extends React.Component<{}, IState> {
             </div>;
 
         return (
-            <div id="mdk">
+            <div id="mdk" className="m-4">
                 <h1>Ukesmeny</h1>
                 <div className="card-group week-menu">
                     {this.state.days.map((day, idx) =>

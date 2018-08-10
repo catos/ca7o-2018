@@ -29,19 +29,22 @@ export class UserList extends React.Component<{}, IState> {
 
     public render() {
         return (
-            <div className="mt-3">
-                <table className="table table-sm table-bordered">
-                    <tbody>
+            <div className="m-4">
+                <h2>Users</h2>
+                <table className="table">
+                    <thead className="dark">
                         <tr>
-                            <th>Guid</th>
+                            <th>#</th>
                             <th>Name</th>
                             <th>Username</th>
                             <th>Type</th>
                         </tr>
+                    </thead>
+                    <tbody>
                         {this.state.users.map((user, idx) =>
                             <tr key={idx}>
-                                <td><Link to={`/users/${user.guid}`}>{user.guid}...</Link></td>
-                                <td>{user.name}</td>
+                                <td><strong title={user.guid}>{user.guid.substring(0, 4)}</strong></td>
+                                <td><Link to={`/users/${user.guid}`}>{user.name}</Link></td>
                                 <td>{user.username}</td>
                                 <td>{UserTypes[user.type]}</td>
                             </tr>

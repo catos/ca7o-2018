@@ -31,7 +31,8 @@ export class RecipeList extends React.Component<{}, IState> {
 
     public render() {
         return (
-            <div className="mt-3">
+            <div className="m-4">
+                <h2>Recipes</h2>
                 <table className="table table-sm table-bordered">
                     <tbody>
                         <tr>

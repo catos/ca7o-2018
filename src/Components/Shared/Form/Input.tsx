@@ -15,7 +15,7 @@ export const Input: React.StatelessComponent<IProps> = (props) => {
     return (
         <div className="form-group">
             <label htmlFor={props.name}>{props.label}</label>
-            <input type={(props.type) ? props.type : 'text'}
+            <input type={(props.type) ? props.type : 'text'} id={props.name}
                 name={props.name}
                 className="form-control"
                 placeholder={props.placeholder}

@@ -78,7 +78,8 @@ export class Chat extends React.Component<IProps, IState> {
                         )}
                     </div>
                     {phase === PhaseTypes.Lobby
-                        ? <button className="btn btn-light im-ready"
+                        ?
+                        <button className="btn btn-light im-ready"
                             onClick={this.togglePlayerReady}>I'm ready!</button>
                         : ''}
                 </div>

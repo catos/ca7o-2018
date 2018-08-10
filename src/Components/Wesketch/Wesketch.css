@@ -18,6 +18,14 @@
     background-color: crimson;
 }
 
+/*** GAME SETTINGS ***************************/
+
+#game-settings {
+    background-color: #ffffff;
+    padding: 4rem;
+}
+
+
 /*** INFOBAR ***************************/
 
 #info-bar {
@@ -155,7 +163,15 @@
 }
 
 #chat .im-ready {
-    margin: 0 0.25rem;    
+    margin: 0 0.25rem;
+}
+
+#chat .im-ready img {
+    position: absolute;
+    right: 0;
+    width: 2rem;
+    height: 2rem;
+    top: 0;    
 }
 
 #chat .messages-wrapper {

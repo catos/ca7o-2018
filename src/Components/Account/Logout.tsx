@@ -21,7 +21,7 @@ export class Logout extends React.Component<{}, IState> {
         }
             
         return (
-            <a href="#" className="nav-link" onClick={this.logout}>Logout</a>
+            <a href="#" onClick={this.logout}>Logout</a>
         );
     }
 

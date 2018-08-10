@@ -49,8 +49,8 @@ export class UserDetails extends React.Component<IProps, IState> {
 
         const user = this.state.user;
         return (
-            <div className="mt-3">
-                <h1>Edit details for: {user.name}</h1>
+            <div className="m-4">
+                <h2>Edit details for: {user.name}</h2>
                 <form className="needs-validation was-validated" noValidate={true}>
                     <Input
                         name="name"

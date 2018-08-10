@@ -10,6 +10,7 @@ import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchSe
 import { WesketchSoundManager } from './WesketchSoundManager';
 
 import { Chat } from './Chat';
+import { GameSettings } from './GameSettings';
 import { Painter } from './Painter';
 import { Debug } from "./Debug";
 import { InfoBar } from './InfoBar';
@@ -100,26 +101,30 @@ export class Wesketch extends React.Component<{}, IState> {
     }
 
     public render() {
-        const { gameState } = this.state;
+        const { events, gameState, wss } = this.state;
         return (
-            <div id="wesketch" className={this.state.gameState.debugMode ? 'debug-mode' : ''}>
-                <Painter gameState={gameState} wss={this.state.wss} />
-                <InfoBar gameState={gameState} wss={this.state.wss} />
-                <Chat gameState={gameState} wss={this.state.wss} />
-                <Debug gameState={gameState} events={this.state.events} />
+            <div id="wesketch" className={gameState.debugMode ? 'debug-mode' : ''}>
+
+                {gameState.phase === PhaseTypes.Lobby
+                    ? <GameSettings wss={wss} />
+                    : <Painter gameState={gameState} wss={wss} />}
+
+                <InfoBar gameState={gameState} wss={wss} />
+                <Chat gameState={gameState} wss={wss} />
+                <Debug gameState={gameState} events={events} />
             </div>
         );
     }
 
     private onEvent = (event: IWesketchEvent) => {
         const { wsm } = this.state;
-        
+
         if (event.type === WesketchEventType.UpdateGameState) {
             this.setState({
                 gameState: event.value
             });
         }
-        
+
         if (event.type === WesketchEventType.PlaySound) {
             const volume = !event.value.global &&
                 event.value.userId === auth.currentUser().guid && event.value
