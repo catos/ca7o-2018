@@ -3,7 +3,8 @@ import { RouteComponentProps, Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import { api } from '../../Common/ApiService';
-import { Input, Button } from '../Shared/Form';
+import { Form, FormGroup, Input, Button, Label } from 'reactstrap';
+import { ChangeEvent } from 'react';
 
 interface IState {
     errorMessage: string;
@@ -42,49 +43,62 @@ export class Register extends React.Component<RouteComponentProps<{}>, IState> {
         return (
             <div className="m-4 row">
                 <div className="col-md-6 offset-md-3">
-                    <h2>Register</h2>
+                    <h2 className="mb-4">Register</h2>
                     {error}
-                    <form onSubmit={this.onSubmit} autoComplete="off">
-                        <Input
-                            name="name"
-                            label="Name"
-                            value={this.state.name}
-                            onChange={this.onFieldValueChange} />
-                        <Input
-                            name="username"
-                            label="Username"
-                            value={this.state.username}
-                            onChange={this.onFieldValueChange} />
-                        <Input
-                            type="password"
-                            name="password"
-                            label="Password"
-                            value={this.state.password}
-                            onChange={this.onFieldValueChange} />
-                        <Input
-                            type="password"
-                            name="confirmPassword"
-                            label="Confirm Password"
-                            value={this.state.confirmPassword}
-                            onChange={this.onFieldValueChange} />
-                        <div className="form-group text-center mt-4">
-                            <Button className="btn btn-primary w-100" label="Register" onClick={this.onSubmit} />
-                            <div className="mt-3">Already registered ? <Link to={'/login'}>Login here</Link></div>
-                        </div>
+                    <Form onSubmit={this.onSubmit}>
 
-                        <div className="form-group text-danger text-center text-small">
+                        <FormGroup>
+                            <Label for="name">Name</Label>
+                            <Input type="text" name="name" id="name" placeholder="Name"
+                                value={this.state.name}
+                                onChange={this.onFieldValueChange} />
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label for="username">Username</Label>
+                            <Input type="email" name="username" id="username" placeholder="Username"
+                                value={this.state.username}
+                                onChange={this.onFieldValueChange} />
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label for="password">Password</Label>
+                            <Input type="password" name="password" id="password" placeholder="password"
+                                value={this.state.password}
+                                onChange={this.onFieldValueChange} />
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label for="confirmPassword">Confirm Password</Label>
+                            <Input type="password" name="confirmPassword" id="confirmPassword" placeholder="confirmPassword"
+                                value={this.state.confirmPassword}
+                                onChange={this.onFieldValueChange} />
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Button className="btn btn-primary btn-lg w-100 mt-4" onClick={this.onSubmit}>
+                                Register
+                            </Button>
+                        </FormGroup>
+
+                        <FormGroup>
+                            <div className="mt-4 text-center">Already registered ? <Link to={'/login'}>Login here</Link></div>
+                        </FormGroup>
+
+                        <FormGroup className="text-danger text-center opacity-15 opacity-hover">
                             <a onClick={() => this.easyRegister()}>Easy register</a>
-                        </div>
-                    </form>
+                        </FormGroup>
+
+                    </Form>
                 </div>
             </div>
         );
     }
 
-    private onFieldValueChange(fieldName: string, value: string) {
+    private onFieldValueChange(event: ChangeEvent<HTMLInputElement>) {
         const nextState = {
             ...this.state,
-            [fieldName]: value
+            [event.target.name]: event.target.value
         };
         this.setState(nextState);
     }

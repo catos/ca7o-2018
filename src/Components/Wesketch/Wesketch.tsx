@@ -10,7 +10,7 @@ import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchSe
 import { WesketchSoundManager } from './WesketchSoundManager';
 
 import { Chat } from './Chat';
-import { GameSettings } from './GameSettings';
+import { Lobby } from './Lobby';
 import { Painter } from './Painter';
 import { Debug } from "./Debug";
 import { InfoBar } from './InfoBar';
@@ -106,7 +106,7 @@ export class Wesketch extends React.Component<{}, IState> {
             <div id="wesketch" className={gameState.debugMode ? 'debug-mode' : ''}>
 
                 {gameState.phase === PhaseTypes.Lobby
-                    ? <GameSettings wss={wss} />
+                    ? <Lobby gameState={gameState} wss={wss} />
                     : <Painter gameState={gameState} wss={wss} />}
 
                 <InfoBar gameState={gameState} wss={wss} />

@@ -4,9 +4,11 @@ import { Redirect, RouteComponentProps } from 'react-router-dom';
 
 import { api } from '../../Common/ApiService';
 import { auth } from '../../Common/AuthService';
-import { Input, Button } from '../Shared/Form';
+import { Button, Input, Form, FormGroup, Label, FormFeedback } from 'reactstrap';
+import { ChangeEvent } from 'react';
 
 interface IState {
+    valid: boolean;
     errorMessage: string;
     password: string;
     redirect: boolean;
@@ -18,6 +20,7 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
+            valid: true,
             errorMessage: '',
             username: '',
             password: '',
@@ -37,55 +40,63 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
     }
 
     public render() {
+        // const { valid } = this.state;
+
         if (this.state.redirect) {
             return <Redirect to={this.state.redirectUrl} />
         }
 
-        const errorMessage = this.state.errorMessage.length
-            ? <div className="alert alert-danger">{this.state.errorMessage}</div>
-            : '';
-
         return (
             <div className="m-4 row">
                 <div className="col-md-6 offset-md-3">
-                    <h2>Login</h2>
-                    {errorMessage}
-                    <form onSubmit={this.onSubmit} autoComplete="off">
-                        <Input
-                            name="username"
-                            label="Username"
-                            value={this.state.username}
-                            onChange={this.onFieldValueChange} />
-                        <Input
-                            type="password" 
-                            name="password"
-                            label="Password"
-                            value={this.state.password}
-                            onChange={this.onFieldValueChange} />
-                        <div className="form-group mt-4">
-                            <Button className="btn btn-primary w-100" label="Login" onClick={this.onSubmit} />
-                            <div className="mt-3 text-center">
+                    <h2 className="mb-4">Login</h2>
+
+                    <Form onSubmit={this.onSubmit}>
+                        <FormGroup>
+                            <Label for="username">Username</Label>
+                            <Input type="email" name="username" id="username" placeholder="Username"
+                                value={this.state.username}
+                                invalid={!this.state.valid}
+                                onChange={this.onFieldValueChange} />
+                            <FormFeedback invalid={!this.state.valid}>Invald username or password</FormFeedback>
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label for="password">Password</Label>
+                            <Input type="password" name="password" id="password" placeholder="Password"
+                                value={this.state.password}
+                                onChange={this.onFieldValueChange} />
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Button className="btn btn-primary btn-lg w-100 mt-4" onClick={this.onSubmit}>
+                                Login
+                            </Button>
+                        </FormGroup>
+
+                        <FormGroup>
+                            <div className="mt-4 text-center">
                                 Not registered ? <Link to={'/register'}>Register here</Link>
                             </div>
-                        </div>
+                        </FormGroup>
 
-                        <div className="form-group text-danger text-center">
+                        <FormGroup className="text-danger text-center opacity-15 opacity-hover">
                             <a onClick={() => this.easyLogin('cskogholt@gmail.com', 'monzter1')}>cskogholt@gmail.com</a>
                             <span className="ml-2 mr-2">|</span>
                             <a onClick={() => this.easyLogin('test@gmail.com', 'test123')}>test@gmail.com</a>
                             <span className="ml-2 mr-2">|</span>
                             <a onClick={() => this.easyLogin('notfound@gmail.com', 'monzter1')}>notfound@gmail.com</a>
-                        </div>
-                    </form>
+                        </FormGroup>
+                    </Form>
                 </div>
             </div>
         );
     }
 
-    private onFieldValueChange(fieldName: string, value: string) {
+    private onFieldValueChange(event: ChangeEvent<HTMLInputElement>) {
         const nextState = {
             ...this.state,
-            [fieldName]: value
+            [event.target.name]: event.target.value
         };
         this.setState(nextState);
     }
@@ -104,18 +115,16 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
                     : '';
 
                 this.setState({
+                    valid: false,
                     errorMessage: errors
                 });
-                console.log(errors);
             });
     }
 
     private easyLogin(username: string, password: string) {
         this.setState({
-            password,
-            username
-        })
+            username,
+            password
+        });
     }
-
-
 }

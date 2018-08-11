@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { IPlayer } from './IPlayer';
-import { PhaseTypes } from './PhaseTypes';
 import { snip } from '../../Common/Utils';
 import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
 import { ChatMessage } from './ChatMessage';
@@ -44,7 +43,7 @@ export class Chat extends React.Component<IProps, IState> {
     }
 
     public render() {
-        const { players, phase } = this.props.gameState;
+        const { players } = this.props.gameState;
         const sortedPlayers = players.sort((a: IPlayer, b: IPlayer) => {
             return a.score > b.score ? -1 : b.score > a.score ? 1 : 0;
         });
@@ -77,11 +76,6 @@ export class Chat extends React.Component<IProps, IState> {
                             </div>
                         )}
                     </div>
-                    {phase === PhaseTypes.Lobby
-                        ?
-                        <button className="btn btn-light im-ready"
-                            onClick={this.togglePlayerReady}>I'm ready!</button>
-                        : ''}
                 </div>
 
                 <div className="messages-wrapper">
@@ -159,17 +153,6 @@ export class Chat extends React.Component<IProps, IState> {
     private scrollDown() {
         if (this.messagesEl !== null) {
             this.messagesEl.scrollTop = this.messagesEl.scrollHeight - this.messagesEl.clientHeight;
-        }
-    }
-
-    private togglePlayerReady = () => {
-        const { gameState } = this.props;
-        const player = gameState.players.find(p => p.userId === auth.currentUser().guid);
-
-        if (player !== undefined
-            && gameState.phase === PhaseTypes.Lobby
-            && !gameState.players.every(p => p.isReady)) {
-            this.props.wss.emit(WesketchEventType.PlayerReady, player);
         }
     }
 }
