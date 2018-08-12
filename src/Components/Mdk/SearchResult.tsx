@@ -1,7 +1,8 @@
 import * as React from 'react';
 
+import { api } from 'src/Common/ApiService';
+import { IRecipe } from './RecipesDb';
 import { SearchResultItem } from './SearchResultItem';
-import { RECIPES, IRecipe } from './RecipesDb';
 
 interface IProps {
     onClick: ((recipe: IRecipe) => void);
@@ -22,9 +23,16 @@ export class SearchResult extends React.Component<IProps, IState> {
     }
 
     public componentDidMount() {
-        this.setState({
-            recipes: RECIPES
-        });
+        api.get('/api/recipes')
+            .then(response => {
+                this.setState({
+                    recipes: response as IRecipe[]
+                })
+            })
+            .catch(error => console.log(error));
+        // this.setState({
+        //     recipes: RECIPES
+        // });
     }
 
     public render() {

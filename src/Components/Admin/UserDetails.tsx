@@ -7,9 +7,7 @@ import { Form, FormGroup, Input, Label, FormFeedback, Button } from 'reactstrap'
 import { ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 
-interface IProps extends RouteComponentProps<any> {
-
-}
+interface IProps extends RouteComponentProps<any> { }
 
 interface IState {
     user: IUser;

@@ -9,6 +9,7 @@ import { Register } from "../Account/Register";
 import { UserList } from "../Admin/UserList";
 import { UserDetails } from "../Admin/UserDetails";
 import { RecipeList } from "../Admin/RecipeList";
+import { RecipeDetails } from "../Admin/RecipeDetails";
 
 import { Wesketch } from "../Wesketch/Wesketch";
 import { Mdk } from "../Mdk/Mdk";
@@ -25,7 +26,8 @@ export class Routes extends React.Component {
 
                 <Route exact={true} path="/users" component={UserList} />
                 <Route path="/users/:id" component={UserDetails} />
-                <Route path="/recipes" component={RecipeList} />
+                <Route exact={true} path="/recipes" component={RecipeList} />
+                <Route path="/recipes/:id" component={RecipeDetails} />
 
                 <Route path="/register" component={Register} />
                 <Route path="/mdk" component={Mdk} />

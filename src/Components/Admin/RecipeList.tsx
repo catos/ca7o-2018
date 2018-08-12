@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import * as moment from 'moment';
 
+import { snip } from '../../Common/Utils';
 import { api } from '../../Common/ApiService';
 import { IRecipe } from '../../Models/Recipe';
 import { IngredientTypes } from '../../Models/Ingredient';
-import { snip } from '../../Common/Utils';
 
 interface IState {
     recipes: IRecipe[]
@@ -49,7 +50,7 @@ export class RecipeList extends React.Component<{}, IState> {
                             <tr key={idx}>
                                 <td>{recipe.guid}</td>
                                 <td>{moment(recipe.created).format('YYYY-MM-DD')}</td>
-                                <td>{recipe.name}</td>
+                                <td><Link to={`/recipes/${recipe.guid}`}>{recipe.name}</Link></td>
                                 <td>{recipe.tags.join(', ')}</td>
                                 <td>{snip(recipe.thumbnail, 15)}</td>
                                 <td>{recipe.description}</td>
