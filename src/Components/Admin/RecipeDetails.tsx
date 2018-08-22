@@ -1,11 +1,13 @@
 import * as React from 'react';
+import { ChangeEvent } from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
+import { Form, FormGroup, Label, Input, FormFeedback, Button, FormText } from 'reactstrap';
+
+import './Recipe.css';
 
 import { api } from '../../Common/ApiService';
 import { Link } from 'react-router-dom';
-import { Form, FormGroup, Label, Input, FormFeedback, Button } from 'reactstrap';
-import { ChangeEvent } from 'react';
-import { IIngredient } from './RecipeIngredientDetails';
+import { IIngredient, RecipeIngredientDetails } from './RecipeIngredientDetails';
 
 export interface IRecipe {
     guid: string;
@@ -56,27 +58,20 @@ export class RecipeDetails extends React.Component<IProps, IState> {
     }
 
     public componentDidMount() {
-        api.get(`/api/recipes/${this.props.match.params.id}`)
-            .then(result => {
-                const recipe = result as IRecipe;
-                this.setState({ recipe });
-            })
-            .catch(error => console.log(error));
+        this.getRecipe();
     }
 
     public render() {
         const { recipe } = this.state;
-        const ingredientTypesKeys = Object.keys(IngredientTypes)
-            .filter(p => typeof IngredientTypes[p as any] === "number");
 
         if (this.state.redirect) {
             return <Redirect to={'/recipes'} />
         }
 
         return (
-            <div className="m-4">
-                <h2>Edit details for: {recipe.name}</h2>
-                <Link className="mb-4" to={'/recipes'}>Back to list</Link>
+            <div className="m-4 recipe-details">
+                <h2>Edit recipe <small><Link to={'/recipes'}>Back to list</Link></small></h2>
+                
                 <Form className="needs-validation was-validated" noValidate={true}>
                     <FormGroup>
                         <Label for="name">Name</Label>
@@ -86,11 +81,19 @@ export class RecipeDetails extends React.Component<IProps, IState> {
                         <FormFeedback valid={false}>A name is required</FormFeedback>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="tags">Tags</Label>
-                        <Input type="text" name="tags" id="tags" placeholder="Tags"
-                            value={recipe.tags}
-                            onChange={this.onFieldValueChange} />
-                        <FormFeedback valid={false}>Tags are required</FormFeedback>
+                        <label>Tags</label>
+                        <div className="tags">
+                            {recipe.tags.map((tag, tid) =>
+                                <span key={tid} className="badge badge-dark mr-1"
+                                    onClick={() => this.removeTag(tag)}>{tag}</span>
+                            )}
+
+                            <span className="badge badge-success ml-2">Add tag</span>
+                        </div>
+                        <FormText color="muted">
+                            Click on a tag to remove it. Add new tags by typing in the input.
+                        </FormText>
+                        <Input type="text" name="new-tag" id="new-tag" placeholder="Enter new tag" onKeyUp={this.addTag} />
                     </FormGroup>
                     <FormGroup>
                         <Label for="thumbnail">Thumbnail</Label>
@@ -111,47 +114,31 @@ export class RecipeDetails extends React.Component<IProps, IState> {
                         <Input type="number" name="time" id="time" placeholder="Time"
                             value={recipe.time}
                             onChange={this.onFieldValueChange} />
+                        <FormText color="muted">
+                            Time to make (in minutes)
+                        </FormText>
                         <FormFeedback valid={false}>Thumbnail is required</FormFeedback>
                     </FormGroup>
 
-                    {/* <div className="p-3 bg-light">
+                    <div className="p-3 mb-3 bg-light">
                         <h4>Ingredients</h4>
-                        {recipe.ingredients.map((ingredient, idx) =>
-                            <RecipeIngredientDetails key={idx} ingredient={ingredient} onChange={this.updateIngredient} />
-                        )}
-                    </div> */}
-                    {recipe.ingredients.map((ingredient, iidx) =>
-                        <div key={iidx}>
-                            <FormGroup>
-                                <Input type="text" name="quantity" id="quantity" placeholder="Quantity"
-                                    value={ingredient.quantity}
-                                    onChange={this.onFieldValueChange} />
-                                <FormFeedback valid={false}>A quantity is required</FormFeedback>
-                            </FormGroup>
-                            <FormGroup>
-                                <Input type="text" name="unit" id="unit" placeholder="Unit"
-                                    value={ingredient.unit}
-                                    onChange={this.onFieldValueChange} />
-                                <FormFeedback valid={false}>A unit is required</FormFeedback>
-                            </FormGroup>
-                            <FormGroup>
-                                <Input type="text" name="name" id="name" placeholder="Name"
-                                    value={ingredient.name}
-                                    onChange={this.onFieldValueChange} />
-                                <FormFeedback valid={false}>A name is required</FormFeedback>
-                            </FormGroup>
-                            <FormGroup>
-                                <Input type="select" name="type" id="type" placeholder="Type"
-                                    value={ingredient.type}
-                                    onChange={this.onFieldValueChange}>
-                                    {ingredientTypesKeys.map((key, idx) =>
-                                        <option key={idx} value={IngredientTypes[key]}>{key}</option>
-                                    )}
-                                </Input>
-                                <FormFeedback valid={false}>A name is required</FormFeedback>
-                            </FormGroup>
-                        </div>
-                    )}
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {recipe.ingredients.map((ingredient, idx) =>
+                                    <RecipeIngredientDetails key={idx} ingredient={ingredient}
+                                        onChange={this.updateIngredient} />
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
 
                     <FormGroup>
                         <Button className="btn btn-primary" label="Save" onClick={this.onSave}>
@@ -161,6 +148,17 @@ export class RecipeDetails extends React.Component<IProps, IState> {
                 </Form>
             </div>
         );
+    }
+
+    private getRecipe = () => {
+        api.get(`/api/recipes/${this.props.match.params.id}`)
+            .then(result => {
+                const recipe = result as IRecipe;
+                console.log(recipe);
+
+                this.setState({ recipe });
+            })
+            .catch(error => console.log(error));
     }
 
     private onFieldValueChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -175,29 +173,39 @@ export class RecipeDetails extends React.Component<IProps, IState> {
     }
 
     private onSave = () => {
-        const recipe = this.state.recipe;
-        const updatedRecipe = {
-            name: recipe.name,
-            tags: recipe.tags
-        };
-
-        api.put(`/api/recipes/${this.state.recipe.guid}`, updatedRecipe)
-            .then(result => {
-                this.setState({
-                    redirect: true
-                });
+        api.put(`/api/recipes/${this.state.recipe.guid}`, this.state.recipe)
+            .then(_ => {
+                this.getRecipe();
             })
             .catch(error => console.log(error));
     }
 
-    // private updateIngredient = (ingredient: IIngredient) => {
-    //     // console.log(this.state.recipe.ingredients.map(i => {
-    //     //     if (i.name === ingredient.name) {
+    private updateIngredient = (ingredient: IIngredient) => {
+        const newIngredients = this.state.recipe.ingredients
+            .map(i => i._id === ingredient._id ? ingredient : i);
 
-    //     //     }
-    //     // }));
+        const recipe = this.state.recipe;
+        recipe.ingredients = newIngredients;
 
-    //     console.log(ingredient);
-    // }
+        this.setState({
+            recipe
+        });
+    }
+
+    private addTag = (event: any) => {
+        if (event.which === 13) {
+            const recipe = this.state.recipe;
+            recipe.tags.push(event.target.value);
+            this.setState({ recipe });
+
+            event.target.value = '';
+        }
+    }
+
+    private removeTag = (tag: string) => {
+        const recipe = this.state.recipe;
+        recipe.tags = recipe.tags.filter(p => p !== tag);
+        this.setState({ recipe });
+    }
 
 }

@@ -1,11 +1,11 @@
 import * as React from 'react';
 
 import { IngredientTypes } from './RecipeDetails';
-import { FormGroup, Input } from 'reactstrap';
-import FormFeedback from 'reactstrap/lib/FormFeedback';
+import { Input } from 'reactstrap';
 import { ChangeEvent } from 'react';
 
 export interface IIngredient {
+    _id: string;
     quantity: number;
     unit: string;
     name: string;
@@ -17,63 +17,76 @@ interface IProps {
     onChange: ((ingredient: IIngredient) => void);
 }
 
-export class RecipeIngredientDetails extends React.Component<IProps, {}> {
+interface IState {
+    editMode: boolean;
+}
+
+export class RecipeIngredientDetails extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
+
+        this.state = {
+            editMode: false
+        };
     }
 
     public render() {
+        const { ingredient } = this.props;
+
         const ingredientTypesKeys = Object.keys(IngredientTypes)
             .filter(p => typeof IngredientTypes[p as any] === "number");
 
-        return (
-            <div>
-                <FormGroup>
+        const output = this.state.editMode
+            ? <tr
+                onClick={this.showForm}
+                onBlur={this.hideForm}>
+                <td>
                     <Input type="text" name="quantity" id="quantity" placeholder="Quantity"
-                        value={this.props.ingredient.quantity}
+                        value={ingredient.quantity}
                         onChange={this.onFieldValueChange} />
-                    <FormFeedback valid={false}>A quantity is required</FormFeedback>
-                </FormGroup>
-                <FormGroup>
+                </td>
+                <td>
                     <Input type="text" name="unit" id="unit" placeholder="Unit"
-                        value={this.props.ingredient.unit}
+                        value={ingredient.unit}
                         onChange={this.onFieldValueChange} />
-                    <FormFeedback valid={false}>A unit is required</FormFeedback>
-                </FormGroup>
-                <FormGroup>
+                </td>
+                <td>
                     <Input type="text" name="name" id="name" placeholder="Name"
-                        value={this.props.ingredient.name}
+                        value={ingredient.name}
                         onChange={this.onFieldValueChange} />
-                    <FormFeedback valid={false}>A name is required</FormFeedback>
-                </FormGroup>
-                <FormGroup>
+                </td>
+                <td>
                     <Input type="select" name="type" id="type" placeholder="Type"
-                        value={this.props.ingredient.type}
+                        value={ingredient.type}
                         onChange={this.onFieldValueChange}>
-                        {ingredientTypesKeys.map((key, idx) => 
+                        {ingredientTypesKeys.map((key, idx) =>
                             <option key={idx} value={IngredientTypes[key]}>{key}</option>
                         )}
                     </Input>
-                    <FormFeedback valid={false}>A name is required</FormFeedback>
-                </FormGroup>
-            </div>
-        );
+                </td>
+            </tr>
+            : <tr
+                onClick={this.showForm}
+                onBlur={this.hideForm}>
+                <td>{ingredient.quantity}</td>
+                <td>{ingredient.unit}</td>
+                <td>{ingredient.name}</td>
+                <td>{IngredientTypes[ingredient.type]}</td>
+            </tr>;
+
+        return output;
     }
 
     private onFieldValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.name + ', ' + event.target.value, this.props.ingredient[event.target.name]);
         this.props.ingredient[event.target.name] = event.target.value;
         this.props.onChange(this.props.ingredient);
-
-        // const nextState = {
-        //     ...this.state,
-        //     user: {
-        //         ...this.state.user,
-        //         [event.target.name]: event.target.value
-        //     }
-        // };
-        // this.setState(nextState);
     }
 
+    private showForm = () => {
+        this.setState({ editMode: true });
+    }
 
+    private hideForm = () => {
+        this.setState({ editMode: false });
+    }
 }

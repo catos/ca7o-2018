@@ -33,26 +33,28 @@ export class RecipeList extends React.Component<{}, IState> {
         return (
             <div className="m-4">
                 <h2>Recipes</h2>
-                <table className="table table-sm table-bordered">
-                    <tbody>
+                <table className="table">
+                    <thead>
                         <tr>
-                            <th>Created</th>
                             <th>Name</th>
-                            <th>Tags</th>
-                            <th>Thumbnail</th>
                             <th>Description</th>
-                            <th>Time</th>
-                            <th>Ingredients</th>
+                            <th>Created</th>
                         </tr>
+                    </thead>
+                    <tbody>
                         {this.state.recipes.map((recipe, idx) =>
                             <tr key={idx}>
+                                <td>
+                                    <Link to={`/recipes/${recipe.guid}`}>
+                                        <span className="mr-2">{recipe.name}</span>
+                                        <span className="badge badge-info mr-2">{recipe.time} m</span>
+                                        {recipe.tags.map((tag, tid) =>
+                                            <span key={tid} className="badge badge-dark mr-1">{tag}</span>
+                                        )}
+                                    </Link>
+                                </td>
+                                <td>{snip(recipe.description, 60)}</td>
                                 <td>{moment(recipe.created).format('YYYY-MM-DD')}</td>
-                                <td><Link to={`/recipes/${recipe.guid}`}>{recipe.name}</Link></td>
-                                <td>{recipe.tags.join(', ')}</td>
-                                <td>{snip(recipe.thumbnail, 15)}</td>
-                                <td>{recipe.description}</td>
-                                <td>{recipe.time}</td>
-                                <td>{recipe.ingredients.length}</td>
                             </tr>
                         )}
                     </tbody>

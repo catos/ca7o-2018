@@ -1,3 +1,24 @@
+
+/**
+ * Bootstrap modifications
+ */
+
+/* .form-control {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding: .375rem 0;
+    background-color: inherit;
+}
+
+.form-control:focus {
+    box-shadow: 0px 2px 0 0px rgba(63,182,24,.25)!important;
+} */
+
+/**
+ * Tools
+ */
+
 .opacity-hover:hover {
     opacity: 1;
 }
@@ -14,11 +35,19 @@
     opacity: 0.5;
 }
 
+/**
+ * HTML Elements
+ */
+
 body, html, #layout {
     height: 100vh;
     background-color: #d3dbe2;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+/**
+ * Layout
+ */
 
 #header-bg {
     height: 4rem;

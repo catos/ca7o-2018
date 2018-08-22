@@ -1,0 +1,16 @@
+.recipe-details .table tr td:nth-child(1),
+.recipe-details .table tr td:nth-child(2) {
+    min-width: 6rem;
+}
+.recipe-details .table tr td:nth-child(3) {
+    width: 100%;
+}
+.recipe-details .table tr td:nth-child(4) {
+    min-width: 12rem;
+}
+
+.recipe-details .tags > span {
+    font-size: 1rem;
+    font-weight: normal;
+    cursor: pointer;
+}
