@@ -54,7 +54,7 @@ export class RecipeList extends React.Component<{}, IState> {
                                     </Link>
                                 </td>
                                 <td>{snip(recipe.description, 60)}</td>
-                                <td>{moment(recipe.created).format('YYYY-MM-DD')}</td>
+                                <td className="no-wrap">{moment(recipe.created).format('YYYY-MM-DD')}</td>
                             </tr>
                         )}
                     </tbody>

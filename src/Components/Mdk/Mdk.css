@@ -52,8 +52,9 @@
 }
 
 #mdk .week-menu-item .card-body {
-    height: 12rem;
+    height: 6rem;
     padding: 0.75rem;
+    text-align: center;
 }
 
 #mdk .week-menu-item .card-footer {
@@ -69,6 +70,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    background-color: #f1f1f1;
+    padding: 0.75rem 0;
 }
 
 #mdk .search-filters a {

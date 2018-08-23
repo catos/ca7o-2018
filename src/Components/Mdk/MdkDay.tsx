@@ -4,7 +4,6 @@ import imageIcon from '../../Images/image-icon.svg';
 
 import { IDay } from './Mdk';
 import { IRecipe } from './RecipesDb';
-import { snip } from '../../Common/Utils';
 
 interface IProps {
     day: IDay;
@@ -48,7 +47,6 @@ export class MdkDay extends React.Component<IProps, IState> {
                 <div className="card-img-top center-cropped week-thumbnail" style={{ backgroundImage: 'url(' + this.props.day.recipe.thumbnail + ')' }} />
                 <div className="card-body">
                     <h5 className="card-title">{this.props.day.recipe.name}</h5>
-                    <p className="card-text">{snip(this.props.day.recipe.description, 50)}</p>
                 </div>
                 <div className="card-footer text-muted">
                     <div className="meta"><small>{this.props.day.recipe.time} <i className="far fa-clock" /></small></div>
@@ -63,7 +61,6 @@ export class MdkDay extends React.Component<IProps, IState> {
                 </div>
                 <div className="card-body">
                     <h5 className="card-title">Tom dag, velg en oppskrift</h5>
-                    <p className="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae hic placeat eum non aliquid!</p>
                 </div>
                 <div className="card-footer text-muted">
                     <div className="meta"><small>0 <i className="far fa-clock" /></small></div>

@@ -49,7 +49,7 @@ export class RecipeDetails extends React.Component<IProps, IState> {
                 created: moment.now(),
                 name: '',
                 tags: [],
-                thumbnail: '/static/media/image-icon.svg',
+                thumbnail: '',
                 description: '',
                 time: 20,
                 ingredients: []
@@ -196,14 +196,20 @@ export class RecipeDetails extends React.Component<IProps, IState> {
 
         if (recipe.guid === null) {
             api.post('/api/recipes/', recipe)
-                .then(result => {
-                    this.getRecipe(result.id);
+                .then(_ => {
+                    // this.getRecipe(result.id);
+                    this.setState({
+                        redirect: true
+                    });
                 })
                 .catch(error => console.log(error));
         } else {
             api.put(`/api/recipes/${recipe.guid}`, recipe)
-                .then(result => {
-                    this.getRecipe(result.id);
+                .then(_ => {
+                    // this.getRecipe(result.id);
+                    this.setState({
+                        redirect: true
+                    });
                 })
                 .catch(error => console.log(error));
         }

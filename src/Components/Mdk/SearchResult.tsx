@@ -3,6 +3,7 @@ import * as React from 'react';
 import { api } from '../../Common/ApiService';
 import { IRecipe } from './RecipesDb';
 import { SearchResultItem } from './SearchResultItem';
+import { ChangeEvent } from 'react';
 
 interface IProps {
     onClick: ((recipe: IRecipe) => void);
@@ -10,6 +11,8 @@ interface IProps {
 
 interface IState {
     recipes: IRecipe[];
+    q: string;
+    time: number;
 }
 
 export class SearchResult extends React.Component<IProps, IState> {
@@ -18,21 +21,14 @@ export class SearchResult extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            recipes: []
+            recipes: [],
+            q: '',
+            time: 30
         };
     }
 
     public componentDidMount() {
-        api.get('/api/recipes')
-            .then(response => {
-                this.setState({
-                    recipes: response as IRecipe[]
-                })
-            })
-            .catch(error => console.log(error));
-        // this.setState({
-        //     recipes: RECIPES
-        // });
+        this.getRecipes();
     }
 
     public render() {
@@ -44,25 +40,32 @@ export class SearchResult extends React.Component<IProps, IState> {
                     <a href="#" className="m-1 p-2 badge badge-success">Billig</a>
                     <a href="#" className="m-1 p-2 badge badge-danger">Kos</a>
 
-                    <nav aria-label="Page navigation example">
-                        <ul className="pagination">
-                            <li className="page-item">
-                                <a className="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span className="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            {/* <li className="page-item"><a className="page-link" href="#">1</a></li>
-                            <li className="page-item"><a className="page-link" href="#">2</a></li>
-                            <li className="page-item"><a className="page-link" href="#">3</a></li> */}
-                            <li className="page-item">
-                                <a className="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span className="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <input className="form-input" type="text" name="q" placeholder="Søk i oppskrifter"
+                        value={this.state.q}
+                        onChange={this.onFieldValueChange} />
+
+                    <label htmlFor="range">Time: </label>
+                    <input type="range" id="time" name="time" min="0" max="120" step="10" 
+                        value={this.state.time} 
+                        onChange={this.onFieldValueChange} />
+                        
+                    <datalist id="time">
+                        <option value="0" label="0%" />
+                        <option value="10" />
+                        <option value="20" />
+                        <option value="30" />
+                        <option value="40" />
+                        <option value="50" label="50%" />
+                        <option value="60" />
+                        <option value="70" />
+                        <option value="80" />
+                        <option value="90" />
+                        <option value="100" />
+                        <option value="110" />
+                        <option value="120" label="120%" />
+                    </datalist>
+
+
                 </div>
                 <div className="search-result">
                     {this.state.recipes.map((recipe, idx) =>
@@ -71,5 +74,25 @@ export class SearchResult extends React.Component<IProps, IState> {
                 </div>
             </div>
         );
+    }
+
+    private onFieldValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+        console.log(event.target.name, event.target.value);
+        
+        const nextState = {
+            ...this.state,
+            [event.target.name]: event.target.value
+        };
+        this.setState(nextState, () => this.getRecipes());
+    }
+
+    private getRecipes = () => {
+        api.get(`/api/recipes?q=${this.state.q}&time=${this.state.time}`)
+            .then(response => {
+                this.setState({
+                    recipes: response as IRecipe[]
+                })
+            })
+            .catch(error => console.log(error));
     }
 }

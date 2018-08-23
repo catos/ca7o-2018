@@ -35,6 +35,10 @@
     opacity: 0.5;
 }
 
+.no-wrap {
+    white-space: nowrap;
+}
+
 /**
  * HTML Elements
  */
