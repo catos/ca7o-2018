@@ -36,8 +36,15 @@
     font-weight: 700;
 }
 
-#mdk .week-thumbnail {
-    height: 150px;
+#mdk .week-menu-item .week-thumbnail {
+    height: 8rem;
+    display: grid;
+}
+
+#mdk .week-menu-item .week-thumbnail img {
+    width: 3rem;
+    justify-self: center;
+    margin-top: 3rem;
 }
 
 #mdk .search-thumbnail {
@@ -45,6 +52,7 @@
 }
 
 #mdk .week-menu-item .card-body {
+    height: 12rem;
     padding: 0.75rem;
 }
 

@@ -14,3 +14,7 @@
     font-weight: normal;
     cursor: pointer;
 }
+
+.recipe-details .thumbnail img {
+    width: 12rem;
+}

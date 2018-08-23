@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import imageIcon from '../../Images/image-icon.svg';
+
 import { IDay } from './Mdk';
 import { IRecipe } from './RecipesDb';
 import { snip } from '../../Common/Utils';
@@ -52,8 +54,20 @@ export class MdkDay extends React.Component<IProps, IState> {
                     <div className="meta"><small>{this.props.day.recipe.time} <i className="far fa-clock" /></small></div>
                 </div>
             </div>
-            : <div>
-                Tom dag, velg en oppskrift
+            : <div>                
+                <div className="title">
+                    <h1>{this.props.day.name}</h1>
+                </div>
+                <div className="card-img-top center-cropped week-thumbnail">                
+                    <img src={imageIcon} alt="Missing image" />
+                </div>
+                <div className="card-body">
+                    <h5 className="card-title">Tom dag, velg en oppskrift</h5>
+                    <p className="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae hic placeat eum non aliquid!</p>
+                </div>
+                <div className="card-footer text-muted">
+                    <div className="meta"><small>0 <i className="far fa-clock" /></small></div>
+                </div>
             </div>;
 
         return (

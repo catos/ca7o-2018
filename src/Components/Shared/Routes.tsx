@@ -6,10 +6,10 @@ import { Home } from "./Home";
 import { Login } from "../Account/Login";
 import { Register } from "../Account/Register";
 
-import { UserList } from "../Admin/UserList";
-import { UserDetails } from "../Admin/UserDetails";
-import { RecipeList } from "../Admin/RecipeList";
-import { RecipeDetails } from "../Admin/RecipeDetails";
+import { UserList } from "../Admin/User/UserList";
+import { UserDetails } from "../Admin/User/UserDetails";
+import { RecipeList } from "../Admin/Recipe/RecipeList";
+import { RecipeDetails } from "../Admin/Recipe/RecipeDetails";
 
 import { Wesketch } from "../Wesketch/Wesketch";
 import { Mdk } from "../Mdk/Mdk";

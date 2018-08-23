@@ -2,15 +2,16 @@ import * as React from 'react';
 import { ChangeEvent } from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
 import { Form, FormGroup, Label, Input, FormFeedback, Button, FormText } from 'reactstrap';
+import * as moment from 'moment';
 
 import './Recipe.css';
 
-import { api } from '../../Common/ApiService';
+import { api } from '../../../Common/ApiService';
 import { Link } from 'react-router-dom';
 import { IIngredient, RecipeIngredientDetails } from './RecipeIngredientDetails';
 
 export interface IRecipe {
-    guid: string;
+    guid: string | null;
     created: number;
     name: string;
     tags: string[],
@@ -44,13 +45,13 @@ export class RecipeDetails extends React.Component<IProps, IState> {
 
         this.state = {
             recipe: {
-                guid: '',
-                created: -1,
+                guid: null,
+                created: moment.now(),
                 name: '',
                 tags: [],
-                thumbnail: '',
+                thumbnail: '/static/media/image-icon.svg',
                 description: '',
-                time: -1,
+                time: 20,
                 ingredients: []
             },
             redirect: false
@@ -58,7 +59,13 @@ export class RecipeDetails extends React.Component<IProps, IState> {
     }
 
     public componentDidMount() {
-        this.getRecipe();
+        const id = this.props.match.params.id;
+        console.log('id', id);
+
+
+        if (id !== -1) {
+            this.getRecipe(id);
+        }
     }
 
     public render() {
@@ -71,7 +78,8 @@ export class RecipeDetails extends React.Component<IProps, IState> {
         return (
             <div className="m-4 recipe-details">
                 <h2>Edit recipe <small><Link to={'/recipes'}>Back to list</Link></small></h2>
-                
+                <div>Created: {moment(recipe.created).format('YYYY-MM-DD')}</div>
+                <hr />
                 <Form className="needs-validation was-validated" noValidate={true}>
                     <FormGroup>
                         <Label for="name">Name</Label>
@@ -82,7 +90,7 @@ export class RecipeDetails extends React.Component<IProps, IState> {
                     </FormGroup>
                     <FormGroup>
                         <label>Tags</label>
-                        <div className="tags">
+                        <div className="tags mb-3">
                             {recipe.tags.map((tag, tid) =>
                                 <span key={tid} className="badge badge-dark mr-1"
                                     onClick={() => this.removeTag(tag)}>{tag}</span>
@@ -90,18 +98,26 @@ export class RecipeDetails extends React.Component<IProps, IState> {
 
                             <span className="badge badge-success ml-2">Add tag</span>
                         </div>
+                        <Input type="text" name="new-tag" id="new-tag" placeholder="Enter new tag" onKeyUp={this.addTag} />
                         <FormText color="muted">
                             Click on a tag to remove it. Add new tags by typing in the input.
                         </FormText>
-                        <Input type="text" name="new-tag" id="new-tag" placeholder="Enter new tag" onKeyUp={this.addTag} />
                     </FormGroup>
-                    <FormGroup>
-                        <Label for="thumbnail">Thumbnail</Label>
-                        <Input type="text" name="thumbnail" id="thumbnail" placeholder="Thumbnail"
-                            value={recipe.thumbnail}
-                            onChange={this.onFieldValueChange} />
-                        <FormFeedback valid={false}>Thumbnail is required</FormFeedback>
-                    </FormGroup>
+                    <div className="row form-group thumbnail">
+                        <div className="col-8">
+                            <Label for="thumbnail">Thumbnail</Label>
+                            <Input type="text" name="thumbnail" id="thumbnail" placeholder="Thumbnail"
+                                value={recipe.thumbnail}
+                                onChange={this.onFieldValueChange} />
+                            <FormFeedback valid={false}>Thumbnail is required</FormFeedback>
+                        </div>
+                        <div className="col-4">
+                            {recipe.thumbnail.length
+                                ? <img src={recipe.thumbnail} alt={recipe.thumbnail} />
+                                : ''
+                            }
+                        </div>
+                    </div>
                     <FormGroup>
                         <Label for="description">Description</Label>
                         <Input type="textarea" name="description" id="description" placeholder="Description"
@@ -150,13 +166,14 @@ export class RecipeDetails extends React.Component<IProps, IState> {
         );
     }
 
-    private getRecipe = () => {
-        api.get(`/api/recipes/${this.props.match.params.id}`)
+    private getRecipe = (id: number) => {
+        api.get(`/api/recipes/${id}`)
             .then(result => {
                 const recipe = result as IRecipe;
                 console.log(recipe);
-
-                this.setState({ recipe });
+                if (recipe !== null) {
+                    this.setState({ recipe });
+                }
             })
             .catch(error => console.log(error));
     }
@@ -173,11 +190,23 @@ export class RecipeDetails extends React.Component<IProps, IState> {
     }
 
     private onSave = () => {
-        api.put(`/api/recipes/${this.state.recipe.guid}`, this.state.recipe)
-            .then(_ => {
-                this.getRecipe();
-            })
-            .catch(error => console.log(error));
+        const { recipe } = this.state;
+
+        console.log(recipe.guid);
+
+        if (recipe.guid === null) {
+            api.post('/api/recipes/', recipe)
+                .then(result => {
+                    this.getRecipe(result.id);
+                })
+                .catch(error => console.log(error));
+        } else {
+            api.put(`/api/recipes/${recipe.guid}`, recipe)
+                .then(result => {
+                    this.getRecipe(result.id);
+                })
+                .catch(error => console.log(error));
+        }
     }
 
     private updateIngredient = (ingredient: IIngredient) => {

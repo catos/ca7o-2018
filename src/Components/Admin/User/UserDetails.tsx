@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
 
-import { api } from '../../Common/ApiService';
-import { IUser, UserTypes } from '../../Models/User';
+import { api } from '../../../Common/ApiService';
+import { IUser, UserTypes } from '../../../Models/User';
 import { Form, FormGroup, Input, Label, FormFeedback, Button } from 'reactstrap';
 import { ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';

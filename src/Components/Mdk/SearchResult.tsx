@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { api } from 'src/Common/ApiService';
+import { api } from '../../Common/ApiService';
 import { IRecipe } from './RecipesDb';
 import { SearchResultItem } from './SearchResultItem';
 
