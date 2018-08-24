@@ -67,16 +67,35 @@
 }
 
 #mdk .search-filters {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 20rem auto 20rem;
     background-color: #f1f1f1;
     padding: 0.75rem 0;
 }
 
-#mdk .search-filters a {
-    border-radius: 0.25rem;
+#mdk .search-filters > div {
+    align-self: center;
+    text-align: center;
 }
+
+#mdk .search-filters .filter-time {
+    padding: 5px 0;
+}
+
+#mdk .search-filters .filter-time > * {
+    vertical-align: middle;
+}
+
+#mdk .search-filters .filter-tags a {
+    border-radius: 0.25rem;
+    margin: 0.25rem;
+    padding: 0.5rem;
+}
+
+#mdk .search-filters .filter-tags a.selected {
+    background-color: green;
+}
+
 
 #mdk .search-result {
     display: flex;
