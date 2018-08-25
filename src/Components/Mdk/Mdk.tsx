@@ -1,20 +1,17 @@
+import { IDay } from './IDay';
+
 import * as React from 'react';
 
 import './Mdk.css';
-import { IRecipe } from './RecipesDb';
 
 import { MdkDay } from './MdkDay';
 import { SearchResult } from './SearchResult';
-
-export interface IDay {
-    name: string;
-    recipe: IRecipe | null;
-    selected: boolean;
-}
+import { IIngredient } from '../../Models/IIngredient';
+import { IRecipe } from '../../Models/IRecipe';
 
 interface IState {
     days: IDay[];
-    shoppingList: string[];
+    shoppingList: IIngredient[];
     showShoppingList: boolean;
 }
 
@@ -23,10 +20,9 @@ export class Mdk extends React.Component<{}, IState> {
         super(props);
 
         this.state = {
-            // recipes: [],
             days: [],
             shoppingList: [],
-            showShoppingList: false
+            showShoppingList: true
         }
 
         this.onDropReplaceRecipe = this.onDropReplaceRecipe.bind(this);
@@ -34,7 +30,6 @@ export class Mdk extends React.Component<{}, IState> {
     }
 
     public componentDidMount() {
-        // const recipes = RECIPES.sort(() => .5 - Math.random()).slice(0, 5);
         const days = [
             { name: 'Mandag', recipe: null, selected: false },
             { name: 'Tirsdag', recipe: null, selected: false },
@@ -56,7 +51,7 @@ export class Mdk extends React.Component<{}, IState> {
                 <div className="shopping-list">
                     <ul>
                         {this.state.shoppingList.sort().map((item, idx) =>
-                            <li key={idx}>{item}</li>
+                            <li key={idx}>{item.quantity} {item.unit} - {item.name}</li>
                         )}
                     </ul>
                 </div>
@@ -127,14 +122,22 @@ export class Mdk extends React.Component<{}, IState> {
             return d;
         });
 
+        const ingredients = this.getIngredients(days);
         this.setState({
             days,
-            shoppingList: this.getIngredients(days)
+            shoppingList: ingredients
         });
+
+        console.log(ingredients);
+
     }
 
-    private getIngredients(days: IDay[]): string[] {
-        let ingredients: string[] = [];
+
+
+    private getIngredients(days: IDay[]): IIngredient[] {
+        console.log(days);
+
+        let ingredients: IIngredient[] = [];
         days.map(day => {
             if (day.recipe !== null) {
                 ingredients = ingredients.concat(day.recipe.ingredients)

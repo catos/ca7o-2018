@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-import { IRecipe } from './RecipesDb';
+import { IRecipe } from '../../Models/IRecipe';
 
 interface IProps {
     recipe: IRecipe;

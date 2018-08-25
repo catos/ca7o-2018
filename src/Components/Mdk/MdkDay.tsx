@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import imageIcon from '../../Images/image-icon.svg';
 
-import { IDay } from './Mdk';
-import { IRecipe } from './RecipesDb';
+import { IDay } from "./IDay";
+import { IRecipe } from '../../Models/IRecipe';
 
 interface IProps {
     day: IDay;

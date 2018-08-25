@@ -4,7 +4,7 @@ import * as moment from 'moment';
 
 import { snip } from '../../../Common/Utils';
 import { api } from '../../../Common/ApiService';
-import { IRecipe } from '../../../Models/Recipe';
+import { IRecipe } from '../../../Models/IRecipe';
 
 interface IState {
     recipes: IRecipe[]

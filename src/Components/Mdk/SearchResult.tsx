@@ -2,8 +2,8 @@ import * as React from 'react';
 import { ChangeEvent, KeyboardEvent, MouseEvent } from 'react';
 
 import { api } from '../../Common/ApiService';
-import { IRecipe } from './RecipesDb';
 import { SearchResultItem } from './SearchResultItem';
+import { IRecipe } from '../../Models/IRecipe';
 
 interface IProps {
     onClick: ((recipe: IRecipe) => void);
@@ -17,16 +17,17 @@ interface IState {
 }
 
 export class SearchResult extends React.Component<IProps, IState> {
+    private readonly defaultState = {
+        recipes: [],
+        tags: [],
+        q: '',
+        time: 30
+    };
 
     constructor(props: IProps) {
         super(props);
 
-        this.state = {
-            recipes: [],
-            tags: [],
-            q: '',
-            time: 30
-        };
+        this.state = this.defaultState;
     }
 
     public componentDidMount() {
@@ -36,18 +37,15 @@ export class SearchResult extends React.Component<IProps, IState> {
     public render() {
         const { tags } = this.state;
 
-        console.log(tags.includes('sunn'));
-
-
         return (
             <div>
                 <div className="search-filters">
 
                     <div className="filter-tags">
-                        <a href="#" className={"badge badge-dark" + (tags.includes('sunn') ? ' selected' : '')} onClick={this.toggleTag}>Sunn</a>
-                        <a href="#" className={"badge badge-dark" + (tags.includes('rask') ? ' selected' : '')} onClick={this.toggleTag}>Rask</a>
-                        <a href="#" className={"badge badge-dark" + (tags.includes('kos') ? ' selected' : '')} onClick={this.toggleTag}>Kos</a>
-                        <a href="#" className={"badge badge-primary" + (tags.includes('fisk') ? ' selected' : '')} onClick={this.toggleTag}>Fisk</a>
+                        <span className={"badge badge-dark" + (tags.includes('sunn') ? ' selected' : '')} onClick={this.toggleTag}>Sunn</span>
+                        <span className={"badge badge-dark" + (tags.includes('rask') ? ' selected' : '')} onClick={this.toggleTag}>Rask</span>
+                        <span className={"badge badge-dark" + (tags.includes('kos') ? ' selected' : '')} onClick={this.toggleTag}>Kos</span>
+                        <span className={"badge badge-primary" + (tags.includes('fisk') ? ' selected' : '')} onClick={this.toggleTag}>Fisk</span>
                     </div>
 
                     <div className="filter-search">
@@ -55,6 +53,7 @@ export class SearchResult extends React.Component<IProps, IState> {
                             value={this.state.q}
                             onChange={this.onFieldValueChange}
                             onKeyUp={this.onKeyUpSearch} />
+                        <button className="btn btn-primary" onClick={this.resetFilters}>Reset</button>
                     </div>
 
                     <div className="filter-time">
@@ -81,8 +80,6 @@ export class SearchResult extends React.Component<IProps, IState> {
             ...this.state,
             [event.target.name]: event.target.value
         };
-        console.log(nextState);
-
         this.setState(nextState);
     }
 
@@ -111,7 +108,7 @@ export class SearchResult extends React.Component<IProps, IState> {
 
             this.setState({ tags }, () => this.getRecipes());
 
-            
+
         }
     }
 
@@ -123,5 +120,11 @@ export class SearchResult extends React.Component<IProps, IState> {
                 })
             })
             .catch(error => console.log(error));
+    }
+
+    private resetFilters = () => {
+        this.setState(
+            this.defaultState,
+            () => this.getRecipes());
     }
 }

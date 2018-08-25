@@ -86,13 +86,13 @@
     vertical-align: middle;
 }
 
-#mdk .search-filters .filter-tags a {
+#mdk .search-filters .filter-tags > * {
     border-radius: 0.25rem;
     margin: 0.25rem;
     padding: 0.5rem;
 }
 
-#mdk .search-filters .filter-tags a.selected {
+#mdk .search-filters .filter-tags > *.selected {
     background-color: green;
 }
 

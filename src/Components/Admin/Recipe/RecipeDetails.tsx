@@ -8,29 +8,9 @@ import './Recipe.css';
 
 import { api } from '../../../Common/ApiService';
 import { Link } from 'react-router-dom';
-import { IIngredient, RecipeIngredientDetails } from './RecipeIngredientDetails';
-
-export interface IRecipe {
-    guid: string | null;
-    created: number;
-    name: string;
-    tags: string[],
-    thumbnail: string;
-    description: string;
-    time: number,
-    ingredients: IIngredient[];
-}
-
-export enum IngredientTypes {
-    Vegetables = 0,
-    Fruit = 1,
-    Grain = 2,
-    Meat = 3,
-    Dairy = 4,
-    Spice = 5,
-    Sauce = 6,
-    Canned = 7,
-}
+import { RecipeIngredientDetails } from './RecipeIngredientDetails';
+import { IRecipe } from '../../../Models/IRecipe';
+import { IIngredient } from '../../../Models/IIngredient';
 
 interface IProps extends RouteComponentProps<any> { }
 

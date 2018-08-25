@@ -1,16 +1,9 @@
 import * as React from 'react';
 
-import { IngredientTypes } from './RecipeDetails';
+import { IngredientTypes } from "../../../Models/IngredientTypes";
 import { Input } from 'reactstrap';
 import { ChangeEvent } from 'react';
-
-export interface IIngredient {
-    _id: string;
-    quantity: number;
-    unit: string;
-    name: string;
-    type: IngredientTypes;
-}
+import { IIngredient } from '../../../Models/IIngredient';
 
 interface IProps {
     ingredient: IIngredient;

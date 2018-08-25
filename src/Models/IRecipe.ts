@@ -1,12 +1,12 @@
-import { IIngredient } from "./Ingredient";
+import { IIngredient } from "./IIngredient";
 
 export interface IRecipe {
-    guid: string;
+    guid: string | null;
     created: number;
     name: string;
-    tags: string[],
+    tags: string[];
     thumbnail: string;
     description: string;
-    time: number,
+    time: number;
     ingredients: IIngredient[];
 }

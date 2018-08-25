@@ -6,11 +6,5 @@ export enum IngredientTypes {
     Dairy = 4,
     Spice = 5,
     Sauce = 6,
-}
-
-export interface IIngredient {
-    quantity: number;
-    unit: string;
-    name: string;
-    type: IngredientTypes
+    Canned = 7
 }
