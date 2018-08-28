@@ -15,17 +15,18 @@
 }
 
 #mdk .week-menu-item {
-    width: 10rem;
+    width: 11rem;
     cursor: pointer;
     background-color: whitesmoke;
     display: grid;
-    grid-template-rows: 2rem 8rem 4rem 2rem;
+    grid-template-rows: 2rem 8rem 5rem 2rem;
     align-items: center;
 }
 
 #mdk .week-menu-item.drag-over, 
 #mdk .week-menu-item.selected {
-    background-color: #f1f1f1;
+    background-color: #e2e2e2;
+    border: 4px solid #afafaf;
 }
 
 #mdk .week-menu-item .day-name {
@@ -34,6 +35,7 @@
 }
 
 #mdk .week-menu-item .recipe-name {
+    padding: 1rem 0;
     text-align: center;
     text-transform: uppercase;
     font-weight: 500;

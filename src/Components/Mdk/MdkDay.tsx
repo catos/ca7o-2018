@@ -62,7 +62,18 @@ export class MdkDay extends React.Component<IProps, IState> {
                         : 'Tom dag, velg en oppskrift'}
                 </div>
                 <div className="recipe-meta">
-                    {day.recipe !== null ? <span>{day.recipe.time} <i className="far fa-clock" /></span> : ''} 
+                    {day.recipe !== null
+                        ? <div>
+                            <span>{day.recipe.time} <i className="far fa-clock" /></span>
+
+                            {day.recipe.url !== undefined && day.recipe.url.indexOf('meny.no') !== -1 
+                                ? <a href={day.recipe.url}><span className="badge badge-danger ml-3">MENY</span></a>
+                                : ''
+                            }
+                            
+                        </div>
+                        : ''
+                    }
                 </div>
 
             </div>

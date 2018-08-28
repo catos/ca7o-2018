@@ -6,6 +6,7 @@ export interface IRecipe {
     name: string;
     tags: string[];
     thumbnail: string;
+    url: string;
     description: string;
     time: number;
     ingredients: IIngredient[];

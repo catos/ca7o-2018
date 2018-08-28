@@ -30,6 +30,7 @@ export class RecipeDetails extends React.Component<IProps, IState> {
                 name: '',
                 tags: [],
                 thumbnail: '',
+                url: '',
                 description: '',
                 time: 20,
                 ingredients: []
@@ -103,7 +104,14 @@ export class RecipeDetails extends React.Component<IProps, IState> {
                         <Input type="textarea" name="description" id="description" placeholder="Description"
                             value={recipe.description}
                             onChange={this.onFieldValueChange} />
-                        <FormFeedback valid={false}>Thumbnail is required</FormFeedback>
+                        <FormFeedback valid={false}>Description is required</FormFeedback>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="url">Url</Label>
+                        <Input type="text" name="url" id="url" placeholder="url"
+                            value={recipe.url}
+                            onChange={this.onFieldValueChange} />
+                        <FormFeedback valid={false}>url is required</FormFeedback>
                     </FormGroup>
                     <FormGroup>
                         <Label for="time">Time</Label>
