@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import imageIcon from '../../Images/image-icon.svg';
+// import imageIcon from '../../Images/image-icon.svg';
 
 import { IDay } from "./IDay";
 import { IRecipe } from '../../Models/IRecipe';
@@ -30,7 +30,9 @@ export class MdkDay extends React.Component<IProps, IState> {
     }
 
     public render() {
-        let className = "card w-20 week-menu-item";
+        const { day } = this.props;
+
+        let className = "w-20 week-menu-item";
         if (this.props.day.selected) {
             className += " selected"
         }
@@ -39,43 +41,29 @@ export class MdkDay extends React.Component<IProps, IState> {
             className += " drag-over"
         }
 
-        const dayContents = this.props.day.recipe !== null
-            ? <div>
-                <div className="title">
-                    <h1>{this.props.day.name}</h1>
-                </div>
-                <div className="card-img-top center-cropped week-thumbnail" style={{ backgroundImage: 'url(' + this.props.day.recipe.thumbnail + ')' }} />
-                <div className="card-body">
-                    <h5 className="card-title">{this.props.day.recipe.name}</h5>
-                </div>
-                <div className="card-footer text-muted">
-                    <div className="meta"><small>{this.props.day.recipe.time} <i className="far fa-clock" /></small></div>
-                </div>
-            </div>
-            : <div>                
-                <div className="title">
-                    <h1>{this.props.day.name}</h1>
-                </div>
-                <div className="card-img-top center-cropped week-thumbnail">                
-                    <img src={imageIcon} alt="Missing image" />
-                </div>
-                <div className="card-body">
-                    <h5 className="card-title">Tom dag, velg en oppskrift</h5>
-                </div>
-                <div className="card-footer text-muted">
-                    <div className="meta"><small>0 <i className="far fa-clock" /></small></div>
-                </div>
-            </div>;
+        const thumbnail = day.recipe !== null ? day.recipe.thumbnail : '';
 
         return (
             <div
                 className={className}
-                onClick={() => this.props.onClick(this.props.day)}
+                onClick={() => this.props.onClick(day)}
                 onDrop={this.onDrop}
                 onDragOver={this.onDragOver}
                 onDragLeave={this.onDragLeave}
                 onDragExit={this.onDragExit}>
-                {dayContents}
+
+                <div className="day-name">
+                    {day.name}
+                </div>
+                <div className="center-cropped week-thumbnail" style={{ backgroundImage: 'url(' + thumbnail + ')' }} />
+                <div className="recipe-name">
+                    {day.recipe !== null
+                        ? day.recipe.name
+                        : 'Tom dag, velg en oppskrift'}
+                </div>
+                <div className="recipe-meta">
+                    {day.recipe !== null ? <span>{day.recipe.time} <i className="far fa-clock" /></span> : ''} 
+                </div>
 
             </div>
         );

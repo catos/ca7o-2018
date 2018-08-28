@@ -8,6 +8,7 @@ import { MdkDay } from './MdkDay';
 import { SearchResult } from './SearchResult';
 import { IIngredient } from '../../Models/IIngredient';
 import { IRecipe } from '../../Models/IRecipe';
+import { api } from '../../Common/ApiService';
 
 interface IState {
     days: IDay[];
@@ -60,8 +61,14 @@ export class Mdk extends React.Component<{}, IState> {
 
         return (
             <div id="mdk" className="m-4">
-                <h1>Ukesmeny</h1>
-                <div className="card-group week-menu">
+
+                <div>
+                    <h1>Ukesmeny</h1>
+                    <span className="badge badge-danger" onClick={this.randomWeek}>Random</span>
+                </div>
+
+
+                <div className="week-menu">
                     {this.state.days.map((day, idx) =>
                         <MdkDay key={idx}
                             day={day}
@@ -132,8 +139,6 @@ export class Mdk extends React.Component<{}, IState> {
 
     }
 
-
-
     private getIngredients(days: IDay[]): IIngredient[] {
         console.log(days);
 
@@ -145,5 +150,20 @@ export class Mdk extends React.Component<{}, IState> {
         });
 
         return ingredients;
+    }
+
+    private randomWeek = () => {
+        api.get(`/api/recipes/random-week`)
+            .then(response => {
+                // console.log(response);
+                const recipes = response as IRecipe [];
+                const days = this.state.days.map((day, i) => {
+                    day.recipe = recipes[i];
+                    return day;
+                });
+
+                this.setState({ days });
+            })
+            .catch(error => console.log(error));
     }
 }

@@ -9,8 +9,18 @@
     margin: 1rem auto;
 }
 
+#mdk .week-menu {
+    display: flex;
+    justify-content: space-around;
+}
+
 #mdk .week-menu-item {
+    width: 10rem;
     cursor: pointer;
+    background-color: whitesmoke;
+    display: grid;
+    grid-template-rows: 2rem 8rem 4rem 2rem;
+    align-items: center;
 }
 
 #mdk .week-menu-item.drag-over, 
@@ -18,22 +28,15 @@
     background-color: #f1f1f1;
 }
 
-#mdk .week-menu-item .title {
-    background-color: #000000;
-    opacity: 0.5;
-    position: absolute;
-    left: 0;
-    right: 0;
+#mdk .week-menu-item .day-name {
+    text-align: center;
+    text-transform: uppercase;
 }
 
-#mdk .week-menu-item .title h1 {
-    font-size: 1.1em;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+#mdk .week-menu-item .recipe-name {
     text-align: center;
-    margin: 0.5rem 0;
-    color: #ffffff;
-    font-weight: 700;
+    text-transform: uppercase;
+    font-weight: 500;
 }
 
 #mdk .week-menu-item .week-thumbnail {
@@ -47,18 +50,13 @@
     margin-top: 3rem;
 }
 
+#mdk .week-menu-item .recipe-meta {
+    justify-self: center;
+    font-size: 0.8rem;
+}
+
 #mdk .search-thumbnail {
     height: 50px;
-}
-
-#mdk .week-menu-item .card-body {
-    height: 6rem;
-    padding: 0.75rem;
-    text-align: center;
-}
-
-#mdk .week-menu-item .card-footer {
-    padding: 0.5rem 0.75rem;
 }
 
 #mdk .shopping-list ul {
