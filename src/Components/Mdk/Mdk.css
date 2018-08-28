@@ -9,6 +9,13 @@
     margin: 1rem auto;
 }
 
+#mdk .options {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
 #mdk .week-menu {
     display: flex;
     justify-content: space-around;

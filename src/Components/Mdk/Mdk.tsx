@@ -21,7 +21,13 @@ export class Mdk extends React.Component<{}, IState> {
         super(props);
 
         this.state = {
-            days: [],
+            days: [
+                { name: 'Mandag', recipe: null, selected: false },
+                { name: 'Tirsdag', recipe: null, selected: false },
+                { name: 'Onsdag', recipe: null, selected: false },
+                { name: 'Torsdag', recipe: null, selected: false },
+                { name: 'Fredag', recipe: null, selected: false },
+            ],
             shoppingList: [],
             showShoppingList: true
         }
@@ -31,17 +37,7 @@ export class Mdk extends React.Component<{}, IState> {
     }
 
     public componentDidMount() {
-        const days = [
-            { name: 'Mandag', recipe: null, selected: false },
-            { name: 'Tirsdag', recipe: null, selected: false },
-            { name: 'Onsdag', recipe: null, selected: false },
-            { name: 'Torsdag', recipe: null, selected: false },
-            { name: 'Fredag', recipe: null, selected: false },
-        ];
-        this.setState({
-            days,
-            shoppingList: this.getIngredients(days)
-        })
+        this.randomWeek();
     }
 
     public render() {
@@ -62,11 +58,14 @@ export class Mdk extends React.Component<{}, IState> {
         return (
             <div id="mdk" className="m-4">
 
-                <div>
-                    <h1>Ukesmeny</h1>
-                    <span className="badge badge-danger" onClick={this.randomWeek}>Random</span>
-                </div>
+                <h1>Ukesmeny</h1>
 
+                <div className="options">
+                    <span className="mr-1 badge badge-danger" onClick={this.randomWeek}>Random</span>
+                    <span className="mr-1 badge badge-danger" onClick={this.randomWeek}>Random</span>
+                    <span className="mr-1 badge badge-danger" onClick={this.randomWeek}>Random</span>
+                    <span className="mr-1 badge badge-danger" onClick={this.randomWeek}>Random</span>
+                </div>
 
                 <div className="week-menu">
                     {this.state.days.map((day, idx) =>
@@ -134,14 +133,9 @@ export class Mdk extends React.Component<{}, IState> {
             days,
             shoppingList: ingredients
         });
-
-        console.log(ingredients);
-
     }
 
     private getIngredients(days: IDay[]): IIngredient[] {
-        console.log(days);
-
         let ingredients: IIngredient[] = [];
         days.map(day => {
             if (day.recipe !== null) {
@@ -155,14 +149,14 @@ export class Mdk extends React.Component<{}, IState> {
     private randomWeek = () => {
         api.get(`/api/recipes/random-week`)
             .then(response => {
-                // console.log(response);
-                const recipes = response as IRecipe [];
+                const recipes = response as IRecipe[];
                 const days = this.state.days.map((day, i) => {
                     day.recipe = recipes[i];
                     return day;
                 });
 
-                this.setState({ days });
+                const shoppingList = this.getIngredients(days);
+                this.setState({ days, shoppingList });
             })
             .catch(error => console.log(error));
     }
