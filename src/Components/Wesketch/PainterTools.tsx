@@ -36,19 +36,15 @@ export class PainterTools extends React.Component<IProps, IState> {
         const { wss, gameState } = this.props;
 
         return (
-            <div className="tools-wrapper">
-                <div className="tools"
-                    onDragStart={this.onDragStart}
-                    onDrag={this.onDrag}>
+            <div className="tools"
+                onDragStart={this.onDragStart}
+                onDrag={this.onDrag}>
 
-                    <ClearCanvasButton wss={wss} />
-                    <div className="button fa fa-paint-brush" />
-                    <BrushSizeButton label="+" modifier={3} wss={wss} />
-                    <BrushSizeButton label="-" modifier={-3} wss={wss} />
-                    <Colors currentColor={gameState.primaryColor} wss={wss} />
-
-                    {this.state.mousePos.x}, {this.state.mousePos.y}
-                </div>
+                <ClearCanvasButton wss={wss} />
+                <div className="button fa fa-paint-brush" />
+                <BrushSizeButton label="+" modifier={3} wss={wss} />
+                <BrushSizeButton label="-" modifier={-3} wss={wss} />
+                <Colors currentColor={gameState.primaryColor} wss={wss} />
             </div>
         );
     }

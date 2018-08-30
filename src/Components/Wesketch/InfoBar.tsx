@@ -2,7 +2,6 @@ import * as React from 'react'
 
 import { IWesketchGameState } from './Wesketch';
 import { WesketchService, WesketchEventType } from './WesketchService';
-// import { PhaseTypes } from './PhaseTypes';
 import { auth } from '../../Common/AuthService';
 import { Timer } from './Timer';
 import { PhaseTypes } from './PhaseTypes';
@@ -10,6 +9,7 @@ import { PhaseTypes } from './PhaseTypes';
 interface IProps {
     gameState: IWesketchGameState;
     wss: WesketchService;
+    toggleGameEnd: () => void;
 }
 
 export class InfoBar extends React.Component<IProps, {}> {
@@ -67,6 +67,7 @@ export class InfoBar extends React.Component<IProps, {}> {
                     </div>
                     <div className="info-col info-col-5">
                         <div className="info-options">
+                            <div className="fa fa-step-forward" onClick={this.props.toggleGameEnd} />
                             <div className="fa fa-bug" onClick={this.toggleDebugMode} />
                             <div className="fa fa-power-off" onClick={this.resetGame} />
                         </div>

@@ -40,7 +40,7 @@ export class Lobby extends React.Component<IProps, IState> {
         const isReady = me !== undefined && me.isReady ? true : false;
 
         return (
-            <div id="game-settings">
+            <div id="phase-lobby">
                 <h1>Welcome to Wesketch <sup>NT</sup></h1>
                 <p className="lead">Press I'm Ready to start the game</p>
                 <ul>
@@ -50,10 +50,13 @@ export class Lobby extends React.Component<IProps, IState> {
                     <li>Drawing player also gets points when players guess correct. 10 for the first player, and 1 for the others</li>
                     <li>Drawing player may choose to give up to 3 hints. Each hints subtracts 3 points from the first guess reward (10, 7, 4, 1).</li>
                 </ul>
-                <p>
+                <div className="lobby-ready-check">
                     <button className="btn btn-dark im-ready"
-                        onClick={this.togglePlayerReady}>{ isReady ? 'I\'m ready!' : 'I\'m not ready afterall' }</button>
-                </p>
+                        onClick={this.togglePlayerReady}>
+                        {isReady ? <span className="fa fa-check-square" /> : <span className="fa fa-square" />}
+                        <span className="ml-2">I'm ready!</span>
+                    </button>
+                </div>
             </div>
         );
     }

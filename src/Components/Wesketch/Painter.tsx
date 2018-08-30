@@ -110,11 +110,6 @@ export class Painter extends React.Component<IProps, IState> {
                     onMouseMove={this.onMouseMove}
                     onMouseOut={this.onMouseOut}
                     onContextMenu={this.onContextMenu} />
-
-                <div className="debug">
-                    <div>CanDraw: {this.state.canDraw.toString()}</div>
-                    <div>Mouse: {this.state.mousePos.x}, {this.state.mousePos.y}</div>
-                </div>
             </div>
         );
     }

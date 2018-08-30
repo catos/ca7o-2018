@@ -52,6 +52,10 @@ export class RecipeList extends React.Component<{}, IState> {
                                             <span key={tid} className="badge badge-dark mr-1">{tag}</span>
                                         )}
                                     </Link>
+
+                                    {recipe.url !== undefined
+                                        ? <a href={recipe.url}><span className="badge badge-success">ext.</span></a>
+                                        : ''}
                                 </td>
                                 <td>{snip(recipe.description, 60)}</td>
                                 <td className="no-wrap">{moment(recipe.created).format('YYYY-MM-DD')}</td>

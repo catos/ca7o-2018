@@ -18,9 +18,21 @@
     background-color: crimson;
 }
 
-/*** GAME SETTINGS ***************************/
+/*** LOBBY ***************************/
 
-#game-settings {
+#phase-lobby {
+    background-color: #ffffff;
+    padding: 4rem;
+}
+
+#phase-lobby .lobby-ready-check {
+    display: flex;
+    align-items: center;
+}
+
+/*** GAME END ***************************/
+
+#phase-game-end {
     background-color: #ffffff;
     padding: 4rem;
 }
@@ -223,11 +235,6 @@
 .brush-17px {
     cursor: url(./cursors/brush-17-px.png), auto;
 } */
-#painter .tools-wrapper {
-    background-color: #1D2731;
-
-}
-
 #painter .tools {
     display: flex;
     flex-direction: column;
@@ -236,9 +243,8 @@
     top: 1rem;
     right: 1rem;
     background-color: #0B3C5D;
-    display: grid;
-    /* user-select: none;  */
-    padding-top: 1rem;
+    display: flex;
+    padding: 0.5rem 0;
 }
 
 #painter .tools .header {
@@ -292,12 +298,6 @@
 #painter .current-painter-panel .current-word {
     font-size: 1.5rem;
     text-transform: uppercase;
-}
-
-#painter .debug {
-    position: absolute;
-    bottom: 1rem;
-    left: 1rem;
 }
 
 /*** DEBUG ***************************/
