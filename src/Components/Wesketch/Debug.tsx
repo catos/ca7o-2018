@@ -45,10 +45,11 @@ export class Debug extends React.Component<IProps, IState> {
                     <li>brushSize: {gameState.brushSize}</li>
                     <li>players: ....</li>
                 </ul>
-                <table className="table table-bordered table-sm">
-                    <tbody>
+                <table className="table table-sm">
+                    <thead>
                         <tr>
-                            <th>ClientId / UserId</th>
+                            <th>ClientId</th>
+                            <th>UserId</th>
                             <th>Name</th>
                             <th>Score</th>
                             <th>IsReady</th>
@@ -56,9 +57,12 @@ export class Debug extends React.Component<IProps, IState> {
                             <th>DrawCount</th>
                             <th>GuessedWord</th>
                         </tr>
+                    </thead>
+                    <tbody>
                         {gameState.players.map((player, idx) =>
                             <tr key={idx}>
-                                <td>{player.clientId}<br />{player.userId}</td>
+                                <td>{player.clientId}</td>
+                                <td>{player.userId}</td>
                                 <td>{player.name}</td>
                                 <td>{player.score}</td>
                                 <td>{player.isReady.toString()}</td>
@@ -73,12 +77,21 @@ export class Debug extends React.Component<IProps, IState> {
             : '';
 
         const events = this.state.showEvents
-            ? <table className="table table-bordered table-sm">
+            ? <table className="table table-sm">
+                <thead>
+                    <tr>
+                        <th>timestamp</th>
+                        <th>type</th>
+                        <th>username</th>
+                        <th>value</th>
+                    </tr>
+                </thead>
                 <tbody>
                     {this.props.events.slice(Math.max(this.props.events.length - 10, 1)).map((event, idx) =>
                         <tr key={idx}>
                             <td>{moment(event.timestamp).format('HH:mm:ss')}</td>
                             <td>{WesketchEventType[event.type]}</td>
+                            <td>{event.userName}</td>
                             <td>
                                 {(event.type !== WesketchEventType.UpdateGameState)
                                     ? JSON.stringify(event.value, undefined, 2)

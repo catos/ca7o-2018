@@ -40,7 +40,6 @@ export interface IWesketchGameState {
 interface IState {
     wsm: WesketchSoundManager;
     wss: WesketchService;
-    events: IWesketchEvent[];
     gameState: IWesketchGameState;
 }
 
@@ -52,7 +51,6 @@ export class Wesketch extends React.Component<{}, IState> {
         this.state = {
             wsm: new WesketchSoundManager(),
             wss: new WesketchService(),
-            events: [],
             gameState: {
                 debugMode: false,
                 phase: PhaseTypes.Lobby,
@@ -73,36 +71,37 @@ export class Wesketch extends React.Component<{}, IState> {
     }
 
     public componentDidMount() {
+        const { wss } = this.state;
+
         const user = auth.currentUser();
         const event = {
-            client: this.state.wss.socketId,
+            client: wss.socketId,
             userId: user.guid,
             userName: user.name,
             timestamp: new Date()
         } as IWesketchEvent;
-        this.state.wss.emit(WesketchEventType.PlayerJoined, event);
-        console.log('WesketchEventType.PlayerJoined sent');
+        wss.emit(WesketchEventType.PlayerJoined, event);
 
         // Watch events
-        this.state.wss.on('event', this.onEvent);
+        wss.on('event', this.onEvent);
     }
 
     public componentWillUnmount() {
-        console.log('unmount');
+        const { wss } = this.state;
 
         const user = auth.currentUser();
         const event = {
-            client: this.state.wss.socketId,
+            client: wss.socketId,
             userId: user.guid,
             userName: user.name,
             timestamp: new Date()
         } as IWesketchEvent;
-        this.state.wss.emit(WesketchEventType.PlayerLeft, event);
-        this.state.wss.disconnect();
+        wss.emit(WesketchEventType.PlayerLeft, event);
+        wss.disconnect();
     }
 
     public render() {
-        const { events, gameState, wss } = this.state;
+        const { gameState, wss } = this.state;
 
         const mainWindow = {
             Lobby: <Lobby gameState={gameState} wss={wss} />,
@@ -113,15 +112,10 @@ export class Wesketch extends React.Component<{}, IState> {
 
         return (
             <div id="wesketch" className={gameState.debugMode ? 'debug-mode' : ''}>
-
-                {/* {gameState.phase === PhaseTypes.Lobby
-                    ? <Lobby gameState={gameState} wss={wss} />
-                    : <Painter gameState={gameState} wss={wss} />} */}
                 {mainWindow[PhaseTypes[gameState.phase]]}
-
                 <InfoBar gameState={gameState} wss={wss} toggleGameEnd={this.toggleGameEnd} />
                 <Chat gameState={gameState} wss={wss} />
-                <Debug gameState={gameState} events={events} />
+                <Debug gameState={gameState} events={wss.events} />
             </div>
         );
     }
@@ -146,12 +140,6 @@ export class Wesketch extends React.Component<{}, IState> {
         if (event.type === WesketchEventType.StopSound) {
             wsm.fade();
         }
-
-        const events = this.state.events;
-        events.push(event);
-        this.setState({
-            events
-        });
     }
 
     private toggleGameEnd = () => {
@@ -186,7 +174,5 @@ export class Wesketch extends React.Component<{}, IState> {
         });
 
         this.state.wss.emit(WesketchEventType.UpdateGameState, gameState);
-
-        console.log('toggleGameEnd');        
     }
 }

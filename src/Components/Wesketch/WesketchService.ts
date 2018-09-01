@@ -37,9 +37,15 @@ export interface IWesketchEvent {
 
 export class WesketchService {
     public socketId: string;
+    public events: IWesketchEvent[];
+
     private socket: SocketIOClient.Socket;
 
+
     constructor() {
+
+        this.events = [];
+
         // Create socket
         this.socket = io(`${AppConfig.serverUrl}/wesketch`);
 
@@ -58,22 +64,19 @@ export class WesketchService {
         })
 
         // Client disconnected
-        this.socket.on('disconnect', () => {
-            console.log('WebSocketService:on-disconnect')
-            // this.socketId = this.socket.id;
-            // const event = {
-            //     client: this.socketId,
-            //     userId: auth.currentUser().guid,
-            //     userName: auth.currentUser().name,
-            //     timestamp: new Date(),
-            //     type: WesketchEventType.PlayerLeft
-            // } as IWesketchEvent;
-            // this.socket.emit('event', event);
+        this.socket.on('disconnect', () => {            
+            this.socket.disconnect();
+        });
+
+        this.socket.on('event', (event: IWesketchEvent) => {
+            if (event.type !== WesketchEventType.Draw) {
+                this.events.push(event);
+            }
         });
     }
 
     public disconnect = () => {
-        this.socket.close();
+        this.socket.disconnect();
     }
 
     public on = (eventName: string, cb: (event: IWesketchEvent) => any) => {
@@ -91,6 +94,7 @@ export class WesketchService {
             value
         } as IWesketchEvent;
 
-        this.socket.emit('event', event)
+        this.events.push(event);
+        this.socket.emit('event', event);
     }
 }
