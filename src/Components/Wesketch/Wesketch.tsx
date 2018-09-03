@@ -10,11 +10,12 @@ import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchSe
 import { WesketchSoundManager } from './WesketchSoundManager';
 
 import { Chat } from './Chat';
-import { Lobby } from './Lobby';
+// import { Lobby } from './Lobby';
 import { Painter } from './Painter';
 import { Debug } from "./Debug";
 import { InfoBar } from './InfoBar';
 import { GameEnd } from './GameEnd';
+import { Drawings } from './Drawings';
 
 export interface ITimer {
     remaining: number;
@@ -103,8 +104,8 @@ export class Wesketch extends React.Component<{}, IState> {
     public render() {
         const { gameState, wss } = this.state;
 
-        const mainWindow = {
-            Lobby: <Lobby gameState={gameState} wss={wss} />,
+        const mainWindow = {                
+            Lobby: <Drawings wss={wss} />, // <Lobby gameState={gameState} wss={wss} />,
             Drawing: <Painter gameState={gameState} wss={wss} />,
             RoundEnd: <Painter gameState={gameState} wss={wss} />,
             GameEnd: <GameEnd gameState={gameState} wss={wss} />
@@ -112,7 +113,7 @@ export class Wesketch extends React.Component<{}, IState> {
 
         return (
             <div id="wesketch" className={gameState.debugMode ? 'debug-mode' : ''}>
-                {mainWindow[PhaseTypes[gameState.phase]]}
+                {mainWindow[PhaseTypes[gameState.phase]]}                
                 <InfoBar gameState={gameState} wss={wss} toggleGameEnd={this.toggleGameEnd} />
                 <Chat gameState={gameState} wss={wss} />
                 <Debug gameState={gameState} events={wss.events} />

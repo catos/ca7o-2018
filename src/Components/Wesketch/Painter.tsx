@@ -163,6 +163,12 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     private onEvent = (event: IWesketchEvent) => {
+        const { wss } = this.props;        
+
+        if (event.type === WesketchEventType.SaveDrawing) {
+            wss.emit(WesketchEventType.SaveDrawing, { imageData: this.canvas.toDataURL() });
+        }
+
         if (event.type === WesketchEventType.Draw) {
             // Do not redraw your own drawing :D
             // TODO: check why auth is null (chrome debug) ?!?

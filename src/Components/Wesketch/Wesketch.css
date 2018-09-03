@@ -37,6 +37,15 @@
     padding: 4rem;
 }
 
+/*** DRAWINGS ***************************/
+
+#drawings {
+    background-color: #ffffff;
+}
+
+#drawings .carousel-caption {
+    color: #333;    
+}
 
 /*** INFOBAR ***************************/
 

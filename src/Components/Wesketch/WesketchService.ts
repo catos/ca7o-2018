@@ -23,6 +23,8 @@ export enum WesketchEventType {
     ChangeBrushSize,
     UpdateGameState,
     ResetGame,
+    SaveDrawing,
+    GetDrawings,
     ShowScores
 }
 

@@ -1,6 +1,8 @@
 import * as React from 'react';
+
 import { IWesketchGameState } from './Wesketch';
 import { WesketchService, WesketchEventType } from './WesketchService';
+import { Drawings } from './Drawings';
 
 interface IProps {
     gameState: IWesketchGameState,
@@ -33,6 +35,8 @@ export class GameEnd extends React.Component<IProps, any> {
                 </table>
 
                 <button className="btn btn-dark" onClick={this.resetGame}>Start a new game!</button>
+
+                <Drawings wss={this.props.wss} />
             </div>
         );
     }
