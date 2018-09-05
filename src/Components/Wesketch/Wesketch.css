@@ -47,6 +47,11 @@
     color: #333;    
 }
 
+#drawings .carousel-control-next,
+#drawings .carousel-control-prev {
+    background-color: #1D2731;
+}
+
 /*** INFOBAR ***************************/
 
 #info-bar {

@@ -7,6 +7,7 @@ import { auth } from '../../Common/AuthService';
 import { IWesketchGameState } from './Wesketch';
 import { PhaseTypes } from './PhaseTypes';
 import { PainterTools } from './PainterTools';
+import { IPlayer } from './IPlayer';
 
 interface IProps {
     gameState: IWesketchGameState;
@@ -163,16 +164,23 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     private onEvent = (event: IWesketchEvent) => {
-        const { wss } = this.props;        
+        const { wss } = this.props;
+        const currentUser = auth.currentUser();
 
-        if (event.type === WesketchEventType.SaveDrawing) {
-            wss.emit(WesketchEventType.SaveDrawing, { imageData: this.canvas.toDataURL() });
+        const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing) as IPlayer;
+        if (event.type === WesketchEventType.SaveDrawing 
+            && drawingPlayer.userId === currentUser.guid) {
+            wss.emit(WesketchEventType.SaveDrawing, { 
+                player: currentUser.name, 
+                word: this.props.gameState.currentWord, 
+                data: this.canvas.toDataURL() 
+            });
         }
 
         if (event.type === WesketchEventType.Draw) {
             // Do not redraw your own drawing :D
             // TODO: check why auth is null (chrome debug) ?!?
-            if (event.userId !== auth.currentUser().guid) {
+            if (event.userId !== currentUser.guid) {
                 this.draw(event.value.from, event.value.to, event.value.color);
             }
         }
