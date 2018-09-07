@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { Redirect } from 'react-router';
+// import { RouteComponentProps } from 'react-router';
 import { auth } from '../../Common/AuthService';
+
+// type LogoutProps = {} & RouteComponentProps<any>;
 
 interface IState {
     redirect: boolean;
@@ -16,20 +18,23 @@ export class Logout extends React.Component<{}, IState> {
     }
 
     public render() {
-        if (this.state.redirect) {
-            return <Redirect to={'/'} />
-        }
-            
+        // if (this.state.redirect) {
+        //     return <Redirect to={'/'} />
+        // }            
         return (
             <a href="#" onClick={this.logout}>Logout</a>
         );
     }
 
     private logout = (event: any) => {
-        event.preventDefault();
+        // event.preventDefault();
         auth.logout();
         this.setState({
             redirect: true
         });
+        // this.props.history.push('/');
     }
 }
+
+// const Logout = withRouter(Lol);
+// export default Logout;

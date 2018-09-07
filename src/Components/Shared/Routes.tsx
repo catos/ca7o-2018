@@ -1,19 +1,21 @@
-import * as React from "react";
-import { Route, Switch } from "react-router-dom";
+import * as React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
-import { Home } from "./Home";
+import { PrivateRoute } from './PrivateRoute';
 
-import { Login } from "../Account/Login";
-import { Register } from "../Account/Register";
+import { Home } from './Home';
 
-import { UserList } from "../Admin/User/UserList";
-import { UserDetails } from "../Admin/User/UserDetails";
-import { RecipeList } from "../Admin/Recipe/RecipeList";
-import { RecipeDetails } from "../Admin/Recipe/RecipeDetails";
+import { Login } from '../Account/Login';
+import { Register } from '../Account/Register';
 
-import { Wesketch } from "../Wesketch/Wesketch";
-import { Mdk } from "../Mdk/Mdk";
-import { Ticker } from "../Ticker/Ticker";
+import { UserList } from '../Admin/User/UserList';
+import { UserDetails } from '../Admin/User/UserDetails';
+import { RecipeList } from '../Admin/Recipe/RecipeList';
+import { RecipeDetails } from '../Admin/Recipe/RecipeDetails';
+
+import { Wesketch } from '../Wesketch/Wesketch';
+import { Mdk } from '../Mdk/Mdk';
+import { Ticker } from '../Ticker/Ticker';
 
 import { NotFound } from './NotFound';
 
@@ -21,18 +23,18 @@ export class Routes extends React.Component {
     public render() {
         return (
             <Switch>
-                <Route exact={true} path="/" component={Home} />
-                <Route path="/login" component={Login} />
+                <Route exact={true} path='/' component={Home} />
+                <Route path='/login' component={Login} />
 
-                <Route exact={true} path="/users" component={UserList} />
-                <Route path="/users/:id" component={UserDetails} />
-                <Route exact={true} path="/recipes" component={RecipeList} />
-                <Route path="/recipes/:id" component={RecipeDetails} />
+                <PrivateRoute exact={true} path='/users' component={UserList} />
+                <PrivateRoute path='/users/:id' component={UserDetails} />
+                <PrivateRoute exact={true} path='/recipes' component={RecipeList} />
+                <PrivateRoute path='/recipes/:id' component={RecipeDetails} />
 
-                <Route path="/register" component={Register} />
-                <Route path="/mdk" component={Mdk} />
-                <Route path="/wesketch" component={Wesketch} />
-                <Route path="/ticker" component={Ticker} />
+                <PrivateRoute path='/register' component={Register} />
+                <PrivateRoute path='/mdk' component={Mdk} />
+                <PrivateRoute path='/wesketch' component={Wesketch} />
+                <PrivateRoute path='/ticker' component={Ticker} />
 
                 <Route component={NotFound} />
             </Switch>
