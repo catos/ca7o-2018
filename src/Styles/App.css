@@ -1,23 +1,12 @@
+/*** HTML ELEMENTS ***************************/
 
-/**
- * Bootstrap modifications
- */
-
-/* .form-control {
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    padding: .375rem 0;
-    background-color: inherit;
+body, html, #layout {
+    height: 100vh;
+    background-color: #d3dbe2;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.form-control:focus {
-    box-shadow: 0px 2px 0 0px rgba(63,182,24,.25)!important;
-} */
-
-/**
- * Tools
- */
+/*** TOOLS ***************************/
 
 .opacity-hover:hover {
     opacity: 1;
@@ -39,19 +28,14 @@
     white-space: nowrap;
 }
 
-/**
- * HTML Elements
- */
-
-body, html, #layout {
-    height: 100vh;
-    background-color: #d3dbe2;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.center-cropped {
+    width: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-/**
- * Layout
- */
+/*** LAYOUT ***************************/
 
 #header-bg {
     height: 4rem;
@@ -72,6 +56,8 @@ body, html, #layout {
         "footer"
         "disclaimer";
 }
+
+/*** HEADER ***************************/
 
 header {
     grid-area: header;
@@ -139,12 +125,29 @@ header nav .user-menu img {
     margin-right: 0.5rem;
 }
 
+/*** MAIN ***************************/
+
 main {
     margin: 0 auto;
     width: 960px;
     grid-area: main;
     background-color: #ffffff;
 }
+
+main .front-page {
+    padding: 4rem;
+}
+
+main .front-page article {
+    margin-bottom: 2rem;
+}
+
+main .front-page article.promoted {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #cccccc;
+}
+
+/*** FOOTER ***************************/
 
 footer {
     grid-area: footer;
@@ -196,6 +199,8 @@ footer .footer-content .social {
     margin-right: 2rem;
     text-align: right;
 }
+
+/*** DISCLAIMER ***************************/
 
 #disclaimer {
     grid-area: disclaimer;

@@ -38,10 +38,11 @@ export class SearchResult extends React.Component<IProps, IState> {
         const { tags } = this.state;
 
         return (
-            <div>
-                <div className="search-filters">
+            <div className="search">
+                <div className="filters">
 
                     <div className="filter-tags">
+                        <a onClick={this.resetFilters}><span className="fa fa-power-off" /></a>
                         <span className={"badge badge-dark" + (tags.includes('sunn') ? ' selected' : '')} onClick={this.toggleTag}>Sunn</span>
                         <span className={"badge badge-dark" + (tags.includes('rask') ? ' selected' : '')} onClick={this.toggleTag}>Rask</span>
                         <span className={"badge badge-dark" + (tags.includes('kos') ? ' selected' : '')} onClick={this.toggleTag}>Kos</span>
@@ -53,7 +54,6 @@ export class SearchResult extends React.Component<IProps, IState> {
                             value={this.state.q}
                             onChange={this.onFieldValueChange}
                             onKeyUp={this.onKeyUpSearch} />
-                        <button className="btn btn-primary" onClick={this.resetFilters}>Reset</button>
                     </div>
 
                     <div className="filter-time">
@@ -66,7 +66,7 @@ export class SearchResult extends React.Component<IProps, IState> {
                     </div>
 
                 </div>
-                <div className="search-result">
+                <div className="result">
                     {this.state.recipes.map((recipe, idx) =>
                         <SearchResultItem key={idx} recipe={recipe} onClick={() => this.props.onClick(recipe)} />
                     )}

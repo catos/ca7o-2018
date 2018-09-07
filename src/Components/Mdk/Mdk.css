@@ -1,33 +1,41 @@
-.center-cropped {
-    width: 100%;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
 #mdk {
     margin: 1rem auto;
 }
 
-#mdk .options {
+/*** HEADER ***************************/
+
+#mdk .header {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    margin-bottom: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
 }
+
+#mdk .header .title {
+    font-size: 1.875rem;
+}
+
+/*** WEEK MENU ***************************/
 
 #mdk .week-menu {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 
 #mdk .week-menu-item {
-    width: 11rem;
+    width: 12rem;
     cursor: pointer;
     background-color: whitesmoke;
     display: grid;
     grid-template-rows: 2rem 8rem 5rem 2rem;
     align-items: center;
+    border-left: 1px solid #ccc;
+}
+
+#mdk .week-menu-item:first-child {
+    border: none;
 }
 
 #mdk .week-menu-item.drag-over, 
@@ -63,62 +71,82 @@
     font-size: 0.8rem;
 }
 
-#mdk .search-thumbnail {
-    height: 50px;
+#mdk .shopping-list {
+    background-color: #e8e8e8;
+    margin-bottom: 2rem;
+    padding: 1rem;
 }
 
-#mdk .shopping-list ul {
-    columns: 4;
-    list-style: none;
-}
+/*** SEARCH FILTERS ***************************/
 
-#mdk .search-filters {
+#mdk .filters {
     display: grid;
     grid-template-columns: 20rem auto 20rem;
-    background-color: #9E9E9E;
+    background-color: whitesmoke;
     padding: 0.75rem 0;
-    margin: 0 -1.5rem;
+    margin: 0 -1.5rem 2rem -1.5rem;
 }
 
-#mdk .search-filters > div {
+#mdk .filters .filter-search input {
+    width: 100%;
+    font-size: 1.25rem;
+    padding: 0.25rem 0.5rem;
+    border: 2px solid #cccccc;
+    border-radius: 4px;
+}
+
+#mdk .filters > div {
     align-self: center;
     text-align: center;
 }
 
-#mdk .search-filters .filter-time {
+#mdk .filters .filter-time {
     padding: 5px 0;
 }
 
-#mdk .search-filters .filter-time > * {
+#mdk .filters .filter-time > * {
     vertical-align: middle;
 }
 
-#mdk .search-filters .filter-tags > * {
+#mdk .filters .filter-tags > * {
     border-radius: 0.25rem;
     margin: 0.25rem;
     padding: 0.5rem;
 }
 
-#mdk .search-filters .filter-tags > *.selected {
+#mdk .filters .filter-tags > *.selected {
     background-color: green;
 }
 
+/*** SEARCH RESULT ***************************/
 
-#mdk .search-result {
+#mdk .result {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    
 }
 
-#mdk .search-result div {
+#mdk .result > div {
     position: relative;
-    width: 8rem;
-    height: 8rem;
-    margin: 0.5rem;
+    width: 7rem;
+    height: 7rem;
     cursor: pointer;
+    margin: 0.5rem;
+
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+    transition: box-shadow .28s cubic-bezier(.4,0,.2,1);
 }
 
-#mdk .search-result div h1 {
+#mdk .result > div:hover {
+    box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
+}
+
+#mdk .result > div .image {
+    height: 100%;
+}
+
+#mdk .result > div h1 {
     font-size: 1em;
     position: absolute;
     top: 0.5rem;
@@ -133,7 +161,7 @@
     padding: 0.3rem;
 }
 
-#mdk .search-result .recipe-link {
+#mdk .result .recipe-link {
     position: absolute;
     bottom: 0;
     right: 0;

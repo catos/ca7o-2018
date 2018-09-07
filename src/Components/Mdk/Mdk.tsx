@@ -1,6 +1,7 @@
 import { IDay } from './IDay';
 
 import * as React from 'react';
+import * as moment from 'moment';
 
 import './Mdk.css';
 
@@ -29,7 +30,7 @@ export class Mdk extends React.Component<{}, IState> {
                 { name: 'Fredag', recipe: null, selected: false },
             ],
             shoppingList: [],
-            showShoppingList: true
+            showShoppingList: false
         }
 
         this.onDropReplaceRecipe = this.onDropReplaceRecipe.bind(this);
@@ -43,29 +44,25 @@ export class Mdk extends React.Component<{}, IState> {
     public render() {
         const shoppingList = !this.state.showShoppingList
             ? ''
-            :
-            <div>
-                <div className="shopping-list">
-                    <ul>
-                        {this.state.shoppingList.sort().map((item, idx) =>
-                            <li key={idx}>{item.quantity} {item.unit} - {item.name}</li>
-                        )}
-                    </ul>
+            : <div className="shopping-list">
+                <h2>Handleliste:</h2>
+                <div className="list">
+                    {this.state.shoppingList.sort().map((item, idx) =>
+                        <div key={idx}>{item.quantity} {item.unit} - {item.name}</div>
+                    )}
                 </div>
-                <hr />
             </div>;
 
         return (
             <div id="mdk" className="m-4">
 
-                <h1>Ukesmeny</h1>
-
-                <div className="options">
-                    <span className="mr-1 badge badge-danger" onClick={this.randomWeek}>Random</span>
-                    <span className="mr-1 badge badge-danger" onClick={this.randomWeek}>Random</span>
-                    <span className="mr-1 badge badge-danger" onClick={this.randomWeek}>Random</span>
-                    <span className="mr-1 badge badge-danger" onClick={this.randomWeek}>Random</span>
+                <div className="header">
+                    <span className="title mr-3">Meny - uke {moment().week()}</span>
+                    <span className="fa fa-sync-alt mr-2" onClick={this.randomWeek} />
+                    <span className="fa fa-shopping-cart" onClick={() => this.toggleShoppingList()} />
                 </div>
+
+                {shoppingList}
 
                 <div className="week-menu">
                     {this.state.days.map((day, idx) =>
@@ -75,17 +72,6 @@ export class Mdk extends React.Component<{}, IState> {
                             onDrop={this.onDropReplaceRecipe} />
                     )}
                 </div>
-
-                <div className="mt-3">
-                    <button className="btn btn-sm btn-dark"
-                        onClick={() => this.toggleShoppingList()}>
-                        Vis handleliste
-                    </button>
-                </div>
-
-                <hr />
-
-                {shoppingList}
 
                 <SearchResult onClick={this.onClickReplaceRecipe} />
             </div>

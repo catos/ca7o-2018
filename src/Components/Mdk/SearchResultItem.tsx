@@ -35,7 +35,7 @@ export class SearchResultItem extends React.Component<IProps, IState> {
                 onMouseEnter={this.onMouseEnter}
                 onMouseOut={this.onMouseOut}>
                 <h1>{recipe.name}</h1>
-                <div className="card-img-top center-cropped search-thumbnail" style={{ backgroundImage: 'url(' + recipe.thumbnail + ')' }} />
+                <div className="card-img-top center-cropped image" style={{ backgroundImage: 'url(' + recipe.thumbnail + ')' }} />
 
                 {this.state.showRecipeLink
                     ? <Link className="recipe-link" to={`/recipes/${recipe.guid}`}><span className="fa fa-info-circle" /></Link>
