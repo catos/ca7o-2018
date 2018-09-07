@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import { PrivateRoute } from './PrivateRoute';
+import { ProtectedRoute } from './ProtectedRoute';
 
 import { Home } from './Home';
 
@@ -18,6 +18,7 @@ import { Mdk } from '../Mdk/Mdk';
 import { Ticker } from '../Ticker/Ticker';
 
 import { NotFound } from './NotFound';
+import { auth } from '../../Common/AuthService';
 
 export class Routes extends React.Component {
     public render() {
@@ -29,15 +30,15 @@ export class Routes extends React.Component {
                 <Route path='/register' component={Register} />
 
                 {/* Protected */}
-                <PrivateRoute path='/mdk' component={Mdk} />
-                <PrivateRoute path='/wesketch' component={Wesketch} />
-                <PrivateRoute path='/ticker' component={Ticker} />
+                <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/mdk' component={Mdk} />
+                <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/wesketch' component={Wesketch} />
+                <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/ticker' component={Ticker} />
 
                 {/* Admin */}
-                <PrivateRoute exact={true} path='/users' component={UserList} />
-                <PrivateRoute path='/users/:id' component={UserDetails} />
-                <PrivateRoute exact={true} path='/recipes' component={RecipeList} />
-                <PrivateRoute path='/recipes/:id' component={RecipeDetails} />
+                <ProtectedRoute isAuthorized={auth.isAdministrator()} exact={true} path='/users' component={UserList} />
+                <ProtectedRoute isAuthorized={auth.isAdministrator()} path='/users/:id' component={UserDetails} />
+                <ProtectedRoute isAuthorized={auth.isAdministrator()} exact={true} path='/recipes' component={RecipeList} />
+                <ProtectedRoute isAuthorized={auth.isAdministrator()} path='/recipes/:id' component={RecipeDetails} />
 
                 <Route component={NotFound} />
             </Switch>
