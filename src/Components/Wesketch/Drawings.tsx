@@ -1,7 +1,6 @@
 import * as React from 'react';
-// import { WesketchService, IWesketchEvent, WesketchEventType } from './WesketchService';
+import { WesketchService, IWesketchEvent, WesketchEventType } from './WesketchService';
 import { TEST_DRAWINGS } from './TestDrawings';
-import { WesketchService } from './WesketchService';
 import { IDrawing } from './IDrawing';
 import { CarouselItem, CarouselCaption, Carousel, CarouselControl } from 'reactstrap';
 
@@ -35,7 +34,7 @@ export class Drawings extends React.Component<IProps, IState> {
 
     public componentDidMount() {
         // Watch events
-        // this.props.wss.on('event', this.onEvent);
+        this.props.wss.on('event', this.onEvent);
     }
 
     public render() {
@@ -45,8 +44,7 @@ export class Drawings extends React.Component<IProps, IState> {
                 <CarouselItem
                     onExiting={this.onExiting}
                     onExited={this.onExited}
-                    key={idx}
-                >
+                    key={idx}>
                     <img src={drawing.data} alt={drawing.word} />
                     <CarouselCaption captionText={drawing.player} captionHeader={drawing.word} />
                 </CarouselItem>
@@ -58,9 +56,7 @@ export class Drawings extends React.Component<IProps, IState> {
                 <Carousel
                     activeIndex={activeIndex}
                     next={this.next}
-                    previous={this.previous}
-                >
-                    {/* <CarouselIndicators items={drawings} activeIndex={activeIndex} onClickHandler={this.goToIndex} /> */}
+                    previous={this.previous}>
                     {slides}
                     <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
                     <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
@@ -102,10 +98,10 @@ export class Drawings extends React.Component<IProps, IState> {
         this.setState({ activeIndex: newIndex });
     }
 
-    // private onEvent = (event: IWesketchEvent) => {
-    //     if (event.type === WesketchEventType.GetDrawings) {
-    //         const drawings = event.value;
-    //         this.setState({ drawings });
-    //     }
-    // }
+    private onEvent = (event: IWesketchEvent) => {
+        if (event.type === WesketchEventType.GetDrawings) {
+            const drawings = event.value;
+            this.setState({ drawings });
+        }
+    }
 }
