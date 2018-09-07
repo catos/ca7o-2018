@@ -111,7 +111,6 @@ export class Register extends React.Component<RouteComponentProps<{}>, IState> {
                     errorMessage: '',
                     redirect: true
                 });
-                console.log(response);
             })
             .catch(error => {
                 const errors = error.errors.length
@@ -121,7 +120,6 @@ export class Register extends React.Component<RouteComponentProps<{}>, IState> {
                 this.setState({
                     errorMessage: errors
                 });
-                console.log(errors);
             });
     }
 

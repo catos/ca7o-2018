@@ -58,7 +58,7 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
                                 value={this.state.username}
                                 invalid={!this.state.valid}
                                 onChange={this.onFieldValueChange} />
-                            <FormFeedback invalid={!this.state.valid}>Invald username or password</FormFeedback>
+                            <FormFeedback invalid={this.state.valid ? 'true' : 'false'}>Invald username or password</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>

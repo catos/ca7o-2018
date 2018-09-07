@@ -23,18 +23,21 @@ export class Routes extends React.Component {
     public render() {
         return (
             <Switch>
+                {/* Public routes */}
                 <Route exact={true} path='/' component={Home} />
                 <Route path='/login' component={Login} />
+                <Route path='/register' component={Register} />
 
+                {/* Protected */}
+                <PrivateRoute path='/mdk' component={Mdk} />
+                <PrivateRoute path='/wesketch' component={Wesketch} />
+                <PrivateRoute path='/ticker' component={Ticker} />
+
+                {/* Admin */}
                 <PrivateRoute exact={true} path='/users' component={UserList} />
                 <PrivateRoute path='/users/:id' component={UserDetails} />
                 <PrivateRoute exact={true} path='/recipes' component={RecipeList} />
                 <PrivateRoute path='/recipes/:id' component={RecipeDetails} />
-
-                <PrivateRoute path='/register' component={Register} />
-                <PrivateRoute path='/mdk' component={Mdk} />
-                <PrivateRoute path='/wesketch' component={Wesketch} />
-                <PrivateRoute path='/ticker' component={Ticker} />
 
                 <Route component={NotFound} />
             </Switch>

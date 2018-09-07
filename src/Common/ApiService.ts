@@ -62,7 +62,6 @@ class ApiService {
             return Promise.resolve(response.json());
         } else {
             const error = await response.json();
-            console.log(error);
             return Promise.reject(error);
         }
     }
