@@ -21,17 +21,19 @@
 #mdk .week-menu {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-bottom: 2rem;
+    height: 20rem;
 }
 
 #mdk .week-menu-item {
     width: 12rem;
+    height: 18rem;
     cursor: pointer;
     background-color: whitesmoke;
     display: grid;
     grid-template-rows: 2rem 8rem 5rem 2rem;
     align-items: center;
-    border-left: 1px solid #ccc;
 }
 
 #mdk .week-menu-item:first-child {
@@ -41,6 +43,9 @@
 #mdk .week-menu-item.drag-over, 
 #mdk .week-menu-item.selected {
     background-color: #e2e2e2;
+    width: 16rem;
+    height: 20rem;
+    transition-duration: 0.25s;
 }
 
 #mdk .week-menu-item .day-name {
@@ -49,7 +54,7 @@
 }
 
 #mdk .week-menu-item .recipe-name {
-    padding: 1rem 0;
+    padding: 1rem 0.5rem;
     text-align: center;
     text-transform: uppercase;
     font-weight: 500;

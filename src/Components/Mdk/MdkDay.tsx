@@ -32,7 +32,7 @@ export class MdkDay extends React.Component<IProps, IState> {
     public render() {
         const { day } = this.props;
 
-        let className = "w-20 week-menu-item";
+        let className = "week-menu-item";
         if (this.props.day.selected) {
             className += " selected"
         }
@@ -98,7 +98,6 @@ export class MdkDay extends React.Component<IProps, IState> {
 
         const data = event.dataTransfer.getData("text");
         const recipe = JSON.parse(data) as IRecipe;
-        console.log('recipe: ', recipe);
 
         this.props.onDrop(this.props.day, recipe);
     }
