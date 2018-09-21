@@ -11,6 +11,12 @@ import { IIngredient } from '../../Models/IIngredient';
 import { IRecipe } from '../../Models/IRecipe';
 import { api } from '../../Common/ApiService';
 import { groupBy } from '../../Common/Utils';
+import { IngredientTypes } from '../../Models/IngredientTypes';
+
+interface IIngredientsGroup {
+    type: string;
+    ingredients: IIngredient[];
+}
 
 interface IState {
     days: IDay[];
@@ -43,21 +49,18 @@ export class Mdk extends React.Component<{}, IState> {
     }
 
     public render() {
-        const groupedShoppingList = this.state.shoppingList.length
-            // ? [...groupBy<IIngredient>(this.state.shoppingList, 'type')[0]]
-            ? this.state.shoppingList
-            : [];
-
-        const shoppingList = !this.state.showShoppingList
+        const shoppingListOutput = !this.state.showShoppingList
             ? ''
             : <div className="shopping-list">
-                <h2>Handleliste:</h2>
+                <h1>Handleliste</h1>
                 <div className="list">
-                    {groupedShoppingList.map((type, idx) =>
-                        <div key={idx}>
-                            {type}
+                    {this.getGroupedShoppingList().map((group, idx) =>
+                        <div key={idx} className="list-group">
+                            <h1>{group.type}</h1>
+                            {group.ingredients.map((ingredient, iidx) =>
+                                <div key={iidx}>{ingredient.quantity} {ingredient.unit}. {ingredient.name}</div>
+                            )}
                         </div>
-                        // <div key={idx}>{item.quantity} {item.unit} - {item.name}</div>
                     )}
                 </div>
             </div>;
@@ -66,12 +69,15 @@ export class Mdk extends React.Component<{}, IState> {
             <div id="mdk" className="m-4">
 
                 <div className="header">
-                    <span className="title mr-3">Meny - uke {moment().week()}</span>
-                    <span className="fa fa-sync-alt mr-2" onClick={this.randomWeek} />
-                    <span className="fa fa-shopping-cart" onClick={() => this.toggleShoppingList()} />
+                    <span className="title mr-3">Meny - Uke {moment().week()}</span>
                 </div>
 
-                {shoppingList}
+                <div className="header-options">
+                    <a href="#" onClick={this.randomWeek}>Randomiser</a>
+                    <a href="#" className="ml-3" onClick={() => this.toggleShoppingList()}>Handleliste ({this.state.shoppingList.length} varer)</a>
+                </div>
+
+                {shoppingListOutput}
 
                 <div className="week-menu">
                     {this.state.days.map((day, idx) =>
@@ -140,19 +146,23 @@ export class Mdk extends React.Component<{}, IState> {
             }
         });
 
-        // TODO: cleanup
-        const ingredientsSumed = this.sumIngredients(ingredients, 'name');
-        console.log('grouped by name and sum quantity: ', ingredientsSumed);
+        return this.sumIngredients(ingredients, 'name');
+    }
 
-        const ingredientsGrouped = groupBy<IIngredient>(ingredientsSumed, 'type');
+    private getGroupedShoppingList = (): IIngredientsGroup[] => {
+        const result: IIngredientsGroup[] = [];
+        const ingredientsGrouped = groupBy<IIngredient>(this.state.shoppingList, 'type');
         for (const key in ingredientsGrouped) {
             if (ingredientsGrouped.hasOwnProperty(key)) {
-                console.log(key, ingredientsGrouped[key]);
+                result.push({
+                    type: IngredientTypes[key] || 'Unknown',
+                    ingredients: ingredientsGrouped[key]
+                })
+                // console.log(IngredientTypes[key], ingredientsGrouped[key]);
             }
         }
-        // console.log('groupBy', ingredientsGrouped);
 
-        return ingredientsSumed;
+        return result;
     }
 
     private sumIngredients = (ingredients: IIngredient[], prop: string): IIngredient[] => {

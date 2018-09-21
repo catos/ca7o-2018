@@ -14,6 +14,7 @@ interface IState {
     tags: string[],
     q: string;
     time: number;
+    showAdvancedFilters: boolean;
 }
 
 export class SearchResult extends React.Component<IProps, IState> {
@@ -21,7 +22,8 @@ export class SearchResult extends React.Component<IProps, IState> {
         recipes: [],
         tags: [],
         q: '',
-        time: 30
+        time: 30,
+        showAdvancedFilters: false
     };
 
     constructor(props: IProps) {
@@ -42,11 +44,10 @@ export class SearchResult extends React.Component<IProps, IState> {
                 <div className="filters">
 
                     <div className="filter-tags">
-                        <a onClick={this.resetFilters}><span className="fa fa-power-off" /></a>
+                        <span className={"badge badge-dark" + (tags.includes('lol') ? ' selected' : '')} onClick={this.toggleTag}>Lol</span>
                         <span className={"badge badge-dark" + (tags.includes('sunn') ? ' selected' : '')} onClick={this.toggleTag}>Sunn</span>
                         <span className={"badge badge-dark" + (tags.includes('rask') ? ' selected' : '')} onClick={this.toggleTag}>Rask</span>
                         <span className={"badge badge-dark" + (tags.includes('kos') ? ' selected' : '')} onClick={this.toggleTag}>Kos</span>
-                        <span className={"badge badge-primary" + (tags.includes('fisk') ? ' selected' : '')} onClick={this.toggleTag}>Fisk</span>
                     </div>
 
                     <div className="filter-search">
@@ -56,16 +57,32 @@ export class SearchResult extends React.Component<IProps, IState> {
                             onKeyUp={this.onKeyUpSearch} />
                     </div>
 
-                    <div className="filter-time">
-                        <span className="mr-2">Time: </span>
-                        <input type="range" id="time" name="time" min="0" max="120" step="10"
-                            value={this.state.time}
-                            onChange={this.onFieldValueChange}
-                            onMouseUp={this.getRecipes} />
-                        <span className="ml-2">{this.state.time}m</span>
+                    <div className="filter-tags">
+                        <span className={"badge badge-dark" + (tags.includes('fisk') ? ' selected' : '')} onClick={this.toggleTag}>Fisk</span>
+                        <span className={"badge badge-dark" + (tags.includes('fugl') ? ' selected' : '')} onClick={this.toggleTag}>Fugl</span>
+                        <span className={"badge badge-dark" + (tags.includes('kjøtt') ? ' selected' : '')} onClick={this.toggleTag}>Kjøtt</span>
+                        <span className={"badge badge-dark" + (tags.includes('vegetar') ? ' selected' : '')} onClick={this.toggleTag}>Vegetar</span>
                     </div>
-
                 </div>
+                <div className="filter-options">
+                    <a href="#" onClick={this.resetFilters}>Nullstill</a>
+                    <a className="ml-3" href="#" onClick={this.toggleAdvancedFilters}>Vis avanserte filtre</a>
+                </div>
+
+                {this.state.showAdvancedFilters
+                    ? <div className="advanced-filters">
+                        <h1>Advanced filters</h1>
+                        <div className="filter-time">
+                            <span className="mr-2">Time: </span>
+                            <input type="range" id="time" name="time" min="0" max="120" step="10"
+                                value={this.state.time}
+                                onChange={this.onFieldValueChange}
+                                onMouseUp={this.getRecipes} />
+                            <span className="ml-2">{this.state.time}m</span>
+                        </div>
+                    </div>
+                    : ''}
+
                 <div className="result">
                     {this.state.recipes.map((recipe, idx) =>
                         <SearchResultItem key={idx} recipe={recipe} onClick={() => this.props.onClick(recipe)} />
@@ -95,6 +112,10 @@ export class SearchResult extends React.Component<IProps, IState> {
             this.getRecipes();
 
         }
+    }
+
+    private toggleAdvancedFilters = () => {
+        this.setState({ showAdvancedFilters: !this.state.showAdvancedFilters });
     }
 
     private toggleTag = (event: MouseEvent<HTMLAnchorElement>) => {

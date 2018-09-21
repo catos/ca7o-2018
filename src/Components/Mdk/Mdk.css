@@ -5,15 +5,16 @@
 /*** HEADER ***************************/
 
 #mdk .header {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 2rem;
+    text-align: center;
 }
 
 #mdk .header .title {
     font-size: 1.875rem;
+}
+
+#mdk .header-options {
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 /*** WEEK MENU ***************************/
@@ -77,9 +78,28 @@
 }
 
 #mdk .shopping-list {
-    background-color: #e8e8e8;
+    background-color: whitesmoke;
     margin-bottom: 2rem;
     padding: 1rem;
+}
+
+#mdk .shopping-list h1 {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+}
+
+#mdk .shopping-list .list {
+    display: flex;
+}
+
+#mdk .shopping-list .list .list-group {
+    margin: 0.25rem;
+    min-width: 8rem;
+}
+
+#mdk .shopping-list .list .list-group h1 {
+    font-size: 1rem;
+    font-weight: 700;
 }
 
 /*** SEARCH FILTERS ***************************/
@@ -89,7 +109,7 @@
     grid-template-columns: 20rem auto 20rem;
     background-color: whitesmoke;
     padding: 0.75rem 0;
-    margin: 0 -1.5rem 2rem -1.5rem;
+    margin: 0 -1.5rem 0 -1.5rem;
 }
 
 #mdk .filters .filter-search input {
@@ -123,12 +143,32 @@
     background-color: green;
 }
 
+#mdk .filter-options {
+    background-color: #f1f1f1;
+    text-align: center;
+    margin: 0 -1.5rem 0 -1.5rem;
+    padding: 0.25rem;
+}
+
+#mdk .advanced-filters {
+    background-color: #e5e5e5;
+    padding: 0.75rem 0;
+    margin: 0 -1.5rem 0 -1.5rem;
+    text-align: center;
+}
+
+#mdk .advanced-filters h1 {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+}
+
 /*** SEARCH RESULT ***************************/
 
 #mdk .result {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin-top: 2rem;
     
 }
 
