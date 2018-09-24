@@ -37,6 +37,11 @@
     align-items: center;
 }
 
+#mdk .week-menu-item.has-fish,
+#mdk .week-menu-item.has-fish.selected {
+    background-color: #e2e2f2;
+}
+
 #mdk .week-menu-item:first-child {
     border: none;
 }

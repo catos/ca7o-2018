@@ -34,11 +34,15 @@ export class MdkDay extends React.Component<IProps, IState> {
 
         let className = "week-menu-item";
         if (this.props.day.selected) {
-            className += " selected"
+            className += " selected";
         }
 
         if (this.state.dragOver) {
-            className += " drag-over"
+            className += " drag-over";
+        }
+
+        if (this.props.day.recipe !== null && this.props.day.recipe.tags.includes('fisk')) {
+            className += " has-fish";
         }
 
         const thumbnail = day.recipe !== null ? day.recipe.thumbnail : '';
@@ -66,11 +70,11 @@ export class MdkDay extends React.Component<IProps, IState> {
                         ? <div>
                             <span>{day.recipe.time} <i className="far fa-clock" /></span>
 
-                            {day.recipe.url !== undefined && day.recipe.url.indexOf('meny.no') !== -1 
-                                ? <a href={day.recipe.url}><span className="badge badge-danger ml-3">MENY</span></a>
+                            {day.recipe.url !== undefined && day.recipe.url.indexOf('meny.no') !== -1
+                                ? <a href={day.recipe.url}><span className="badge badge-danger ml-2">MENY</span></a>
                                 : ''
                             }
-                            
+
                         </div>
                         : ''
                     }
