@@ -43,12 +43,12 @@ class ApiService {
         }
 
         const headers = {
-            'Content-Type': 'application/json'   
+            'Content-Type': 'application/json'
         }
         const token = localStorage.getItem('token');
         if (auth.isAuthenticated() && token !== null) {
             Object.assign(
-                headers, 
+                headers,
                 { 'Authorization': token }
             );
         }
@@ -60,7 +60,13 @@ class ApiService {
     private async checkStatus(response: Response): Promise<any> {
         if (response.ok) {
             return Promise.resolve(response.json());
-        } else {
+        }
+        else if (response.status === 403) {
+            console.log('redirect to login!');
+            const error = await response.json();
+            return Promise.reject(error);
+        }
+        else {
             const error = await response.json();
             return Promise.reject(error);
         }

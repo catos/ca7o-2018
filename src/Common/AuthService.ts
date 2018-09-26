@@ -1,6 +1,12 @@
 import * as jwt_decode from 'jwt-decode';
+import * as moment from 'moment';
 
 import { IUser, UserTypes } from '../Models/User';
+
+interface IToken extends IUser {
+    iat: number;
+    exp: number;
+}
 
 class AuthService {
 
@@ -21,7 +27,17 @@ class AuthService {
     }
 
     public isAuthenticated() {
-        return localStorage.getItem('token') !== null;
+        let result = false;
+        const tokenString = localStorage.getItem('token');
+
+        if (tokenString !== null) {
+            const token = jwt_decode(tokenString) as IToken;
+            if (token.exp > moment().unix()) {
+                result = true;
+            }
+        }
+
+        return result;
     }
 
     public isAdministrator() {
