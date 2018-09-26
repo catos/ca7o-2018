@@ -148,6 +148,16 @@
     background-color: green;
 }
 
+#mdk .paging {
+    padding: 0.75rem 0;
+    margin: 0 -1.5rem 0 -1.5rem;
+    background-color: #e5e5e5;    
+}
+
+#mdk .paging ul {
+    margin: 0;
+}
+
 #mdk .filter-options {
     background-color: #f1f1f1;
     text-align: center;

@@ -11,6 +11,9 @@ interface IProps {
 
 interface IState {
     recipes: IRecipe[];
+    prevPage: number;
+    page: number;
+    nextPage: number;
     tags: string[],
     q: string;
     time: number;
@@ -20,6 +23,9 @@ interface IState {
 export class SearchResult extends React.Component<IProps, IState> {
     private readonly defaultState = {
         recipes: [],
+        prevPage: 0,
+        page: 1,
+        nextPage: 1,
         tags: [],
         q: '',
         time: 30,
@@ -64,9 +70,19 @@ export class SearchResult extends React.Component<IProps, IState> {
                         <span className={"badge badge-dark" + (tags.includes('vegetar') ? ' selected' : '')} onClick={this.toggleTag}>Vegetar</span>
                     </div>
                 </div>
+
+                <div className="paging">
+                    <nav>
+                        <ul className="pagination pagination-sm justify-content-center">
+                            <li className="page-item"><a className="page-link" href="#" onClick={() => this.gotoPage(this.state.prevPage)}>Previous</a></li>
+                            <li className="page-item"><a className="page-link" href="#" onClick={() => this.gotoPage(this.state.nextPage)}>Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
                 <div className="filter-options">
                     <a href="#" onClick={this.resetFilters}>Nullstill</a>
-                    <a className="ml-3" href="#" onClick={this.toggleAdvancedFilters}>Vis avanserte filtre</a>
+                    <a className="ml-3" href="#" onClick={this.toggleAdvancedFilters}>{this.state.showAdvancedFilters ? 'Skjul' : 'Vis'} avanserte filtre</a>
                 </div>
 
                 {this.state.showAdvancedFilters
@@ -110,12 +126,15 @@ export class SearchResult extends React.Component<IProps, IState> {
         if (event.which === 13) {
             // this.onSubmit(event);
             this.getRecipes();
-
         }
     }
 
     private toggleAdvancedFilters = () => {
         this.setState({ showAdvancedFilters: !this.state.showAdvancedFilters });
+    }
+
+    private gotoPage = (page: number) => {
+        this.setState({ page }, () => this.getRecipes());
     }
 
     private toggleTag = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -134,10 +153,14 @@ export class SearchResult extends React.Component<IProps, IState> {
     }
 
     private getRecipes = () => {
-        api.get(`/api/recipes?q=${this.state.q}&time=${this.state.time}&tags=${this.state.tags}`)
+        api.get(`/api/recipes?q=${this.state.q}&time=${this.state.time}&tags=${this.state.tags}&page=${this.state.page}`)
             .then(response => {
+                const prevPage = this.state.page > 1 ? this.state.page - 1 : 1;
+                const nextPage = this.state.page + 1;
                 this.setState({
-                    recipes: response as IRecipe[]
+                    recipes: response as IRecipe[],
+                    prevPage,
+                    nextPage
                 })
             })
             .catch(error => console.log(error));
