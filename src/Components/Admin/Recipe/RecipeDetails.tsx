@@ -1,8 +1,8 @@
 import * as React from 'react';
+import * as moment from 'moment';
 import { ChangeEvent } from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
 import { Form, FormGroup, Label, Input, FormFeedback, Button, FormText } from 'reactstrap';
-import * as moment from 'moment';
 
 import './Recipe.css';
 
@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { RecipeIngredientDetails } from './RecipeIngredientDetails';
 import { IRecipe } from '../../../Models/IRecipe';
 import { IIngredient } from '../../../Models/IIngredient';
+import { AddRecipeIngredient } from './AddRecipeIngredient';
 
 interface IProps extends RouteComponentProps<any> { }
 
@@ -41,9 +42,6 @@ export class RecipeDetails extends React.Component<IProps, IState> {
 
     public componentDidMount() {
         const id = this.props.match.params.id;
-        console.log('id', id);
-
-
         if (id !== -1) {
             this.getRecipe(id);
         }
@@ -123,34 +121,35 @@ export class RecipeDetails extends React.Component<IProps, IState> {
                         </FormText>
                         <FormFeedback valid={false}>Thumbnail is required</FormFeedback>
                     </FormGroup>
-
-                    <div className="p-3 mb-3 bg-light">
-                        <h4>Ingredients</h4>
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th>Quantity</th>
-                                    <th>Unit</th>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {recipe.ingredients.map((ingredient, idx) =>
-                                    <RecipeIngredientDetails key={idx} ingredient={ingredient}
-                                        onChange={this.updateIngredient} />
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-
                     <FormGroup>
-                        <Button className="btn btn-primary" label="Save" onClick={this.onSave}>
+                        <Button className="btn btn-primary" label="Save" onClick={this.saveRecipe}>
                             Save
                         </Button>
                     </FormGroup>
                 </Form>
-            </div>
+
+                <div className="p-3 mb-3 bg-light">
+                    <h4>Ingredients</h4>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Quantity</th>
+                                <th>Unit</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {recipe.ingredients.map((ingredient, idx) =>
+                                <RecipeIngredientDetails key={idx} ingredient={ingredient}
+                                    onChange={this.updateIngredient} />
+                            )}
+                        </tbody>
+                    </table>
+                    <hr/>
+                    <AddRecipeIngredient onAddIngredient={this.onAddIngredient} />
+                </div>
+            </div >
         );
     }
 
@@ -177,42 +176,47 @@ export class RecipeDetails extends React.Component<IProps, IState> {
         this.setState(nextState);
     }
 
-    private onSave = () => {
+    private saveRecipe = () => {
         const { recipe } = this.state;
 
         console.log(recipe.guid);
 
         if (recipe.guid === null) {
             api.post('/api/recipes/', recipe)
-                .then(_ => {
-                    // this.getRecipe(result.id);
-                    this.setState({
-                        redirect: true
-                    });
-                })
+                // .then(_ => {
+                //     this.setState({ redirect: true });
+                // })
                 .catch(error => console.log(error));
         } else {
             api.put(`/api/recipes/${recipe.guid}`, recipe)
-                .then(_ => {
-                    // this.getRecipe(result.id);
-                    this.setState({
-                        redirect: true
-                    });
-                })
+                // .then(_ => {
+                //     this.setState({ redirect: true });
+                // })
                 .catch(error => console.log(error));
         }
     }
 
     private updateIngredient = (ingredient: IIngredient) => {
+        console.log('updateIngredient');
+
         const newIngredients = this.state.recipe.ingredients
             .map(i => i._id === ingredient._id ? ingredient : i);
 
         const recipe = this.state.recipe;
         recipe.ingredients = newIngredients;
 
-        this.setState({
-            recipe
-        });
+        this.setState({ recipe });
+    }
+
+    private onAddIngredient = (ingredient: IIngredient) => {
+        delete ingredient._id;
+        console.log('TODO: onAddIngredient', ingredient);
+
+        const recipe = { ...this.state.recipe };
+        recipe.ingredients.push(ingredient);
+
+        this.setState({ recipe });
+        this.saveRecipe();
     }
 
     private addTag = (event: any) => {

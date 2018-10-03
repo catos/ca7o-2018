@@ -29,45 +29,34 @@ export class RecipeIngredientDetails extends React.Component<IProps, IState> {
         const ingredientTypesKeys = Object.keys(IngredientTypes)
             .filter(p => typeof IngredientTypes[p as any] === "number");
 
-        const output = this.state.editMode
-            ? <tr
-                onClick={this.showForm}
-                onBlur={this.hideForm}>
-                <td>
-                    <Input type="text" name="quantity" id="quantity" placeholder="Quantity"
-                        value={ingredient.quantity}
-                        onChange={this.onFieldValueChange} />
-                </td>
-                <td>
-                    <Input type="text" name="unit" id="unit" placeholder="Unit"
-                        value={ingredient.unit}
-                        onChange={this.onFieldValueChange} />
-                </td>
-                <td>
-                    <Input type="text" name="name" id="name" placeholder="Name"
-                        value={ingredient.name}
-                        onChange={this.onFieldValueChange} />
-                </td>
-                <td>
-                    <Input type="select" name="type" id="type" placeholder="Type"
-                        value={ingredient.type}
-                        onChange={this.onFieldValueChange}>
-                        {ingredientTypesKeys.map((key, idx) =>
-                            <option key={idx} value={IngredientTypes[key]}>{key}</option>
-                        )}
-                    </Input>
-                </td>
-            </tr>
-            : <tr
-                onClick={this.showForm}
-                onBlur={this.hideForm}>
-                <td>{ingredient.quantity}</td>
-                <td>{ingredient.unit}</td>
-                <td>{ingredient.name}</td>
-                <td>{IngredientTypes[ingredient.type]}</td>
-            </tr>;
-
-        return output;
+        return (<tr
+            onClick={this.showForm}
+            onBlur={this.hideForm}>
+            <td>
+                <Input type="text" name="quantity" id="quantity" placeholder="Quantity"
+                    value={ingredient.quantity}
+                    onChange={this.onFieldValueChange} />
+            </td>
+            <td>
+                <Input type="text" name="unit" id="unit" placeholder="Unit"
+                    value={ingredient.unit}
+                    onChange={this.onFieldValueChange} />
+            </td>
+            <td>
+                <Input type="text" name="name" id="name" placeholder="Name"
+                    value={ingredient.name}
+                    onChange={this.onFieldValueChange} />
+            </td>
+            <td>
+                <Input type="select" name="type" id="type" placeholder="Type"
+                    value={ingredient.type}
+                    onChange={this.onFieldValueChange}>
+                    {ingredientTypesKeys.map((key, idx) =>
+                        <option key={idx} value={IngredientTypes[key]}>{key}</option>
+                    )}
+                </Input>
+            </td>
+        </tr>);
     }
 
     private onFieldValueChange = (event: ChangeEvent<HTMLInputElement>) => {
