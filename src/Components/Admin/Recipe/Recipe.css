@@ -1,12 +1,25 @@
+.recipe-details {
+    display: flex;
+}
+
+.recipe-details .recipe-meta {
+    flex: 1;
+    margin-right: 1rem;
+}
+
+.recipe-details .recipe-ingredients {
+    flex: 1;
+}
+
 .recipe-details .table tr td:nth-child(1),
 .recipe-details .table tr td:nth-child(2) {
-    min-width: 6rem;
+    min-width: 5rem;
 }
 .recipe-details .table tr td:nth-child(3) {
     width: 100%;
 }
 .recipe-details .table tr td:nth-child(4) {
-    min-width: 12rem;
+    min-width: 6rem;
 }
 
 .recipe-details .tags > span {
@@ -16,5 +29,6 @@
 }
 
 .recipe-details .thumbnail img {
-    width: 12rem;
+    width: 100%;
+    margin-top: 1rem;
 }

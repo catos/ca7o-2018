@@ -7,7 +7,8 @@ import { IIngredient } from '../../../Models/IIngredient';
 
 interface IProps {
     ingredient: IIngredient;
-    onChange: ((ingredient: IIngredient) => void);
+    onChange: ((ingredient: IIngredient) => void);    
+    onDelete: ((ingredient: IIngredient) => void);
 }
 
 interface IState {
@@ -56,6 +57,9 @@ export class RecipeIngredientDetails extends React.Component<IProps, IState> {
                     )}
                 </Input>
             </td>
+            <td>
+                <a href="#" onClick={this.deleteIngredient}><span className="fa fa-times" /></a>
+            </td>
         </tr>);
     }
 
@@ -70,5 +74,10 @@ export class RecipeIngredientDetails extends React.Component<IProps, IState> {
 
     private hideForm = () => {
         this.setState({ editMode: false });
+    }
+
+    private deleteIngredient = (event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault();
+        this.props.onDelete(this.props.ingredient);
     }
 }

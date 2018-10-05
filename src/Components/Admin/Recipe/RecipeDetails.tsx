@@ -56,99 +56,105 @@ export class RecipeDetails extends React.Component<IProps, IState> {
 
         return (
             <div className="m-4 recipe-details">
-                <h2>Edit recipe <small><Link to={'/recipes'}>Back to list</Link></small></h2>
-                <div>Created: {moment(recipe.created).format('YYYY-MM-DD')}</div>
-                <hr />
-                <Form className="needs-validation was-validated" noValidate={true}>
-                    <FormGroup>
-                        <Label for="name">Name</Label>
-                        <Input type="text" name="name" id="name" placeholder="Name"
-                            value={recipe.name}
-                            onChange={this.onFieldValueChange} />
-                        <FormFeedback valid={false}>A name is required</FormFeedback>
-                    </FormGroup>
-                    <FormGroup>
-                        <label>Tags</label>
-                        <div className="tags mb-3">
-                            {recipe.tags.map((tag, tid) =>
-                                <span key={tid} className="badge badge-dark mr-1"
-                                    onClick={() => this.removeTag(tag)}>{tag}</span>
-                            )}
 
-                            <span className="badge badge-success ml-2">Add tag</span>
-                        </div>
-                        <Input type="text" name="new-tag" id="new-tag" placeholder="Enter new tag" onKeyUp={this.addTag} />
-                        <FormText color="muted">
-                            Click on a tag to remove it. Add new tags by typing in the input.
-                        </FormText>
-                    </FormGroup>
-                    <div className="row form-group thumbnail">
-                        <div className="col-8">
-                            <Label for="thumbnail">Thumbnail</Label>
-                            <Input type="text" name="thumbnail" id="thumbnail" placeholder="Thumbnail"
-                                value={recipe.thumbnail}
+                <div className="recipe-meta">
+                    <h2>Edit recipe <small><Link to={'/recipes'}>Back to list</Link></small></h2>
+                    <div>Created: {moment(recipe.created).format('YYYY-MM-DD')}</div>
+                    <Form className="needs-validation was-validated" noValidate={true}>
+                        <FormGroup>
+                            <Label for="name">Name</Label>
+                            <Input type="text" name="name" id="name" placeholder="Name"
+                                value={recipe.name}
                                 onChange={this.onFieldValueChange} />
-                            <FormFeedback valid={false}>Thumbnail is required</FormFeedback>
-                        </div>
-                        <div className="col-4">
-                            {recipe.thumbnail.length
-                                ? <img src={recipe.thumbnail} alt={recipe.thumbnail} />
-                                : ''
-                            }
-                        </div>
-                    </div>
-                    <FormGroup>
-                        <Label for="description">Description</Label>
-                        <Input type="textarea" name="description" id="description" placeholder="Description"
-                            value={recipe.description}
-                            onChange={this.onFieldValueChange} />
-                        <FormFeedback valid={false}>Description is required</FormFeedback>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="url">Url</Label>
-                        <Input type="text" name="url" id="url" placeholder="url"
-                            value={recipe.url}
-                            onChange={this.onFieldValueChange} />
-                        <FormFeedback valid={false}>url is required</FormFeedback>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="time">Time</Label>
-                        <Input type="number" name="time" id="time" placeholder="Time"
-                            value={recipe.time}
-                            onChange={this.onFieldValueChange} />
-                        <FormText color="muted">
-                            Time to make (in minutes)
-                        </FormText>
-                        <FormFeedback valid={false}>Thumbnail is required</FormFeedback>
-                    </FormGroup>
-                    <FormGroup>
-                        <Button className="btn btn-primary" label="Save" onClick={this.saveRecipe}>
-                            Save
-                        </Button>
-                    </FormGroup>
-                </Form>
+                            <FormFeedback valid={false}>A name is required</FormFeedback>
+                        </FormGroup>
+                        <FormGroup className="thumbnail">
+                            <div>
+                                <Label for="thumbnail">Thumbnail</Label>
+                                <Input type="text" name="thumbnail" id="thumbnail" placeholder="Thumbnail"
+                                    value={recipe.thumbnail}
+                                    onChange={this.onFieldValueChange} />
+                                <FormFeedback valid={false}>Thumbnail is required</FormFeedback>
+                            </div>
+                            <div>
+                                {recipe.thumbnail.length
+                                    ? <img src={recipe.thumbnail} alt={recipe.thumbnail} />
+                                    : ''
+                                }
+                            </div>
+                        </FormGroup>
+                        <FormGroup>
+                            <label>Tags</label>
+                            <div className="tags mb-3">
+                                {recipe.tags.map((tag, tid) =>
+                                    <span key={tid} className="badge badge-dark mr-1"
+                                        onClick={() => this.removeTag(tag)}>{tag}</span>
+                                )}
 
-                <div className="p-3 mb-3 bg-light">
+                                <span className="badge badge-success ml-2">Add tag</span>
+                            </div>
+                            <Input type="text" name="new-tag" id="new-tag" placeholder="Enter new tag" onKeyUp={this.addTag} />
+                            <FormText color="muted">
+                                Click on a tag to remove it. Add new tags by typing in the input.
+                        </FormText>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="description">Description</Label>
+                            <Input type="textarea" name="description" id="description" placeholder="Description"
+                                value={recipe.description}
+                                onChange={this.onFieldValueChange} />
+                            <FormText color="muted">Short description of recipe</FormText>
+                            <FormFeedback valid={false}>Description is required</FormFeedback>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="url">Url</Label>
+                            <Input type="text" name="url" id="url" placeholder="url"
+                                value={recipe.url}
+                                onChange={this.onFieldValueChange} />
+                            <FormText color="muted">External url to recipe</FormText>
+                            <FormFeedback valid={false}>url is required</FormFeedback>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="time">Time</Label>
+                            <Input type="number" name="time" id="time" placeholder="Time"
+                                value={recipe.time}
+                                onChange={this.onFieldValueChange} />
+                            <FormText color="muted">Time to make (in minutes)</FormText>
+                            <FormFeedback valid={false}>Thumbnail is required</FormFeedback>
+                        </FormGroup>
+                        <FormGroup>
+                            <Button className="btn btn-primary" label="Save" onClick={this.saveRecipe}>
+                                Save
+                        </Button>
+                        </FormGroup>
+                    </Form>
+                </div>
+
+                <div className="recipe-ingredients">
+
                     <h4>Ingredients</h4>
-                    <table className="table">
+                    <table className="table table-sm">
                         <thead>
                             <tr>
                                 <th>Quantity</th>
                                 <th>Unit</th>
                                 <th>Name</th>
                                 <th>Type</th>
+                                <th>...</th>
                             </tr>
                         </thead>
                         <tbody>
                             {recipe.ingredients.map((ingredient, idx) =>
                                 <RecipeIngredientDetails key={idx} ingredient={ingredient}
-                                    onChange={this.updateIngredient} />
+                                    onChange={this.updateIngredient}
+                                    onDelete={this.deleteIngredient} />
                             )}
                         </tbody>
                     </table>
-                    <hr/>
-                    <AddRecipeIngredient onAddIngredient={this.onAddIngredient} />
+                    <hr />
+                    <AddRecipeIngredient onAdd={this.addIngredient} />
                 </div>
+
             </div >
         );
     }
@@ -179,8 +185,6 @@ export class RecipeDetails extends React.Component<IProps, IState> {
     private saveRecipe = () => {
         const { recipe } = this.state;
 
-        console.log(recipe.guid);
-
         if (recipe.guid === null) {
             api.post('/api/recipes/', recipe)
                 // .then(_ => {
@@ -189,9 +193,12 @@ export class RecipeDetails extends React.Component<IProps, IState> {
                 .catch(error => console.log(error));
         } else {
             api.put(`/api/recipes/${recipe.guid}`, recipe)
-                // .then(_ => {
-                //     this.setState({ redirect: true });
-                // })
+                .then(result => {
+                    // this.setState({ redirect: true });
+                    console.log('result: ', result);
+
+                    this.setState({ recipe: result });
+                })
                 .catch(error => console.log(error));
         }
     }
@@ -208,15 +215,18 @@ export class RecipeDetails extends React.Component<IProps, IState> {
         this.setState({ recipe });
     }
 
-    private onAddIngredient = (ingredient: IIngredient) => {
+    private addIngredient = (ingredient: IIngredient) => {
         delete ingredient._id;
-        console.log('TODO: onAddIngredient', ingredient);
 
         const recipe = { ...this.state.recipe };
         recipe.ingredients.push(ingredient);
+        this.setState({ recipe }, () => this.saveRecipe());
+    }
 
-        this.setState({ recipe });
-        this.saveRecipe();
+    private deleteIngredient = (ingredient: IIngredient) => {
+        const recipe = { ...this.state.recipe };
+        recipe.ingredients = recipe.ingredients.filter(p => p._id !== ingredient._id);
+        this.setState({ recipe }, () => this.saveRecipe());
     }
 
     private addTag = (event: any) => {

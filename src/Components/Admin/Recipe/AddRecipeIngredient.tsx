@@ -6,7 +6,7 @@ import { IngredientTypes } from "../../../Models/IngredientTypes";
 import { IIngredient } from "../../../Models/IIngredient";
 
 interface IProps {
-    onAddIngredient: ((ingredient: IIngredient) => void);
+    onAdd: ((ingredient: IIngredient) => void);
 }
 
 export class AddRecipeIngredient extends React.Component<IProps, IIngredient> {
@@ -59,6 +59,7 @@ export class AddRecipeIngredient extends React.Component<IProps, IIngredient> {
                                     )}
                                 </Input>
                             </td>
+                            <td>.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -77,7 +78,7 @@ export class AddRecipeIngredient extends React.Component<IProps, IIngredient> {
 
     private handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        this.props.onAddIngredient(this.state);
+        this.props.onAdd(this.state);
         this.setState(this.defaultState);
     }
 }
