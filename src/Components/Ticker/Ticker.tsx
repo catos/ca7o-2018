@@ -1,9 +1,10 @@
 import * as React from 'react';
-
+import { IPlayer, Player } from './Player';
+import { Ai } from './Ai';
+// import * as moment from 'moment';
 
 /**
  * 
- * Convert 10 villagers to soldiers
  * Soldiers starter med en k/d ratio, kan trenes opp
  * Specialize to Medics som hindrer casualties
  * Hidden enemy info
@@ -24,38 +25,23 @@ import * as React from 'react';
 
 /*** CONSTANTS ***/
 
-const PLAYER_ME = 5;
-const PLAYER_START_SOLDIERS = 10;
-const PLAYERS: IPlayer[] = [
-    { id: 1, name: 'computer 1', coins: 0, cps: 1, soldiers: PLAYER_START_SOLDIERS, isDead: false },
-    { id: 2, name: 'computer 2', coins: 0, cps: 1, soldiers: PLAYER_START_SOLDIERS, isDead: false },
-    { id: 3, name: 'computer 3', coins: 0, cps: 1, soldiers: PLAYER_START_SOLDIERS, isDead: false },
-    { id: 4, name: 'computer 4', coins: 0, cps: 1, soldiers: PLAYER_START_SOLDIERS, isDead: false },
-    { id: 5, name: 'cato', coins: 0, cps: 1, soldiers: PLAYER_START_SOLDIERS, isDead: false },
-];
-const SHOP: IItem[] = [
-    { id: 1, name: 'Soldier', cost: 10 }
+const PLAYER_ME_ID = 4;
+const PLAYERS: Player[] = [
+    new Player(1, 'Computer 1', true),
+    new Player(2, 'Computer 2', true),
+    new Player(3, 'Computer 3', true),
+    new Player(4, 'Cato')
 ];
 
 /*** INTERFACES ***/
 
-interface IItem {
-    id: number;
-    name: string;
-    cost: number;
-}
-
-interface IPlayer {
-    id: number;
-    name: string;
-    coins: number;
-    cps: number;
-    soldiers: number;
-    isDead: boolean;
-}
-
 interface IState {
-    timer: number;
+    stopGame: boolean;
+    now: number;
+    dt: number;
+    last: number;
+    step: number;
+    ticks: number;
     players: IPlayer[],
     log: string[]
 }
@@ -67,65 +53,96 @@ export class Ticker extends React.Component<{}, IState> {
         super(props);
 
         this.state = {
-            timer: 0,
+            stopGame: true,
+            now: Date.now(),
+            dt: 0,
+            last: 0,
+            step: 1000,
+            ticks: 0,
             players: PLAYERS,
             log: []
         };
     }
 
     public componentDidMount() {
-        setInterval(this.loop, 1000);
+        this.log('mount');
     }
 
     public render() {
-        const { timer, players } = this.state;
+        const { players } = this.state;
+
+        const opponents = players.filter(p => p.id !== PLAYER_ME_ID);
+        const me = players.find(p => p.id === PLAYER_ME_ID);
+
+        if (me === undefined) {
+            return;
+        }
 
         return (
             <div className="m-3">
 
                 <div className="mb-3">
-                    <div>Timer: {timer}</div>
+                    <div>stopGame: {this.state.stopGame.toString()}</div>
+                    <div>now: {this.state.now}</div>
+                    <div>dt: {this.state.dt}</div>
+                    <div>last: {this.state.last}</div>
+                    <div>step: {this.state.step}</div>
+
+                    <div>ticks: {this.state.ticks}</div>
+                    <div>Gametime (ms): {}</div>
+                    <button className="btn btn-primary" onClick={this.startGame}>Start Game</button>
+                    <button className="btn btn-primary" onClick={this.stopGame}>Stop Game</button>
                 </div>
 
-                <div className="bg-light mb-3 p-2">
-                    <h4>Cheats</h4>
-                    <button className="btn btn-warning" onClick={() => this.cheat(10)}>+10 coins</button>
-                    <button className="btn btn-warning" onClick={() => this.cheat(100)}>+100 coins</button>
-                    <button className="btn btn-warning" onClick={() => this.cheat(1000)}>+1000 coins</button>
-                </div>
-
-                <div className="bg-light mb-3 p-2">
-                    <h4>Players</h4>
+                <div className="bg-light mb-3 p-3">
+                    <h4>Opponents</h4>
                     <div className="card-deck">
-                        {players.map((player, idx) =>
-                            <div key={idx} className={'player card text-center' + (player.soldiers <= 0 ? ' bg-danger' : '')}>
-                                <h3>{player.name}</h3>
+                        {opponents.map((player, idx) =>
+                            <div key={idx} className={'player card text-center' + (player.soldiers <= 0 ? ' border border-danger' : '')}>
+                                <h3>{player.name} {player.isDead ? 'R.I.P' : ''} {player.isComputer ? '[AI]' : ''}</h3>
                                 <h4>{player.soldiers} soldiers</h4>
-                                <h5>{player.coins} coins @ {player.cps} coins / s</h5>
+                                <h5>{player.coins} coins</h5>
+                                <h6>@{player.cps} coins/s</h6>
                                 <div className="card-text">
-                                    {player.id === PLAYER_ME
-                                        ? <div>
-                                            <div>
-                                                <button className="btn btn-primary" onClick={() => this.tick(player)}>Work</button>
-                                            </div>
-                                            <div>
-                                                <button className="btn btn-success" onClick={() => this.buy(player, 1, 1)}>1 soldier <br /><small>Cost: 10 coins</small></button>
-                                                <button className="btn btn-success" onClick={() => this.buy(player, 1, 10)}>10 soldiers <br /><small>Cost: 100 coins</small></button>
-                                                <button className="btn btn-success" onClick={() => this.buy(player, 1, 100)}>100 soldiers <br /><small>Cost: 1000 coins</small></button>
-                                            </div>
-                                        </div>
-                                        : <div>
-                                            <button className="btn btn-danger" onClick={() => this.attack(player, 1)}>Attack + 1</button>
-                                            <button className="btn btn-danger" onClick={() => this.attack(player, 10)}>Attack + 10</button>
-                                            <button className="btn btn-danger" onClick={() => this.attack(player, 100)}>Attack + 100</button>
-                                        </div>}
+                                    <div>
+                                        <button className="btn btn-danger" onClick={() => me.attack(player, 1)}>Attack</button>
+                                        <button className="btn btn-danger" onClick={() => me.attack(player, 10)}>+10</button>
+                                        <button className="btn btn-danger" onClick={() => me.attack(player, 100)}>+100</button>
+                                    </div>
                                 </div>
                             </div>
                         )}
                     </div>
+
+                    <div className="bg-light mb-3 p-3">
+                        <h4>Player</h4>
+                        <div className={'player card text-center' + (me.soldiers <= 0 ? ' bg-danger' : '')}>
+                            <h3>{me.name}</h3>
+                            <h4>{me.soldiers} soldiers</h4>
+                            <h5>{me.coins} coins</h5>
+                            <h6>@{me.cps} coins/s</h6>
+                            <div className="card-text">
+                                <div>
+                                    <button className="btn btn-primary" onClick={() => me.work()}>Work</button>
+                                </div>
+                                <div>
+                                    <button className="btn btn-success" onClick={() => me.buy(1, 1)}>1 soldier <br /><small>Cost: 10 coins</small></button>
+                                    <button className="btn btn-success" onClick={() => me.buy(1, 10)}>10 soldiers <br /><small>Cost: 100 coins</small></button>
+                                    <button className="btn btn-success" onClick={() => me.buy(1, 100)}>100 soldiers <br /><small>Cost: 1000 coins</small></button>
+                                </div>
+                                <div>
+                                    <h4>Cheats</h4>
+                                    <button className="btn btn-warning" onClick={() => me.cheatInCoins(10)}>+10 coins</button>
+                                    <button className="btn btn-warning" onClick={() => me.cheatInCoins(100)}>+100 coins</button>
+                                    <button className="btn btn-warning" onClick={() => me.cheatInCoins(1000)}>+1000 coins</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div className="bg-light mb-3 p-2">
+                <div className="bg-light mb-3 p-3">
                     <h4>Log</h4>
                     {this.state.log.map((item, idx) => <div key={idx}>{item}</div>)}
                 </div>
@@ -135,88 +152,55 @@ export class Ticker extends React.Component<{}, IState> {
     }
 
     private loop = () => {
-        // const { players } = this.state;
+        const gs = { ...this.state };
 
-        // update player ticks
-        const players = this.state.players.map(p => {
-            p.cps = Math.floor(p.soldiers / 10);
-            p.coins += p.cps;
+        // // check if game over
+        // const gameIsOver = this.state.players.filter(p => !p.isDead).length <= 1;
+        // if (gameIsOver) {
+        //     this.log('GAME OVER!');
+        //     clearInterval(this.intervalId);
+        // }
 
-            return p;
-        });
+        gs.now = this.timestamp();
+        gs.dt += Math.min(1000, (gs.now - gs.last));
 
-        // check if player is dead
-        players.map(p => {
-            if (p.soldiers <= 0 && !p.isDead) {
-                this.log(`${p.name} died!`);
-                p.isDead = true;
-            }
-            return p;
-        })
+        while (gs.dt > gs.step) {
+            gs.dt = gs.dt - gs.step;
+            gs.ticks += 1;
 
-        // update state        
-        this.setState({
-            timer: this.state.timer + 1,
-            players
-        });
-    }
+            // update
+            gs.players = this.state.players.map(p => {
+                p.isComputer
+                    ? new Ai().update(p, gs.dt)
+                    : p.update(gs.dt);
 
-    private tick = (player: IPlayer) => {
-        const players = this.state.players.map(p => {
-            if (p.id === player.id && !p.isDead) {
-                p.coins += 1;
-            }
-            return p;
-        });
-
-        this.setState({ players });
-    }
-
-    private buy = (player: IPlayer, itemId: number, amount: number) => {
-        const item = SHOP.find(p => p.id === itemId);
-        if (item !== undefined) {
-            const cost = item.cost * amount;
-
-            const players = this.state.players.map(p => {
-                if (p.id === player.id && p.coins > cost) {
-                    this.log(`${player.name} bought ${amount}x ${item.name} for ${cost} coins`);
-                    p.coins -= cost;
-                    p.soldiers += amount;
-                }
                 return p;
             });
-
-            this.setState({ players });
         }
+
+
+        gs.last = gs.now;
+
+        // update state
+        this.setState({
+            now: gs.now,
+            dt: gs.dt,
+            last: gs.last,
+            ticks: gs.ticks,
+            players: gs.players
+        }, () => {
+            if (!gs.stopGame) {
+                requestAnimationFrame(this.loop);
+            }
+        });
     }
 
-    private attack = (player: IPlayer, attackCount: number) => {
-        const players = this.state.players.map(p => {
-            if (p.id === player.id && !p.isDead) {
-                attackCount = attackCount > p.soldiers ? p.soldiers : attackCount;
-                p.soldiers -= attackCount;
-            }
-
-            if (p.id === PLAYER_ME && p.soldiers > 1) {
-                p.soldiers -= attackCount
-            }
-
-            return p;
-        });
-
-        this.setState({ players });
+    private startGame = () => {
+        this.setState({ stopGame: false }, () => requestAnimationFrame(this.loop));
     }
 
-    private cheat = (coins: number) => {
-        const players = this.state.players.map(p => {
-            if (p.id === PLAYER_ME) {
-                p.coins += coins
-            }
-
-            return p;
-        });
-
-        this.setState({ players });
+    private stopGame = () => {
+        this.setState({ stopGame: true });
     }
 
     /*** HELPERS */
@@ -224,6 +208,10 @@ export class Ticker extends React.Component<{}, IState> {
         const log = [...this.state.log];
         log.push(message);
         this.setState({ log });
+    }
+
+    private timestamp = () => {
+        return window.performance && window.performance.now ? window.performance.now() : new Date().getTime();
     }
 
 }
