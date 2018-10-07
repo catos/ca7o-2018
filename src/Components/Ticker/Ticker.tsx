@@ -1,7 +1,13 @@
 import * as React from 'react';
-import { IPlayer, Player } from './Player';
+import { IPlayer } from './IPlayer';
+import { Player } from './Player';
 import { Ai } from './Ai';
+import { ShopButton } from './ShopButton';
+import { SHOP } from './Shop';
+import { WorkButton } from './WorkButton';
 // import * as moment from 'moment';
+
+import './ticker.css';
 
 /**
  * 
@@ -27,9 +33,9 @@ import { Ai } from './Ai';
 
 const PLAYER_ME_ID = 4;
 const PLAYERS: Player[] = [
-    new Player(1, 'Computer 1', true),
-    new Player(2, 'Computer 2', true),
-    new Player(3, 'Computer 3', true),
+    new Ai(1, 'Computer 1'),
+    new Ai(2, 'Computer 2'),
+    new Ai(3, 'Computer 3'),
     new Player(4, 'Cato')
 ];
 
@@ -79,29 +85,28 @@ export class Ticker extends React.Component<{}, IState> {
         }
 
         return (
-            <div className="m-3">
+            <div id="ticker" className="m-3">
 
-                <div className="mb-3">
-                    <div>stopGame: {this.state.stopGame.toString()}</div>
-                    <div>now: {this.state.now}</div>
-                    <div>dt: {this.state.dt}</div>
-                    <div>last: {this.state.last}</div>
+                <div className="header">
+                    {this.state.stopGame
+                        ? <button className="btn btn-success" onClick={this.startGame}>Start Game</button>
+                        : <button className="btn btn-danger" onClick={this.stopGame}>Stop Game</button>}
+
                     <div>step: {this.state.step}</div>
-
                     <div>ticks: {this.state.ticks}</div>
-                    <div>Gametime (ms): {}</div>
-                    <button className="btn btn-primary" onClick={this.startGame}>Start Game</button>
-                    <button className="btn btn-primary" onClick={this.stopGame}>Stop Game</button>
+
+                    <div>now: {Math.floor(this.state.now)}</div>
+                    <div>dt: {Math.floor(this.state.dt)}</div>
+
                 </div>
 
                 <div className="bg-light mb-3 p-3">
                     <h4>Opponents</h4>
                     <div className="card-deck">
                         {opponents.map((player, idx) =>
-                            <div key={idx} className={'player card text-center' + (player.soldiers <= 0 ? ' border border-danger' : '')}>
-                                <h3>{player.name} {player.isDead ? 'R.I.P' : ''} {player.isComputer ? '[AI]' : ''}</h3>
-                                <h4>{player.soldiers} soldiers</h4>
-                                <h5>{player.coins} coins</h5>
+                            <div key={idx} className={'p-3 card text-center border' + (player.isDead ? ' border-danger text-danger' : '')}>
+                                <h3>{player.name} {player.isDead ? <span className="fa fa-skull" /> : ''} {player.isComputer ? '[AI]' : ''}</h3>
+                                <h4>{player.soldiers} <span className="fa fa-shield-alt" /> - {player.coins} coins <span className="fa fa-coins" /></h4>
                                 <h6>@{player.cps} coins/s</h6>
                                 <div className="card-text">
                                     <div>
@@ -116,26 +121,25 @@ export class Ticker extends React.Component<{}, IState> {
 
                     <div className="bg-light mb-3 p-3">
                         <h4>Player</h4>
-                        <div className={'player card text-center' + (me.soldiers <= 0 ? ' bg-danger' : '')}>
-                            <h3>{me.name}</h3>
-                            <h4>{me.soldiers} soldiers</h4>
-                            <h5>{me.coins} coins</h5>
-                            <h6>@{me.cps} coins/s</h6>
+                        <div className={'p-3 player card text-center' + (me.soldiers <= 0 ? ' bg-danger' : '')}>
+                            <h3>{me.name} - {me.soldiers} <span className="fa fa-shield-alt" /> - {me.coins} <span className="fa fa-coins" /> <small>@{me.cps} coins/s</small></h3>
                             <div className="card-text">
                                 <div>
-                                    <button className="btn btn-primary" onClick={() => me.work()}>Work</button>
+                                    <WorkButton player={me} />
                                 </div>
                                 <div>
-                                    <button className="btn btn-success" onClick={() => me.buy(1, 1)}>1 soldier <br /><small>Cost: 10 coins</small></button>
-                                    <button className="btn btn-success" onClick={() => me.buy(1, 10)}>10 soldiers <br /><small>Cost: 100 coins</small></button>
-                                    <button className="btn btn-success" onClick={() => me.buy(1, 100)}>100 soldiers <br /><small>Cost: 1000 coins</small></button>
+                                    <ShopButton player={me} item={SHOP[0]} amount={1} />
+                                    <ShopButton player={me} item={SHOP[0]} amount={10} />
+                                    <ShopButton player={me} item={SHOP[0]} amount={100} />
                                 </div>
-                                <div>
-                                    <h4>Cheats</h4>
-                                    <button className="btn btn-warning" onClick={() => me.cheatInCoins(10)}>+10 coins</button>
-                                    <button className="btn btn-warning" onClick={() => me.cheatInCoins(100)}>+100 coins</button>
-                                    <button className="btn btn-warning" onClick={() => me.cheatInCoins(1000)}>+1000 coins</button>
-                                </div>
+
+                                <hr />
+                                <h4>Cheats</h4>
+                                <button className="btn btn-warning" onClick={() => me.cheatInCoins(10)}>+10 <span className="fa fa-coins" /></button>
+                                <button className="btn btn-warning" onClick={() => me.cheatInCoins(100)}>+100 <span className="fa fa-coins" /></button>
+                                <button className="btn btn-warning" onClick={() => me.cheatInCoins(1000)}>+1000 <span className="fa fa-coins" /></button>
+                                <br />
+
                             </div>
                         </div>
                     </div>
@@ -170,10 +174,7 @@ export class Ticker extends React.Component<{}, IState> {
 
             // update
             gs.players = this.state.players.map(p => {
-                p.isComputer
-                    ? new Ai().update(p, gs.dt)
-                    : p.update(gs.dt);
-
+                p.update(gs.dt);
                 return p;
             });
         }

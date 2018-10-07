@@ -112,7 +112,7 @@ export class Wesketch extends React.Component<{}, IState> {
         };
 
         return (
-            <div id="wesketch" className={gameState.debugMode ? 'debug-mode' : ''}>
+            <div id="wesketch" className={ 'no-select' + (gameState.debugMode ? 'debug-mode' : '')}>
                 {mainWindow[PhaseTypes[gameState.phase]]}                
                 <InfoBar gameState={gameState} wss={wss} toggleGameEnd={this.toggleGameEnd} />
                 <Chat gameState={gameState} wss={wss} />

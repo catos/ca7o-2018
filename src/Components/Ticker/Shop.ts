@@ -6,5 +6,5 @@ export interface IItem {
 }
 
 export const SHOP: IItem[] = [
-    { id: 1, name: 'Soldier', cost: 10, craftingTime: 10000 }
+    { id: 1, name: 'Train Soldier', cost: 10, craftingTime: 1500 }
 ];

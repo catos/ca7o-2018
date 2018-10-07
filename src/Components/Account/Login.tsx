@@ -65,7 +65,8 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
                             <Label for="password">Password</Label>
                             <Input type="password" name="password" id="password" placeholder="Password"
                                 value={this.state.password}
-                                onChange={this.onFieldValueChange} />
+                                onChange={this.onFieldValueChange} 
+                                onKeyPress={this.onKeyPress} />
                         </FormGroup>
 
                         <FormGroup>
@@ -99,6 +100,12 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
             [event.target.name]: event.target.value
         };
         this.setState(nextState);
+    }
+
+    private onKeyPress = (event: React.KeyboardEvent) => {
+        if (event.which === 13) {
+            this.onSubmit();
+        }        
     }
 
     private onSubmit = () => {

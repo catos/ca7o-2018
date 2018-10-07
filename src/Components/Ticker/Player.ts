@@ -1,26 +1,9 @@
-import { SHOP } from "./Shop";
-
-export interface IPlayer {
-    id: number;
-    name: string;
-    coins: number;
-    cps: number;
-    soldiers: number;
-    isDead: boolean;
-    isComputer: boolean;
-
-    update(dt: number): void;
-    work(): void;
-    attack(player: IPlayer, amount: number): void;
-    buy(itemId: number, amount: number): void;
-
-    cheatInCoins(amount: number) : void;
-}
+import { IPlayer } from "./IPlayer";
 
 export class Player implements IPlayer {
     public id: number;
     public name: string;
-    public coins: number = 10;
+    public coins: number = 100;
     public cps: number = 1;
     public soldiers: number = 10;
     public isDead: boolean = false;
@@ -68,19 +51,6 @@ export class Player implements IPlayer {
 
         this.soldiers -= amount
         console.log(`${this.name} lost ${amount} soldiers during battle`);
-    }
-
-    public buy = (itemId: number, amount: number) => {
-        const item = SHOP.find(p => p.id === itemId);
-        if (item !== undefined) {
-            const cost = item.cost * amount;
-
-            if (this.coins > cost) {
-                console.log(`${this.name} bought ${amount}x ${item.name} for ${cost} coins`);
-                this.coins -= cost;
-                this.soldiers += amount;
-            }
-        }
     }
 
     public cheatInCoins = (amount: number) => {

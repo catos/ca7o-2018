@@ -1,0 +1,15 @@
+#ticker .header {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+}
+
+#ticker .header div {
+    min-width: 10rem;
+}
+
+#ticker .player .btn {
+    min-width: 10rem;
+}
