@@ -45,7 +45,7 @@ export class ShopButton extends React.Component<IProps, IState> {
 
         return (
             <button className={'btn' + (this.btnStateClass())} onClick={this.onClick}>
-                {item.name} x{this.props.amount}
+                <span className={item.icon} /> x{this.props.amount}
                 <div><small><span className="fa fa-coins" /> {cost} {discount > 0 ? `(${discount}%)` : ''}</small></div>
                 <div><small><span className="fa fa-hourglass" /> {this.state.timeRemaining / 1000} s</small></div>
             </button>
@@ -61,7 +61,7 @@ export class ShopButton extends React.Component<IProps, IState> {
             return ' btn-danger'
         }
 
-        return ' btn-success';
+        return ` ${this.props.item.color}`;
     }
 
     private onClick = () => {
@@ -84,7 +84,13 @@ export class ShopButton extends React.Component<IProps, IState> {
 
         // start order / craft
         this.craft(() => {
-            player.soldiers += amount;
+            switch (item.id) {
+                case 1:
+                    player.soldiers += amount;
+                    break;
+                case 2:
+                    player.workers += amount;
+            }
             console.log(`${amount} ${item.name} get!`);
 
             this.setState({

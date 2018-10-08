@@ -26,7 +26,7 @@ export class WorkButton extends React.Component<IProps, IState> {
         return (
             <button className={'mr-1 btn' + (this.state.isWorking ? ' btn-secondary' : ' btn-primary')} onClick={this.onClick}>
                 WORK
-                <div><small>Rewards: {Math.floor(this.props.player.soldiers / 5)} <span className="fa fa-coins" /></small></div>
+                <div><small>Rewards: {Math.floor(this.props.player.workers / 5)} <span className="fa fa-coins" /></small></div>
                 <div><small>Time: {this.state.timeRemaining / 1000} seconds</small></div>
             </button>
         );
@@ -42,7 +42,7 @@ export class WorkButton extends React.Component<IProps, IState> {
 
         // start order / craft
         this.craft(() => {
-            player.coins += Math.floor(this.props.player.soldiers / 5);
+            player.coins += Math.floor(this.props.player.workers / 5);
 
             this.setState({
                 timeRemaining: this.WORK_TIME,

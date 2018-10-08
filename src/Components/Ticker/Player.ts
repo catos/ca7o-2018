@@ -5,9 +5,11 @@ export class Player implements IPlayer {
     public name: string;
     public coins: number = 100;
     public cps: number = 1;
-    public soldiers: number = 10;
     public isDead: boolean = false;
     public isComputer: boolean;
+
+    public soldiers: number = 10;
+    public workers: number = 10;
 
     constructor(id: number, name: string, isComputer: boolean = false) {
         this.id = id;
@@ -23,7 +25,7 @@ export class Player implements IPlayer {
         }
 
         // Update cps and coins
-        this.cps = Math.floor(this.soldiers / 10);
+        this.cps = Math.floor(this.workers / 10);
         this.coins += this.cps;
 
         // console.log(`update called on player with id = ${this.id}`);

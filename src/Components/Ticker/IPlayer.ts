@@ -3,9 +3,11 @@ export interface IPlayer {
     name: string;
     coins: number;
     cps: number;
-    soldiers: number;
     isDead: boolean;
     isComputer: boolean;
+
+    soldiers: number;
+    workers: number;
 
     update(dt: number): void;
     work(): void;

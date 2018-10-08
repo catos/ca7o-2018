@@ -11,6 +11,17 @@ import './ticker.css';
 
 /**
  * 
+ * 1-100 soliders cost 10 per soldiers
+ * 100-200 soliders cost 20 per soldiers
+ * 200-300 soliders cost 30 per soldiers
+ * 
+ * City level +1, +2, +3: øker city defence med +1, +2 og +3.....dvs hvis motstander sender 10 soldater til angrep så mister han 1 pga defence
+ * City levels gir også ekstra order/craft slots for soldiers og workers (som skal starte på 1)
+ * Spiller begynner på City level +1
+ * City level + gir bonus på pris of crafting-tid
+ * Gevinsten for å upgrade city må være diminishing "mid-game" for å gi insentiver til å gå offensiv
+ * 
+ * 
  * Soldiers starter med en k/d ratio, kan trenes opp
  * Specialize to Medics som hindrer casualties
  * Hidden enemy info
@@ -106,7 +117,7 @@ export class Ticker extends React.Component<{}, IState> {
                         {opponents.map((player, idx) =>
                             <div key={idx} className={'p-3 card text-center border' + (player.isDead ? ' border-danger text-danger' : '')}>
                                 <h3>{player.name} {player.isDead ? <span className="fa fa-skull" /> : ''} {player.isComputer ? '[AI]' : ''}</h3>
-                                <h4>{player.soldiers} <span className="fa fa-shield-alt" /> - {player.coins} coins <span className="fa fa-coins" /></h4>
+                                <h4>{player.soldiers} <span className="fa fa-chess-knight" /> - {player.workers} <span className="fa fa-chess-pawn" /> - {player.coins} coins <span className="fa fa-coins" /></h4>
                                 <h6>@{player.cps} coins/s</h6>
                                 <div className="card-text">
                                     <div>
@@ -122,7 +133,7 @@ export class Ticker extends React.Component<{}, IState> {
                     <div className="bg-light mb-3 p-3">
                         <h4>Player</h4>
                         <div className={'p-3 player card text-center' + (me.soldiers <= 0 ? ' bg-danger' : '')}>
-                            <h3>{me.name} - {me.soldiers} <span className="fa fa-shield-alt" /> - {me.coins} <span className="fa fa-coins" /> <small>@{me.cps} coins/s</small></h3>
+                            <h3>{me.name} - {me.soldiers} <span className="fa fa-shield-alt" /> - {me.workers} <span className="fa fa-chess-pawn" /> - {me.coins} <span className="fa fa-coins" /> <small>@{me.cps} coins/s</small></h3>
                             <div className="card-text">
                                 <div>
                                     <WorkButton player={me} />
@@ -131,6 +142,11 @@ export class Ticker extends React.Component<{}, IState> {
                                     <ShopButton player={me} item={SHOP[0]} amount={1} />
                                     <ShopButton player={me} item={SHOP[0]} amount={10} />
                                     <ShopButton player={me} item={SHOP[0]} amount={100} />
+                                </div>
+                                <div>
+                                    <ShopButton player={me} item={SHOP[1]} amount={1} />
+                                    <ShopButton player={me} item={SHOP[1]} amount={10} />
+                                    <ShopButton player={me} item={SHOP[1]} amount={100} />
                                 </div>
 
                                 <hr />
@@ -158,12 +174,12 @@ export class Ticker extends React.Component<{}, IState> {
     private loop = () => {
         const gs = { ...this.state };
 
-        // // check if game over
-        // const gameIsOver = this.state.players.filter(p => !p.isDead).length <= 1;
-        // if (gameIsOver) {
-        //     this.log('GAME OVER!');
-        //     clearInterval(this.intervalId);
-        // }
+        // check if game over
+        const gameIsOver = this.state.players.filter(p => !p.isDead).length <= 1;
+        if (gameIsOver) {
+            this.log('GAME OVER!');
+            this.stopGame();
+        }
 
         gs.now = this.timestamp();
         gs.dt += Math.min(1000, (gs.now - gs.last));
