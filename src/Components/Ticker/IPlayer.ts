@@ -1,3 +1,19 @@
+export interface ICity {
+    level: number;
+}
+
+export interface IArmy {
+    level: number;
+    strength: number;
+    soldiers: number;
+}
+
+export interface ICitizens {
+    level: number;
+    efficiency: number;
+    workers: number;
+}
+
 export interface IPlayer {
     id: number;
     name: string;
@@ -6,8 +22,9 @@ export interface IPlayer {
     isDead: boolean;
     isComputer: boolean;
 
-    soldiers: number;
-    workers: number;
+    city: ICity;
+    army: IArmy;
+    citizens: ICitizens;
 
     update(dt: number): void;
     work(): void;

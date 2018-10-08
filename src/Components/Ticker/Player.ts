@@ -1,4 +1,4 @@
-import { IPlayer } from "./IPlayer";
+import { IPlayer, ICity, ICitizens, IArmy } from "./IPlayer";
 
 export class Player implements IPlayer {
     public id: number;
@@ -8,8 +8,19 @@ export class Player implements IPlayer {
     public isDead: boolean = false;
     public isComputer: boolean;
 
-    public soldiers: number = 10;
-    public workers: number = 10;
+    public city: ICity = {
+        level: 1
+    };
+    public army: IArmy = { 
+        level: 1,
+        strength: 100,
+        soldiers: 10,
+    };
+    public citizens: ICitizens = {
+        level: 1,
+        efficiency: 100,
+        workers: 10,
+    };
 
     constructor(id: number, name: string, isComputer: boolean = false) {
         this.id = id;
@@ -19,13 +30,13 @@ export class Player implements IPlayer {
 
     public update(dt: number): void {
         // Check if dead
-        if (this.soldiers <= 0 && !this.isDead) {
+        if (this.army.soldiers <= 0 && !this.isDead) {
             console.log(`${this.name} died!`);
             this.isDead = true;
         }
 
         // Update cps and coins
-        this.cps = Math.floor(this.workers / 10);
+        this.cps = Math.floor(this.citizens.workers / 10);
         this.coins += this.cps;
 
         // console.log(`update called on player with id = ${this.id}`);
@@ -42,16 +53,16 @@ export class Player implements IPlayer {
             return;
         }
 
-        if (this.soldiers <= amount) {
-            console.log(`${this.name} is unable to attack with ${amount} soldiers, he only has ${this.soldiers}`);
+        if (this.army.soldiers <= amount) {
+            console.log(`${this.name} is unable to attack with ${amount} soldiers, he only has ${this.army.soldiers}`);
             return;
         }
         
-        amount = amount > player.soldiers ? player.soldiers : amount;
-        player.soldiers -= amount;
+        amount = amount > player.army.soldiers ? player.army.soldiers : amount;
+        player.army.soldiers -= amount;
         console.log(`${this.name} attacks ${player.name} with ${amount} soldiers`);
 
-        this.soldiers -= amount
+        this.army.soldiers -= amount
         console.log(`${this.name} lost ${amount} soldiers during battle`);
     }
 

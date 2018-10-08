@@ -15,13 +15,6 @@ interface IState {
     isCrafting: boolean;
 }
 
-/**
- * Discount
- * 1x        0%
- * 10x      10%
- * 100x     20%
- */
-
 export class ShopButton extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
@@ -86,10 +79,10 @@ export class ShopButton extends React.Component<IProps, IState> {
         this.craft(() => {
             switch (item.id) {
                 case 1:
-                    player.soldiers += amount;
+                    player.army.soldiers += amount;
                     break;
                 case 2:
-                    player.workers += amount;
+                    player.citizens.workers += amount;
             }
             console.log(`${amount} ${item.name} get!`);
 
