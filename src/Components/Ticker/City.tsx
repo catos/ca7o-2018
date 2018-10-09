@@ -1,25 +1,15 @@
 import * as React from 'react';
 import { IPlayer } from './IPlayer';
+import { IGameState } from './IGameState';
 
 interface IProps {
     player: IPlayer;
+    gameState: IGameState;
 }
 
-interface IState {
-    timeRemaining: number;
-    isWorking: boolean;
-}
-
-export class City extends React.Component<IProps, IState> {
-    private readonly WORK_TIME: number = 5000;
-
+export class City extends React.Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
-
-        this.state = {
-            timeRemaining: this.WORK_TIME,
-            isWorking: false,
-        };
     }
 
 
@@ -30,20 +20,25 @@ export class City extends React.Component<IProps, IState> {
             <div className="player-city">
                 <h3>City</h3>
                 <h4>Level {player.city.level}</h4>
-                <div>Treasury: {player.coins} <span className="fa fa-coins" /></div>
-                <div>Income: {player.cps} <span className="fa fa-coins" />/s</div>
-                <div>Build Slots: {player.city.level}</div>
+                <div>Treasury: {player.coins} <span className="fa fa-coins" /> @{player.cps} <span className="fa fa-coins" />/s</div>
+                <div><hr /></div>
                 <div><strong>Bonuses</strong></div>
                 <div>Cost: +0%</div>
                 <div>Build time: +0%</div>
                 <div>Defense: +10%</div>
+                <div><hr /></div>
+                <h5>Work the fields</h5>
+                <div className="mb-3">
+                    Rewards: {Math.floor(this.props.player.citizens.workers / 5)} <span className="fa fa-coins" />
+                </div>
                 <div>
-                    <button className={'mr-1 btn' + (this.state.isWorking ? ' btn-secondary' : ' btn-primary')} onClick={this.onClick}>
+                    <button className={'btn' + (player.city.isWorking ? ' btn-secondary' : ' btn-primary')} onClick={this.onClick}>
                         Work
-                        <div><small>Rewards: {Math.floor(this.props.player.citizens.workers / 5)} <span className="fa fa-coins" /></small></div>
-                        <div><small>Time: {this.state.timeRemaining / 1000} seconds</small></div>
+                        <div><small>Time: {Math.floor(player.city.workTimer / 1000)} seconds</small></div>
                     </button>
+                </div>
 
+                <div>
                     <button className="btn btn-info">
                         <h5>Upgrade</h5>
                         <div>Cost: {player.city.level * 100} <span className="fa fa-coins" /></div>
@@ -54,37 +49,7 @@ export class City extends React.Component<IProps, IState> {
     }
 
     private onClick = () => {
-        const { player } = this.props;
-
-        // player is already crafting
-        if (this.state.isWorking) {
-            return;
-        }
-
-        // start order / craft
-        this.craft(() => {
-            player.coins += Math.floor(this.props.player.citizens.workers / 5);
-
-            this.setState({
-                timeRemaining: this.WORK_TIME,
-                isWorking: false
-            });
-        });
-    }
-
-
-    private craft = (callback: () => void) => {
-        this.setState({ isWorking: true });
-
-        const intervalId = setInterval(() => {
-            this.setState(prevState => ({ timeRemaining: prevState.timeRemaining - 1000 }),
-                () => {
-                    if (this.state.timeRemaining <= 0) {
-                        clearInterval(intervalId);
-                        callback();
-                    }
-                });
-        }, 1000);
+        this.props.player.work();
     }
 
 }

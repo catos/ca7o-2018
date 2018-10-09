@@ -32,10 +32,6 @@
     text-align: center;
 }
 
-#ticker #player .btn {
-    min-width: 10rem;
-}
-
 #ticker #player .production-container {
     display: flex;
 }

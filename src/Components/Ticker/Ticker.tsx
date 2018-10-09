@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { IPlayer } from './IPlayer';
 import { Player } from './Player';
 import { Ai } from './Ai';
 
 import './ticker.css';
 import { PlayerMe } from './PlayerMe';
+import { IGameState } from './IGameState';
 
 /**
  * 
@@ -47,22 +47,7 @@ const PLAYERS: Player[] = [
     new Player(4, 'Cato')
 ];
 
-/*** INTERFACES ***/
-
-interface IState {
-    stopGame: boolean;
-    now: number;
-    dt: number;
-    last: number;
-    step: number;
-    ticks: number;
-    players: IPlayer[],
-    log: string[]
-}
-
-/*** COMPONENT ***/
-
-export class Ticker extends React.Component<{}, IState> {
+export class Ticker extends React.Component<{}, IGameState> {
     constructor(props: any) {
         super(props);
 
@@ -70,6 +55,7 @@ export class Ticker extends React.Component<{}, IState> {
             stopGame: true,
             now: Date.now(),
             dt: 0,
+            dtAcc: 0,
             last: 0,
             step: 1000,
             ticks: 0,
@@ -105,6 +91,7 @@ export class Ticker extends React.Component<{}, IState> {
 
                     <div>now: {Math.floor(this.state.now)}</div>
                     <div>dt: {Math.floor(this.state.dt)}</div>
+                    <div>dtAcc: {Math.floor(this.state.dtAcc)}</div>
 
                 </div>
 
@@ -128,12 +115,12 @@ export class Ticker extends React.Component<{}, IState> {
                     </div>
                 </div>
 
-                <PlayerMe player={me} />
+                <PlayerMe player={me} gameState={this.state} />
 
                 <div className="bg-light mb-3 p-3">
                     <h4>Log</h4>
-                    {this.state.players.map(player => player.log.map((entry, idx) => 
-                        <div key={idx}>{entry}</div>    
+                    {this.state.players.map(player => player.log.map((entry, idx) =>
+                        <div key={idx}>{entry}</div>
                     ))}
                 </div>
 
@@ -152,15 +139,22 @@ export class Ticker extends React.Component<{}, IState> {
         }
 
         gs.now = this.timestamp();
-        gs.dt += Math.min(1000, (gs.now - gs.last));
+        gs.dt = gs.now - gs.last;
+        gs.dtAcc += Math.min(1000, (gs.now - gs.last));
 
-        while (gs.dt > gs.step) {
-            gs.dt = gs.dt - gs.step;
+        // update
+        gs.players = this.state.players.map(p => {
+            p.update(gs.dt);
+            return p;
+        });
+
+        while (gs.dtAcc > gs.step) {
+            gs.dtAcc = gs.dtAcc - gs.step;
             gs.ticks += 1;
 
             // update
             gs.players = this.state.players.map(p => {
-                p.update(gs.dt);
+                p.tick();
                 return p;
             });
         }
@@ -172,6 +166,7 @@ export class Ticker extends React.Component<{}, IState> {
         this.setState({
             now: gs.now,
             dt: gs.dt,
+            dtAcc: gs.dtAcc,
             last: gs.last,
             ticks: gs.ticks,
             players: gs.players

@@ -9,9 +9,11 @@ export class Player implements IPlayer {
     public isComputer: boolean;
 
     public city: ICity = {
-        level: 1
+        level: 1,
+        workTimer: 5000,
+        isWorking: false
     };
-    public army: IArmy = { 
+    public army: IArmy = {
         level: 1,
         strength: 100,
         soldiers: 10,
@@ -31,21 +33,39 @@ export class Player implements IPlayer {
     }
 
     public update(dt: number): void {
+        const { city, army } = this;
+
         // Check if dead
-        if (this.army.soldiers <= 0 && !this.isDead) {
+        if (army.soldiers <= 0 && !this.isDead) {
             this.log.push(`${this.name} died!`);
             this.isDead = true;
         }
 
+        // Update craft timers
+        if (city.isWorking && city.workTimer > 0) {
+            city.workTimer -= dt;
+        }
+
+        if (city.isWorking && city.workTimer <= 0) {
+            city.isWorking = false;
+            city.workTimer = 5000;
+
+            this.coins += Math.floor(this.citizens.workers / 5);
+            this.log.push(`${this.name} finished working!`);
+        }
+
+    }
+
+    public tick = () => {
         // Update cps and coins
         this.cps = Math.floor(this.citizens.workers / 10);
         this.coins += this.cps;
-
-        // this.log.push(`update called on player with id = ${this.id}`);
     }
 
     public work = () => {
-        this.coins += 1;
+        const { city } = this;
+        city.isWorking = true;
+        this.log.push(`${this.name} started working!`);
     }
 
     public attack = (player: IPlayer, amount: number) => {
@@ -59,7 +79,7 @@ export class Player implements IPlayer {
             this.log.push(`${this.name} is unable to attack with ${amount} soldiers, he only has ${this.army.soldiers}`);
             return;
         }
-        
+
         amount = amount > player.army.soldiers ? player.army.soldiers : amount;
         player.army.soldiers -= amount;
         this.log.push(`${this.name} attacks ${player.name} with ${amount} soldiers`);

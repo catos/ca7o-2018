@@ -1,5 +1,7 @@
 export interface ICity {
     level: number;
+    workTimer: number;
+    isWorking: boolean;
 }
 
 export interface IArmy {
@@ -29,6 +31,7 @@ export interface IPlayer {
     log: string[];
 
     update(dt: number): void;
+    tick(): void;
     work(): void;
     attack(player: IPlayer, amount: number): void;
 

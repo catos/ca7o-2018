@@ -31,24 +31,40 @@ export class Citizens extends React.Component<IProps, IState> {
                 <h3>Citizens</h3>
                 <h4>Level {player.citizens.level}</h4>
                 <div>Workers: {player.citizens.workers} <span className="fa fa-chess-pawn" /></div>
+                <div><hr /></div>
                 <div><strong>Bonuses</strong></div>
                 <div>Efficiency: +0%</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div><hr /></div>
+                <h5>Hire Workers</h5>
+                <div className="mb-3">
+                    Cost: 10 <span className="fa fa-coins" /> per <span className="fa fa-chess-pawn" />
+                </div>
 
-                <button className="btn btn-primary">
-                    <h5>Hire</h5>
-                    <div>Cost: 5 <span className="fa fa-coins" /> per <span className="fa fa-chess-pawn" /></div>
-                    <div className="production-container">
-                        <div className="production-slot">Slot 1</div>
-                        <div className="production-slot disabled">Slot 2</div>
-                        <div className="production-slot disabled">Slot 3</div>
-                    </div>
-                </button>
+                <div className="btn-group">
+                    <button className="btn btn-primary">+1</button>
+                    <button className="btn btn-primary">+10</button>
+                    <button className="btn btn-primary">+100</button>
+                </div>
+                <div className="btn-group">
+                    <button className="btn btn-secondary">+1</button>
+                    <button className="btn btn-secondary">+10</button>
+                    <button className="btn btn-secondary">+100</button>
+                </div>
+                <div className="btn-group">
+                    <button className="btn btn-secondary">+1</button>
+                    <button className="btn btn-secondary">+10</button>
+                    <button className="btn btn-secondary">+100</button>
+                </div>
 
-                <button className="btn btn-info">
-                    <h5>Upgrade Workers</h5>
-                    <div>+5% Efficiency</div>
-                    <div>Cost: 100 <span className="fa fa-coins" /></div>
-                </button>
+                <div>
+                    <button className="btn btn-info">
+                        <h5>Upgrade</h5>
+                        <div>+10% Efficiency</div>
+                        <div>Cost: 100 <span className="fa fa-coins" /></div>
+                    </button>
+                </div>
             </div>
         );
     }

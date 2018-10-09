@@ -3,10 +3,12 @@ import { IPlayer } from './IPlayer';
 import { City } from './City';
 import { Army } from './Army';
 import { Citizens } from './Citizens';
+import { IGameState } from './IGameState';
 
 
 interface IProps {
     player: IPlayer;
+    gameState: IGameState;
 }
 
 export class PlayerMe extends React.Component<IProps, {}> {
@@ -20,11 +22,9 @@ export class PlayerMe extends React.Component<IProps, {}> {
 
         return (
             <div id="player" className="bg-light mb-3 p-3">
-                <div className="header">
-                    <strong>{player.name}</strong>
-                </div>
+                <h1 className="text-center">{player.name}</h1>
                 <div className="container">
-                    <City player={player} />
+                    <City player={player} gameState={this.props.gameState} />
                     <Army player={player} />
                     <Citizens player={player} />
                 </div>
