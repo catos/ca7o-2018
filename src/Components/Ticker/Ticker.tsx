@@ -132,7 +132,9 @@ export class Ticker extends React.Component<{}, IState> {
 
                 <div className="bg-light mb-3 p-3">
                     <h4>Log</h4>
-                    {this.state.log.map((item, idx) => <div key={idx}>{item}</div>)}
+                    {this.state.players.map(player => player.log.map((entry, idx) => 
+                        <div key={idx}>{entry}</div>    
+                    ))}
                 </div>
 
             </div>

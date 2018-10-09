@@ -22,6 +22,8 @@ export class Player implements IPlayer {
         workers: 10,
     };
 
+    public log: string[] = [];
+
     constructor(id: number, name: string, isComputer: boolean = false) {
         this.id = id;
         this.name = name;
@@ -31,7 +33,7 @@ export class Player implements IPlayer {
     public update(dt: number): void {
         // Check if dead
         if (this.army.soldiers <= 0 && !this.isDead) {
-            console.log(`${this.name} died!`);
+            this.log.push(`${this.name} died!`);
             this.isDead = true;
         }
 
@@ -39,7 +41,7 @@ export class Player implements IPlayer {
         this.cps = Math.floor(this.citizens.workers / 10);
         this.coins += this.cps;
 
-        // console.log(`update called on player with id = ${this.id}`);
+        // this.log.push(`update called on player with id = ${this.id}`);
     }
 
     public work = () => {
@@ -49,21 +51,21 @@ export class Player implements IPlayer {
     public attack = (player: IPlayer, amount: number) => {
 
         if (player.isDead) {
-            console.log(`${player.name} is already dead!`);
+            this.log.push(`${player.name} is already dead!`);
             return;
         }
 
         if (this.army.soldiers <= amount) {
-            console.log(`${this.name} is unable to attack with ${amount} soldiers, he only has ${this.army.soldiers}`);
+            this.log.push(`${this.name} is unable to attack with ${amount} soldiers, he only has ${this.army.soldiers}`);
             return;
         }
         
         amount = amount > player.army.soldiers ? player.army.soldiers : amount;
         player.army.soldiers -= amount;
-        console.log(`${this.name} attacks ${player.name} with ${amount} soldiers`);
+        this.log.push(`${this.name} attacks ${player.name} with ${amount} soldiers`);
 
         this.army.soldiers -= amount
-        console.log(`${this.name} lost ${amount} soldiers during battle`);
+        this.log.push(`${this.name} lost ${amount} soldiers during battle`);
     }
 
     public cheatInCoins = (amount: number) => {

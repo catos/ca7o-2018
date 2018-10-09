@@ -26,6 +26,8 @@ export interface IPlayer {
     army: IArmy;
     citizens: ICitizens;
 
+    log: string[];
+
     update(dt: number): void;
     work(): void;
     attack(player: IPlayer, amount: number): void;
