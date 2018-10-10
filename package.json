@@ -23,6 +23,10 @@
         "eject": "react-scripts-ts eject",
         "postinstall": "react-scripts-ts build"
     },
+    "engines": {
+        "node": "~8.11.2",
+        "npm": "~6.4.1"
+      },
     "devDependencies": {
         "@types/howler": "^2.0.5",
         "@types/isomorphic-fetch": "^0.0.34",
