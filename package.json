@@ -28,7 +28,7 @@
     "@types/jest": "23.1.2",
     "@types/jwt-decode": "2.2.1",
     "@types/node": "10.3.6",
-    "@types/react": "16.4.2",
+    "@types/react": "^16.4.2",
     "@types/react-dom": "16.0.6",
     "@types/react-router-dom": "4.2.7",
     "@types/reactstrap": "^6.0.2",
