@@ -15,7 +15,7 @@ import { RecipeDetails } from '../Admin/Recipe/RecipeDetails';
 
 import { Wesketch } from '../Wesketch/Wesketch';
 import { Mdk } from '../Mdk/Mdk';
-import { Ticker } from '../Ticker/Ticker';
+// import { Ticker } from '../Ticker/Ticker';
 
 import { NotFound } from './NotFound';
 import { auth } from '../../Common/AuthService';
@@ -32,7 +32,7 @@ export class Routes extends React.Component {
                 {/* Protected */}
                 <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/mdk' component={Mdk} />
                 <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/wesketch' component={Wesketch} />
-                <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/ticker' component={Ticker} />
+                {/* <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/ticker' component={Ticker} /> */}
 
                 {/* Admin */}
                 <ProtectedRoute isAuthorized={auth.isAdministrator()} exact={true} path='/users' component={UserList} />
