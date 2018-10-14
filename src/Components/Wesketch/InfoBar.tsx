@@ -42,7 +42,7 @@ export class InfoBar extends React.Component<IProps, {}> {
 
         return (
             <div id="info-bar">
-                <div id="debug">
+                <div id="debug" className="debug-info-bar">
                     <div className="mr-2 fa fa-step-forward" onClick={this.toggleGameEnd} />
                     <div className="mr-2 fa fa-bug" onClick={this.toggleDebugMode} />
                     <div className="fa fa-power-off" onClick={this.resetGame} />

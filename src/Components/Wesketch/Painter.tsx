@@ -99,10 +99,12 @@ export class Painter extends React.Component<IProps, IState> {
         return (
             <div id="painter" className={this.state.canDraw ? 'can-draw' : ''}>
 
-                <div id="debug">
+                <div id="debug" className="debug-painter">
                     <div>Coords: {this.state.mousePos.x}, {this.state.mousePos.y}</div>
                     <div>From: {this.state.from.x}, {this.state.from.y}</div>
                     <div>To: {this.state.to.x}, {this.state.to.y}</div>
+                    <div>canvasRect: {this.state.canvasRect.left}, {this.state.canvasRect.top} - {this.state.canvasRect.width}, {this.state.canvasRect.height}</div>
+                    <div>window.scroll: {window.scrollX}, {window.scrollY}</div>
                 </div>
 
                 {this.state.canDraw
@@ -176,7 +178,7 @@ export class Painter extends React.Component<IProps, IState> {
     private getCoords = (event: React.MouseEvent<HTMLElement>): Vector2 => {
         const coords = new Vector2(
             event.clientX - this.state.canvasRect.left,
-            event.clientY - this.state.canvasRect.top);
+            event.clientY - this.state.canvasRect.top + window.scrollY);
 
         if (this.ctx.lineWidth > 0) {
             const brushOffset = Math.floor(this.ctx.lineWidth / 2)

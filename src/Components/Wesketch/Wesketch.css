@@ -290,6 +290,7 @@
 #painter .tools .button {
     width: 2rem;
     height: 2rem;
+    text-align: center;
     font-size: 2rem;
     border-radius: 1rem;
     margin: 0.25rem 0.5rem;
@@ -297,10 +298,19 @@
     cursor: pointer;
 }
 
-#painter .tools .button:first-child {
-    margin-top: 0.5rem;
+#painter .tools .brush {
+    position: relative;
 }
 
+#painter .tools .brush span {
+    font-size: 14px;
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    font-family: monospace;
+    width: 16px;
+    text-align: center;
+}
 
 #painter .colors {
     display: flex;
@@ -332,6 +342,14 @@
     position: fixed;
     left: 1rem;
     max-width: 50%;
+}
+
+#debug.debug-painter {
+    top: 10rem;
+}
+
+#debug.debug-info-bar {
+    top: 20rem;
 }
 
 #debug .info {
