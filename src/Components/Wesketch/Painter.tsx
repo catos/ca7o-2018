@@ -51,20 +51,18 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     public componentWillReceiveProps() {
-        this.ctx.strokeStyle = this.props.gameState.primaryColor;
-        this.ctx.lineWidth = this.props.gameState.brushSize;
-
-        let canDraw = false;
+        const { gameState } = this.props;
 
         // Only drawing player, in drawing-phase can draw
-        const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing);
+        let canDraw = false;
+        const drawingPlayer = gameState.players.find(p => p.isDrawing);
         if (drawingPlayer) {
-            canDraw = this.props.gameState.phase === PhaseTypes.Drawing
+            canDraw = gameState.phase === PhaseTypes.Drawing
                 && drawingPlayer.userId === auth.currentUser().guid;
         }
 
-        // Everyone can draw in debugmode
-        canDraw = this.props.gameState.debugMode ? true : canDraw;
+        // TODO: Everyone can draw in debugmode
+        canDraw = gameState.debugMode ? true : canDraw;
 
         this.setState({ canDraw });
     }
@@ -100,11 +98,19 @@ export class Painter extends React.Component<IProps, IState> {
 
         return (
             <div id="painter" className={this.state.canDraw ? 'can-draw' : ''}>
+
+                <div id="debug">
+                    <div>Coords: {this.state.mousePos.x}, {this.state.mousePos.y}</div>
+                    <div>From: {this.state.from.x}, {this.state.from.y}</div>
+                    <div>To: {this.state.to.x}, {this.state.to.y}</div>
+                </div>
+
                 {this.state.canDraw
                     ? <PainterTools wss={wss} gameState={gameState} />
                     : ''}
 
                 <canvas width="960" height="544"
+                    className={`paint-cursor-${gameState.brushSize}`}
                     ref={(el) => this.canvas = el as HTMLCanvasElement}
                     onMouseDown={this.onMouseDown}
                     onMouseUp={this.onMouseUp}
@@ -125,21 +131,25 @@ export class Painter extends React.Component<IProps, IState> {
 
     private onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
         if (this.state.canDraw) {
-            const color = event.button === 2 ? this.props.gameState.secondaryColor : this.props.gameState.primaryColor;
+
+            // Set color to primary or secondary
+            const color = event.button === 2
+                ? this.props.gameState.secondaryColor
+                : this.props.gameState.primaryColor;
+
             this.setState({
                 isDrawing: true,
                 from: this.state.mousePos,
                 color
             });
+            this.draw(this.state.from, this.state.to, this.state.color);
             this.props.wss.emit(WesketchEventType.Draw, { from: this.state.from, to: this.state.to, color })
         }
     }
 
     private onMouseMove = (event: React.MouseEvent<HTMLElement>) => {
-        const mousePosition = new Vector2(
-            event.clientX - this.state.canvasRect.left,
-            event.clientY - this.state.canvasRect.top);
-        this.setState({ mousePos: mousePosition, to: mousePosition });
+        const coords = this.getCoords(event);
+        this.setState({ mousePos: coords, to: coords });
 
         if (this.state.isDrawing) {
             this.draw(this.state.from, this.state.to, this.state.color);
@@ -163,23 +173,36 @@ export class Painter extends React.Component<IProps, IState> {
         return;
     }
 
+    private getCoords = (event: React.MouseEvent<HTMLElement>): Vector2 => {
+        const coords = new Vector2(
+            event.clientX - this.state.canvasRect.left,
+            event.clientY - this.state.canvasRect.top);
+
+        if (this.ctx.lineWidth > 0) {
+            const brushOffset = Math.floor(this.ctx.lineWidth / 2)
+            coords.x += brushOffset
+            coords.y += brushOffset
+        }
+
+        return coords;
+    }
+
     private onEvent = (event: IWesketchEvent) => {
-        const { wss } = this.props;
+        const { wss, gameState } = this.props;
         const currentUser = auth.currentUser();
 
-        const drawingPlayer = this.props.gameState.players.find(p => p.isDrawing) as IPlayer;
-        if (event.type === WesketchEventType.SaveDrawing 
+        const drawingPlayer = gameState.players.find(p => p.isDrawing) as IPlayer;
+        if (event.type === WesketchEventType.SaveDrawing
             && drawingPlayer.userId === currentUser.guid) {
-            wss.emit(WesketchEventType.SaveDrawing, { 
-                player: currentUser.name, 
-                word: this.props.gameState.currentWord, 
-                data: this.canvas.toDataURL() 
+            wss.emit(WesketchEventType.SaveDrawing, {
+                player: currentUser.name,
+                word: gameState.currentWord,
+                data: this.canvas.toDataURL()
             });
         }
 
         if (event.type === WesketchEventType.Draw) {
             // Do not redraw your own drawing :D
-            // TODO: check why auth is null (chrome debug) ?!?
             if (event.userId !== currentUser.guid) {
                 this.draw(event.value.from, event.value.to, event.value.color);
             }
@@ -187,6 +210,11 @@ export class Painter extends React.Component<IProps, IState> {
 
         if (event.type === WesketchEventType.ClearCanvas) {
             this.ctx.clearRect(0, 0, this.state.canvasRect.width, this.state.canvasRect.height);
+        }
+
+        if (event.type === WesketchEventType.UpdateGameState) {
+            this.ctx.lineWidth = gameState.brushSize;
+            this.ctx.strokeStyle = gameState.primaryColor;
         }
     }
 

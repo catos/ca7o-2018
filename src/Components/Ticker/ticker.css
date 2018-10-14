@@ -1,4 +1,4 @@
-/* #ticker .header {
+#ticker .header {
     padding: 1rem;
     margin-bottom: 1rem;
     display: flex;
@@ -44,4 +44,4 @@
 
 #ticker #player .production-slot.disabled {
     background-color: #333;
-} */
+}

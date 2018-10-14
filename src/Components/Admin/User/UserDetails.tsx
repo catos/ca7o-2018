@@ -54,6 +54,7 @@ export class UserDetails extends React.Component<IProps, IState> {
         return (
             <div className="m-4">
                 <h2>Edit details for: {user.name}</h2>
+                <div className="lead">{user.guid}</div>
                 <Link className="mb-4" to={'/users'}>Back to list</Link>
                 <Form className="needs-validation was-validated" noValidate={true}>
                     <FormGroup>

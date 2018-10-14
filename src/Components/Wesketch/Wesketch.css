@@ -231,31 +231,43 @@
 }
 
 #painter canvas {
-    cursor: crosshair;
     background-color: white;
 }
-/* .brush-1px {
-    cursor: url(./cursors/brush-1-px.png), auto;
+.paint-cursor-1 {
+    cursor: url(../../Images/paint-cursor-1.png), auto;
 }
-.brush-5px {
-    cursor: url(./cursors/brush-5-px.png), auto;
+.paint-cursor-3 {
+    cursor: url(../../Images/paint-cursor-3.png), auto;
 }
-.brush-9px {
-    cursor: url(./cursors/brush-9-px.png), auto;
+.paint-cursor-6 {
+    cursor: url(../../Images/paint-cursor-6.png), auto;
 }
-.brush-13px {
-    cursor: url(./cursors/brush-13-px.png), auto;
+.paint-cursor-9 {
+    cursor: url(../../Images/paint-cursor-9.png), auto;
 }
-.brush-17px {
-    cursor: url(./cursors/brush-17-px.png), auto;
-} */
+.paint-cursor-12 {
+    cursor: url(../../Images/paint-cursor-12.png), auto;
+}
+.paint-cursor-15 {
+    cursor: url(../../Images/paint-cursor-15.png), auto;
+}
+.paint-cursor-18 {
+    cursor: url(../../Images/paint-cursor-18.png), auto;
+}
+.paint-cursor-21 {
+    cursor: url(../../Images/paint-cursor-21.png), auto;
+}
+.paint-cursor-24 {
+    cursor: url(../../Images/paint-cursor-24.png), auto;
+}
+
 #painter .tools {
     display: flex;
     flex-direction: column;
     position: absolute;
     align-content: space-evenly;
     top: 1rem;
-    right: 1rem;
+    right: -4rem;
     background-color: #0B3C5D;
     display: flex;
     padding: 0.5rem 0;
@@ -318,7 +330,6 @@
 
 #debug {
     position: fixed;
-    top: 5rem;
     left: 1rem;
     max-width: 50%;
 }
