@@ -1,0 +1,16 @@
+.word-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2rem 0;
+    justify-content: center;
+}
+
+.word {
+    padding: 0.5rem 1rem;
+    border: 1px solid #333;
+    width: 8rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0.25rem;
+}

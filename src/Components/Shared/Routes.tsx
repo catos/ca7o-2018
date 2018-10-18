@@ -12,6 +12,7 @@ import { UserList } from '../Admin/User/UserList';
 import { UserDetails } from '../Admin/User/UserDetails';
 import { RecipeList } from '../Admin/Recipe/RecipeList';
 import { RecipeDetails } from '../Admin/Recipe/RecipeDetails';
+import { WordsList } from '../Admin/Wesketch/WordsList';
 
 import { Wesketch } from '../Wesketch/Wesketch';
 import { Mdk } from '../Mdk/Mdk';
@@ -31,7 +32,7 @@ export class Routes extends React.Component {
 
                 {/* Protected */}
                 <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/mdk' component={Mdk} />
-                <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/wesketch' component={Wesketch} />
+                <ProtectedRoute isAuthorized={auth.isAuthenticated()} exact={true} path='/wesketch' component={Wesketch} />
                 <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/ticker' component={Ticker} />
 
                 {/* Admin */}
@@ -39,6 +40,8 @@ export class Routes extends React.Component {
                 <ProtectedRoute isAuthorized={auth.isAdministrator()} path='/users/:id' component={UserDetails} />
                 <ProtectedRoute isAuthorized={auth.isAdministrator()} exact={true} path='/recipes' component={RecipeList} />
                 <ProtectedRoute isAuthorized={auth.isAdministrator()} path='/recipes/:id' component={RecipeDetails} />
+
+                <ProtectedRoute isAuthorized={auth.isAdministrator()} exact={true} path='/wesketch/words' component={WordsList} />
 
                 <Route component={NotFound} />
             </Switch>

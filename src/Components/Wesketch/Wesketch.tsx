@@ -121,8 +121,9 @@ export class Wesketch extends React.Component<{}, IState> {
         );
     }
 
-    private onEvent = (event: IWesketchEvent) => {
+    private onEvent = (event: IWesketchEvent) => {        
         const { wsm } = this.state;
+        const muteSounds = true;
 
         if (event.type === WesketchEventType.UpdateGameState) {
             this.setState({
@@ -130,7 +131,7 @@ export class Wesketch extends React.Component<{}, IState> {
             });
         }
 
-        if (event.type === WesketchEventType.PlaySound) {
+        if (event.type === WesketchEventType.PlaySound && !muteSounds) {
             const volume = !event.value.global &&
                 event.value.userId === auth.currentUser().guid && event.value
                 ? -1
