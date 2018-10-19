@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { ChangeEvent, KeyboardEvent, MouseEvent } from 'react';
 
 import { api } from '../../Common/ApiService';
 import { SearchResultItem } from './SearchResultItem';
@@ -108,7 +107,7 @@ export class SearchResult extends React.Component<IProps, IState> {
         );
     }
 
-    private onFieldValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+    private onFieldValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const nextState = {
             ...this.state,
             [event.target.name]: event.target.value
@@ -116,13 +115,7 @@ export class SearchResult extends React.Component<IProps, IState> {
         this.setState(nextState);
     }
 
-    // private onSubmit = (event: any) => {
-    //     event.preventDefault();
-    //     console.log('submit!', this.state);
-    //     this.getRecipes();
-    // }
-
-    private onKeyUpSearch = (event: KeyboardEvent<any>) => {
+    private onKeyUpSearch = (event: React.KeyboardEvent<any>) => {
         if (event.which === 13) {
             // this.onSubmit(event);
             this.getRecipes();
@@ -137,7 +130,7 @@ export class SearchResult extends React.Component<IProps, IState> {
         this.setState({ page }, () => this.getRecipes());
     }
 
-    private toggleTag = (event: MouseEvent<HTMLAnchorElement>) => {
+    private toggleTag = (event: React.MouseEvent<HTMLAnchorElement>) => {
         const elm = event.target as HTMLElement;
         if (elm.textContent !== null) {
 
@@ -147,8 +140,6 @@ export class SearchResult extends React.Component<IProps, IState> {
                 : this.state.tags.concat(tag);
 
             this.setState({ tags }, () => this.getRecipes());
-
-
         }
     }
 

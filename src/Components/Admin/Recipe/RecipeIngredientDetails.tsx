@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { IngredientTypes } from "../../../Models/IngredientTypes";
 import { Input } from 'reactstrap';
-import { ChangeEvent } from 'react';
 import { IIngredient } from '../../../Models/IIngredient';
 
 interface IProps {
@@ -63,7 +62,7 @@ export class RecipeIngredientDetails extends React.Component<IProps, IState> {
         </tr>);
     }
 
-    private onFieldValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+    private onFieldValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.props.ingredient[event.target.name] = event.target.value;
         this.props.onChange(this.props.ingredient);
     }

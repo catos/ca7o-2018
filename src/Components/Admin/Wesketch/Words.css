@@ -1,16 +1,37 @@
-.word-list {
+#word-list {
+    padding: 1rem 3rem;
+}
+
+#word-list .result {
     display: flex;
     flex-wrap: wrap;
     padding: 2rem 0;
     justify-content: center;
 }
 
-.word {
+#word-list .result .word {
+    position: relative;
+    cursor: pointer;
     padding: 0.5rem 1rem;
-    border: 1px solid #333;
-    width: 8rem;
+    width: 7rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     margin: 0.25rem;
+}
+
+#word-list .result .word .language {
+    position: absolute;
+    top: 0.1rem;
+    right: 0.1rem;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+#word-list .badge {
+    cursor: pointer;
+}
+
+#word-list .badge.selected {
+    background-color: cadetblue;
 }
