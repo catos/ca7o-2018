@@ -58,7 +58,7 @@ export class WordsList extends React.Component<{}, IState> {
         return (
             <div id="word-list">
                 <div className="filters">
-                <div className="filter-difficulties">
+                    <div className="filter-difficulties">
                         <span className={"badge badge-dark" + (this.state.difficulties.includes(1) ? ' selected' : '')} onClick={() => this.toggleDifficulty(1)}>Easy</span>
                         <span className={"badge badge-dark" + (this.state.difficulties.includes(2) ? ' selected' : '')} onClick={() => this.toggleDifficulty(2)}>Normal</span>
                         <span className={"badge badge-dark" + (this.state.difficulties.includes(3) ? ' selected' : '')} onClick={() => this.toggleDifficulty(3)}>Hard</span>
@@ -79,6 +79,8 @@ export class WordsList extends React.Component<{}, IState> {
                 </div>
 
                 <WordDetails word={currentWord} />
+
+                {/* <div>{currentWord.word}</div> */}
 
                 <div className="result">
                     {this.state.words.map((word, idx) =>
@@ -138,6 +140,8 @@ export class WordsList extends React.Component<{}, IState> {
     }
 
     private selectWord = (word: IWord) => {
+        console.log('selectWord: ', word);
+
         this.setState({ currentWord: word });
     }
 

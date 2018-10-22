@@ -27,7 +27,7 @@ export class Header extends React.Component<{}, IState> {
                 <DropdownItem header={true}>Admin</DropdownItem>
                 <DropdownItem><Link to={'/users'}>Users</Link></DropdownItem>
                 <DropdownItem><Link to={'/recipes'}>Recipes</Link></DropdownItem>
-                <DropdownItem><Link to={'/wesketch/words'}>Wesketch Words</Link></DropdownItem>
+                <DropdownItem><Link to={'/wesketch/words'}>Words</Link></DropdownItem>
                 <DropdownItem divider={true} />
                 <DropdownItem header={true}>Development</DropdownItem>
                 <DropdownItem><a href="https://github.com/catos/ca7o">Github</a></DropdownItem>
