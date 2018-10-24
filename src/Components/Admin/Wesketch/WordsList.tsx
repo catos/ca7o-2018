@@ -1,8 +1,9 @@
 import * as React from 'react';
 
 import { api } from '../../../Common/ApiService';
+import { WordFilters } from './WordFilters';
+
 import './Words.css';
-import { WordDetails } from './WordDetails';
 
 export interface IWord {
     guid: string;
@@ -27,9 +28,7 @@ export enum LanguageTypes {
 }
 
 interface IState {
-    q: string;
-    difficulties: number[];
-    languages: number[];
+    filters: string;
     currentWord: IWord | null;
     words: IWord[];
 }
@@ -40,9 +39,7 @@ export class WordsList extends React.Component<{}, IState> {
         super(props);
 
         this.state = {
-            q: '',
-            difficulties: [],
-            languages: [],
+            filters: '',
             currentWord: null,
             words: []
         };
@@ -53,35 +50,15 @@ export class WordsList extends React.Component<{}, IState> {
     }
 
     public render() {
-        const { currentWord } = this.state;
-
         return (
             <div id="word-list">
-                <div className="filters">
-                    <div className="filter-difficulties">
-                        <span className={"badge badge-dark" + (this.state.difficulties.includes(1) ? ' selected' : '')} onClick={() => this.toggleDifficulty(1)}>Easy</span>
-                        <span className={"badge badge-dark" + (this.state.difficulties.includes(2) ? ' selected' : '')} onClick={() => this.toggleDifficulty(2)}>Normal</span>
-                        <span className={"badge badge-dark" + (this.state.difficulties.includes(3) ? ' selected' : '')} onClick={() => this.toggleDifficulty(3)}>Hard</span>
-                    </div>
+                <WordFilters onChange={this.getWords} />
 
-                    <div className="filter-languages">
-                        <span className={"badge badge-dark" + (this.state.languages.includes(1) ? ' selected' : '')} onClick={() => this.toggleLanguage(1)}>English</span>
-                        <span className={"badge badge-dark" + (this.state.languages.includes(2) ? ' selected' : '')} onClick={() => this.toggleLanguage(2)}>Norwegian</span>
-                    </div>
-
-                    <div className="form-group">
-                        <input className="form-control" type="text" name="q" placeholder="Søk i oppskrifter"
-                            value={this.state.q}
-                            onChange={this.onFieldValueChange}
-                            onKeyUp={this.onKeyUpSearch}
-                        />
-                    </div>
-                </div>
-
-                <WordDetails word={currentWord} />
+                {/* <WordDetails word={currentWord} /> */}
 
                 {/* <div>{currentWord.word}</div> */}
 
+                <div>Words: {this.state.words.length}</div>
                 <div className="result">
                     {this.state.words.map((word, idx) =>
                         <div key={idx} className={this.wordClasses(word)} title={word.word + ': ' + word.description}
@@ -96,41 +73,16 @@ export class WordsList extends React.Component<{}, IState> {
         );
     }
 
-    private onFieldValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const nextState = {
-            ...this.state,
-            [event.target.name]: event.target.value
-        };
-        this.setState(nextState);
-    }
+    private getWords = (filters?: string) => {
+        // api.get(`/api/wesketch/words?q=${this.state.q}&difficulties=${this.state.difficulties}&languages=${this.state.languages}`)
+        const url = filters !== undefined
+            ? `/api/wesketch/words${filters}`
+            : '/api/wesketch/words';
 
-    private onKeyUpSearch = (event: React.KeyboardEvent<any>) => {
-        event.preventDefault();
-        if (event.which === 13 || this.state.q.length <= 0) {
-            this.getWords();
-        }
-    }
+        console.log('url: ' + url);
 
-    private toggleDifficulty = (difficulty: number) => {
 
-        const difficulties = this.state.difficulties.includes(difficulty)
-            ? this.state.difficulties.filter(p => p !== difficulty)
-            : this.state.difficulties.concat(difficulty);
-
-        this.setState({ difficulties }, () => this.getWords());
-    }
-
-    private toggleLanguage = (language: number) => {
-
-        const languages = this.state.languages.includes(language)
-            ? this.state.languages.filter(p => p !== language)
-            : this.state.languages.concat(language);
-
-        this.setState({ languages }, () => this.getWords());
-    }
-
-    private getWords = () => {
-        api.get(`/api/wesketch/words?q=${this.state.q}&difficulties=${this.state.difficulties}&languages=${this.state.languages}`)
+        api.get(url)
             .then(response => {
                 this.setState({
                     words: response as IWord[]
