@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { api } from '../../../Common/ApiService';
 import { WordFilters } from './WordFilters';
+import { WordForm } from './WordDetails';
 
 import './Words.css';
 
@@ -30,6 +31,8 @@ export enum LanguageTypes {
 interface IState {
     filters: string;
     currentWord: IWord | null;
+    count: number;
+    totalPages: number;
     words: IWord[];
 }
 
@@ -41,6 +44,8 @@ export class WordsList extends React.Component<{}, IState> {
         this.state = {
             filters: '',
             currentWord: null,
+            count: 0,
+            totalPages: 0,
             words: []
         };
     }
@@ -52,13 +57,16 @@ export class WordsList extends React.Component<{}, IState> {
     public render() {
         return (
             <div id="word-list">
-                <WordFilters onChange={this.getWords} />
+                <WordFilters totalPages={this.state.totalPages} onChange={this.getWords} />
 
-                {/* <WordDetails word={currentWord} /> */}
+                {this.state.currentWord !== null
+                    ? <WordForm
+                        word={this.state.currentWord}
+                        onFieldValueChange={this.onFieldValueChange}
+                        saveWord={this.saveWord} />
+                    : ''}
 
-                {/* <div>{currentWord.word}</div> */}
-
-                <div>Words: {this.state.words.length}</div>
+                <div>Count: {this.state.count}</div>
                 <div className="result">
                     {this.state.words.map((word, idx) =>
                         <div key={idx} className={this.wordClasses(word)} title={word.word + ': ' + word.description}
@@ -73,6 +81,26 @@ export class WordsList extends React.Component<{}, IState> {
         );
     }
 
+    private onFieldValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const currentWord = { ...this.state.currentWord } as IWord;
+        currentWord[event.target.name] = event.target.value;
+        this.setState({ currentWord });
+    }
+
+    private saveWord = () => {
+        // if (word.guid === null) {
+        //     api.post('/api/wesketch/words/', word).catch(error => console.log(error));
+        // } else {
+        const { currentWord } = this.state;
+        if (currentWord !== null) {
+            api.put(`/api/wesketch/words/${currentWord.guid}`, currentWord)
+                .then(result => {
+                    this.setState({ currentWord: null }, () => this.getWords());
+                })
+                .catch(error => console.log(error));
+        }
+    }
+
     private getWords = (filters?: string) => {
         // api.get(`/api/wesketch/words?q=${this.state.q}&difficulties=${this.state.difficulties}&languages=${this.state.languages}`)
         const url = filters !== undefined
@@ -85,7 +113,9 @@ export class WordsList extends React.Component<{}, IState> {
         api.get(url)
             .then(response => {
                 this.setState({
-                    words: response as IWord[]
+                    count: response.count,
+                    totalPages: response.totalPages,
+                    words: response.words as IWord[]
                 })
             })
             .catch(error => console.log(error));
