@@ -1,13 +1,14 @@
 import * as React from 'react';
+import * as moment from 'moment';
 
 import { api } from '../../../Common/ApiService';
 import { WordFilters } from './WordFilters';
-import { WordForm } from './WordDetails';
+import { WordForm } from './WordForm';
 
 import './Words.css';
 
 export interface IWord {
-    guid: string;
+    guid?: string;
     created: number;
     word: string;
     description: string;
@@ -28,12 +29,19 @@ export enum LanguageTypes {
     Norwegian = 2
 }
 
+export interface IWordResult {
+    count: number;
+    totalPages: number;
+    currentPage: number;
+    take: number;
+    words: IWord[];
+}
+
 interface IState {
     filters: string;
     currentWord: IWord | null;
-    count: number;
-    totalPages: number;
-    words: IWord[];
+    addWord: boolean;
+    result: IWordResult
 }
 
 export class WordsList extends React.Component<{}, IState> {
@@ -44,9 +52,14 @@ export class WordsList extends React.Component<{}, IState> {
         this.state = {
             filters: '',
             currentWord: null,
-            count: 0,
-            totalPages: 0,
-            words: []
+            addWord: false,
+            result: {
+                count: 0,
+                totalPages: 0,
+                currentPage: 1,
+                take: 0,
+                words: []
+            }
         };
     }
 
@@ -55,9 +68,20 @@ export class WordsList extends React.Component<{}, IState> {
     }
 
     public render() {
+        const { result } = this.state;
+
+        const newWord: IWord = {
+            created: moment.now(),
+            word: '',
+            description: '',
+            language: 1,
+            difficulty: 1
+        }
+
+
         return (
             <div id="word-list">
-                <WordFilters totalPages={this.state.totalPages} onChange={this.getWords} />
+                <WordFilters totalPages={result.totalPages} onChange={this.getWords} />
 
                 {this.state.currentWord !== null
                     ? <WordForm
@@ -66,9 +90,17 @@ export class WordsList extends React.Component<{}, IState> {
                         saveWord={this.saveWord} />
                     : ''}
 
-                <div>Count: {this.state.count}</div>
+                {this.state.addWord
+                    ? <WordForm
+                        word={newWord}
+                        onFieldValueChange={this.onFieldValueChange}
+                        saveWord={this.saveWord} />
+                    : ''}
+
+                    <button onClick={this.addWord}>Add word</button>
+                <div className="meta"><b>{result.count}</b> words found - Page <b>{result.currentPage}</b> of <b>{result.totalPages}</b></div>
                 <div className="result">
-                    {this.state.words.map((word, idx) =>
+                    {result.words.map((word, idx) =>
                         <div key={idx} className={this.wordClasses(word)} title={word.word + ': ' + word.description}
                             onClick={() => this.selectWord(word)}>
                             {word.word}
@@ -87,6 +119,10 @@ export class WordsList extends React.Component<{}, IState> {
         this.setState({ currentWord });
     }
 
+    private addWord = (event: React.MouseEvent<HTMLElement>) => {
+        this.setState({ addWord: !this.state.addWord });
+    }
+
     private saveWord = () => {
         // if (word.guid === null) {
         //     api.post('/api/wesketch/words/', word).catch(error => console.log(error));
@@ -94,7 +130,7 @@ export class WordsList extends React.Component<{}, IState> {
         const { currentWord } = this.state;
         if (currentWord !== null) {
             api.put(`/api/wesketch/words/${currentWord.guid}`, currentWord)
-                .then(result => {
+                .then(() => {
                     this.setState({ currentWord: null }, () => this.getWords());
                 })
                 .catch(error => console.log(error));
@@ -102,28 +138,16 @@ export class WordsList extends React.Component<{}, IState> {
     }
 
     private getWords = (filters?: string) => {
-        // api.get(`/api/wesketch/words?q=${this.state.q}&difficulties=${this.state.difficulties}&languages=${this.state.languages}`)
         const url = filters !== undefined
             ? `/api/wesketch/words${filters}`
             : '/api/wesketch/words';
 
-        console.log('url: ' + url);
-
-
         api.get(url)
-            .then(response => {
-                this.setState({
-                    count: response.count,
-                    totalPages: response.totalPages,
-                    words: response.words as IWord[]
-                })
-            })
+            .then(result => this.setState({ result }))
             .catch(error => console.log(error));
     }
 
     private selectWord = (word: IWord) => {
-        console.log('selectWord: ', word);
-
         this.setState({ currentWord: word });
     }
 
@@ -131,10 +155,10 @@ export class WordsList extends React.Component<{}, IState> {
         let result = 'word border';
 
         switch (word.difficulty) {
-            case DifficultyTypes.Easy: result += ' border-success'; break;
-            case DifficultyTypes.Normal: result += ' border-dark'; break;
-            case DifficultyTypes.Hard: result += ' border-warning'; break;
-            default: result += ' border-danger'; break;
+            case DifficultyTypes.Easy: result += ' text-success'; break;
+            case DifficultyTypes.Normal: result += ' text-dark'; break;
+            case DifficultyTypes.Hard: result += ' text-warning'; break;
+            default: result += ' text-danger'; break;
         }
 
         return result;

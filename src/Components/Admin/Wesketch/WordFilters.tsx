@@ -26,12 +26,9 @@ export class WordFilters extends React.Component<IProps, IState> {
     }
 
     public render() {
-        const pages = Array.from(Array(this.props.totalPages), (_, x) => x + 1);
-        console.log(pages);
-
         return (
-            <div>
-                <form className="form-inline mb-3" onSubmit={this.onSubmit}>
+            <div className="filters">
+                <form className="form-inline" onSubmit={this.onSubmit}>
                     <div className="filter-languages btn-group mr-3">
                         <button type="button" className={"btn" + (this.state.languages.includes(1) ? ' btn-primary' : ' btn-secondary')} onClick={() => this.toggleLanguage(1)}>English</button>
                         <button type="button" className={"btn" + (this.state.languages.includes(2) ? ' btn-primary' : ' btn-secondary')} onClick={() => this.toggleLanguage(2)}>Norwegian</button>
@@ -51,21 +48,11 @@ export class WordFilters extends React.Component<IProps, IState> {
                         />
                     </div>
 
-                    <button className="btn btn-primary" type="submit">Filter</button>
+                    <button className="btn btn-primary mr-3" type="submit">Filter</button>
+
+                    <button className="btn btn-dark" onClick={() => this.modifyPage(-1)}><span className="fa fa-caret-left" /></button>
+                    <button className="btn btn-dark" onClick={() => this.modifyPage(1)}><span className="fa fa-caret-right" /></button>
                 </form>
-
-                {this.props.totalPages > 1
-                    ? <nav aria-label="Page navigation example">
-                        <ul className="pagination">
-                            <li className="page-item"><a className="page-link" href="#">Previous</a></li>
-                            {pages.map((page, idx) =>
-                                <li key={idx} className="page-item"><a className="page-link" href="#" onClick={() => this.setPage(page)}>{page}</a></li>
-                            )}
-
-                            <li className="page-item"><a className="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav>
-                    : ''}
             </div>
         );
     }
@@ -96,7 +83,7 @@ export class WordFilters extends React.Component<IProps, IState> {
             ? this.state.difficulties.filter(p => p !== difficulty)
             : this.state.difficulties.concat(difficulty);
 
-        this.setState({ difficulties }, () => this.updateFilters());
+        this.setState({ difficulties, page: 1 }, () => this.updateFilters());
     }
 
     private toggleLanguage = (language: number) => {
@@ -105,10 +92,15 @@ export class WordFilters extends React.Component<IProps, IState> {
             ? this.state.languages.filter(p => p !== language)
             : this.state.languages.concat(language);
 
-        this.setState({ languages }, () => this.updateFilters());
+        this.setState({ languages, page: 1 }, () => this.updateFilters());
     }
 
-    private setPage = (page: number) => {
+    private modifyPage = (pageModifier: number) => {
+        const nextPage = this.state.page + pageModifier;
+        const page = nextPage > 0 && nextPage <= this.props.totalPages
+            ? nextPage
+            : this.state.page;
+
         this.setState({ page }, () => this.updateFilters());
     }
 

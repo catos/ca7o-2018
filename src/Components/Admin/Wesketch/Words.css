@@ -2,18 +2,31 @@
     padding: 1rem 3rem;
 }
 
+#word-list .filters {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#word-list .meta {
+    margin: 1rem;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 0.75rem;
+    color: gray;
+}
+
 #word-list .result {
     display: flex;
     flex-wrap: wrap;
-    padding: 2rem 0;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 #word-list .result .word {
     position: relative;
     cursor: pointer;
-    padding: 0.5rem 1rem;
-    width: 7rem;
+    padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+    min-width: 5rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -23,7 +36,7 @@
 #word-list .result .word .language {
     position: absolute;
     top: 0.1rem;
-    right: 0.1rem;
+    right: 0.25rem;
     text-transform: uppercase;
     font-size: 0.9rem;
 }
