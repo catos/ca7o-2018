@@ -12,7 +12,6 @@ export enum WesketchEventType {
     StopSound,
     Message,
     SystemMessage,
-    StartDraw,
     Draw,
     StopDraw,
     GiveUp,
@@ -24,7 +23,10 @@ export enum WesketchEventType {
     ResetGame,
     SaveDrawing,
     GetDrawings,
-    ShowScores
+    ShowScores,
+
+    // Server events
+    StartDrawing,
 }
 
 export interface IWesketchEvent {
