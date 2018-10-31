@@ -24,13 +24,10 @@ export enum WesketchEventType {
     SaveDrawing,
     GetDrawings,
     ShowScores,
-
-    // Server events
-    StartDrawing,
 }
 
 export interface IWesketchEvent {
-    client: string;
+    clientId: string;
     userId: string;
     userName: string;
     timestamp: Date;
@@ -89,7 +86,7 @@ export class WesketchSocket {
     public emit = (type: WesketchEventType, value: any) => {
         const user = auth.currentUser();
         const event = {
-            client: this.socketId,
+            clientId: this.socketId,
             userId: user.guid,
             userName: user.name,
             timestamp: new Date(),

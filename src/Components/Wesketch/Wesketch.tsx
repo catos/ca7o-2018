@@ -76,7 +76,7 @@ export class Wesketch extends React.Component<{}, IState> {
 
         const user = auth.currentUser();
         const event = {
-            client: wss.socketId,
+            clientId: wss.socketId,
             userId: user.guid,
             userName: user.name,
             timestamp: new Date()
@@ -92,7 +92,7 @@ export class Wesketch extends React.Component<{}, IState> {
 
         const user = auth.currentUser();
         const event = {
-            client: wss.socketId,
+            clientId: wss.socketId,
             userId: user.guid,
             userName: user.name,
             timestamp: new Date()
