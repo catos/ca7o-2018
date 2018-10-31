@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 import { IWesketchGameState } from './Wesketch';
-import { WesketchService, WesketchEventType } from './WesketchService';
+import { WesketchSocket, WesketchEventType } from './WesketchSocket';
 import { Drawings } from './Drawings';
 
 interface IProps {
     gameState: IWesketchGameState,
-    wss: WesketchService
+    wss: WesketchSocket
 }
 
 export class GameEnd extends React.Component<IProps, any> {

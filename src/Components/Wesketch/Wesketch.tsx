@@ -6,7 +6,7 @@ import { IPlayer } from "./IPlayer";
 import { PhaseTypes } from "./PhaseTypes";
 
 import { auth } from '../../Common/AuthService';
-import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
+import { WesketchSocket, WesketchEventType, IWesketchEvent } from './WesketchSocket';
 import { WesketchSoundManager } from './WesketchSoundManager';
 
 import { Chat } from './Chat';
@@ -40,7 +40,7 @@ export interface IWesketchGameState {
 
 interface IState {
     wsm: WesketchSoundManager;
-    wss: WesketchService;
+    wss: WesketchSocket;
     gameState: IWesketchGameState;
 }
 
@@ -51,7 +51,7 @@ export class Wesketch extends React.Component<{}, IState> {
 
         this.state = {
             wsm: new WesketchSoundManager(),
-            wss: new WesketchService(),
+            wss: new WesketchSocket(),
             gameState: {
                 debugMode: false,
                 phase: PhaseTypes.Lobby,

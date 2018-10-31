@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as moment from 'moment';
 
 import { IWesketchGameState } from './Wesketch';
-import { IWesketchEvent, WesketchEventType } from './WesketchService';
+import { IWesketchEvent, WesketchEventType } from './WesketchSocket';
 import { PhaseTypes } from './PhaseTypes';
 
 interface IProps {
@@ -107,12 +107,12 @@ export class Debug extends React.Component<IProps, IState> {
         return (
             <div id="debug">
                 <div className="info">
-                    <i className="fa fa-info" onClick={this.toggleShowGameState} />
+                    <i className="toggler fa fa-info" onClick={this.toggleShowGameState} />
                     {gameStateString}
                 </div>
 
                 <div className="events">
-                    <div><i className="fa fa-list" onClick={this.toggleShowEvents} /></div>
+                    <div><i className="toggler fa fa-list" onClick={this.toggleShowEvents} /></div>
                     {events}
                 </div>
             </div>

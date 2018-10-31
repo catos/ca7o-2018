@@ -2,13 +2,13 @@ import * as React from 'react';
 
 import { IPlayer } from './IPlayer';
 import { snip } from '../../Common/Utils';
-import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
+import { WesketchSocket, WesketchEventType, IWesketchEvent } from './WesketchSocket';
 import { ChatMessage } from './ChatMessage';
 import { IWesketchGameState } from './Wesketch';
 import { auth } from '../../Common/AuthService';
 
 interface IProps {
-    wss: WesketchService;
+    wss: WesketchSocket;
     gameState: IWesketchGameState;
 }
 

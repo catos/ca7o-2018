@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { IWesketchGameState } from './Wesketch';
-import { WesketchService, WesketchEventType } from './WesketchService';
+import { WesketchSocket, WesketchEventType } from './WesketchSocket';
 import { auth } from '../../Common/AuthService';
 import { Timer } from './Timer';
 import { PhaseTypes } from './PhaseTypes';
@@ -9,7 +9,7 @@ import { IPlayer } from './IPlayer';
 
 interface IProps {
     gameState: IWesketchGameState;
-    wss: WesketchService;
+    wss: WesketchSocket;
 }
 
 export class InfoBar extends React.Component<IProps, {}> {

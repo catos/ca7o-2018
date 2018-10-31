@@ -38,7 +38,7 @@ export interface IWesketchEvent {
     value: any;
 }
 
-export class WesketchService {
+export class WesketchSocket {
     public socketId: string;
     public events: IWesketchEvent[];
 

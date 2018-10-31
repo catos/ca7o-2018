@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { WesketchService, IWesketchEvent, WesketchEventType } from './WesketchService';
+import { WesketchSocket, IWesketchEvent, WesketchEventType } from './WesketchSocket';
 import { TEST_DRAWINGS } from './TestDrawings';
 import { IDrawing } from './IDrawing';
 import { CarouselItem, CarouselCaption, Carousel, CarouselControl } from 'reactstrap';
 
 interface IProps {
-    wss: WesketchService;
+    wss: WesketchSocket;
 }
 
 interface IState {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Vector2 } from "./Vector2";
-import { WesketchService, WesketchEventType, IWesketchEvent } from './WesketchService';
+import { WesketchSocket, WesketchEventType, IWesketchEvent } from './WesketchSocket';
 import { auth } from '../../Common/AuthService';
 
 import { IWesketchGameState } from './Wesketch';
@@ -11,7 +11,7 @@ import { IPlayer } from './IPlayer';
 
 interface IProps {
     gameState: IWesketchGameState;
-    wss: WesketchService;
+    wss: WesketchSocket;
 }
 
 interface IState {

@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { WesketchEventType, WesketchService } from './WesketchService';
+import { WesketchEventType, WesketchSocket } from './WesketchSocket';
 
 interface IProps {
     currentColor: string;
-    wss: WesketchService;
+    wss: WesketchSocket;
 }
 
 const COLORS = [

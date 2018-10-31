@@ -352,14 +352,18 @@
     top: 20rem;
 }
 
+#debug i.toggler {
+    padding: 0.5rem;
+}
+
 #debug .info {
     background-color: #f8d7daab;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
     font-size: 75%;
 }
 
 #debug .events {
     background-color: #f8ead7ab;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
     font-size: 75%;
 }

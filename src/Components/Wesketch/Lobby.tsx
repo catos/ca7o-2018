@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { WesketchService, WesketchEventType } from './WesketchService';
+import { WesketchSocket, WesketchEventType } from './WesketchSocket';
 import { IWesketchGameState } from './Wesketch';
 import { PhaseTypes } from './PhaseTypes';
 import { auth } from '../../Common/AuthService';
 
 interface IProps {
     gameState: IWesketchGameState;
-    wss: WesketchService;
+    wss: WesketchSocket;
 }
 
 interface IState {

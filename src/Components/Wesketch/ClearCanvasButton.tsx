@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { WesketchService, WesketchEventType } from './WesketchService';
+import { WesketchSocket, WesketchEventType } from './WesketchSocket';
 
 interface IProps {
-    wss: WesketchService;
+    wss: WesketchSocket;
 }
 
 export const ClearCanvasButton: React.SFC<IProps> = (props) => {

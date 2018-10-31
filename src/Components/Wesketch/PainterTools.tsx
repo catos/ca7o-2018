@@ -1,14 +1,14 @@
 import * as React from 'react';
 
 import { Vector2 } from './Vector2';
-import { WesketchService } from './WesketchService';
+import { WesketchSocket } from './WesketchSocket';
 import { IWesketchGameState } from './Wesketch';
 import { ClearCanvasButton } from './ClearCanvasButton';
 import { Colors } from './Colors';
 import { BrushButton } from './BrushButton';
 
 interface IProps {
-    wss: WesketchService;
+    wss: WesketchSocket;
     gameState: IWesketchGameState;
 }
 
