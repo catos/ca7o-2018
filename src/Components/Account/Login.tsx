@@ -84,9 +84,11 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
                         <FormGroup className="text-danger text-center opacity-15 opacity-hover">
                             <a onClick={() => this.easyLogin('cskogholt@gmail.com', 'monzter1')}>cskogholt@gmail.com</a>
                             <span className="ml-2 mr-2">|</span>
-                            <a onClick={() => this.easyLogin('test@gmail.com', 'test123')}>test@gmail.com</a>
+                            <a onClick={() => this.easyLogin('thomas@gmail.com', 'thomas123')}>thomas@gmail.com</a>
                             <span className="ml-2 mr-2">|</span>
-                            <a onClick={() => this.easyLogin('notfound@gmail.com', 'monzter1')}>notfound@gmail.com</a>
+                            <a onClick={() => this.easyLogin('kim@gmail.com', 'kim123')}>kim@gmail.com</a>
+                            <span className="ml-2 mr-2">|</span>
+                            <a onClick={() => this.easyLogin('test@gmail.com', 'test123')}>test@gmail.com</a>
                         </FormGroup>
                     </Form>
                 </div>
