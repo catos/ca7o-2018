@@ -14,6 +14,7 @@ import { Lobby } from './Lobby';
 import { Painter } from './Painter';
 import { Debug } from "./Debug";
 import { InfoBar } from './InfoBar';
+// TODO: GameEnd
 // import { GameEnd } from './GameEnd';
 import { Drawings } from './Drawings';
 

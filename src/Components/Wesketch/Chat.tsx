@@ -6,6 +6,7 @@ import { WesketchSocket, WesketchEventType, IWesketchEvent } from './WesketchSoc
 import { ChatMessage } from './ChatMessage';
 import { IWesketchGameState } from './Wesketch';
 import { auth } from '../../Common/AuthService';
+import { PhaseTypes } from './PhaseTypes';
 
 interface IProps {
     wss: WesketchSocket;
@@ -48,12 +49,6 @@ export class Chat extends React.Component<IProps, IState> {
             return a.score > b.score ? -1 : b.score > a.score ? 1 : 0;
         });
 
-        let imDrawing = false;
-        const drawingPlayer = players.find(p => p.isDrawing);
-        if (drawingPlayer) {
-            imDrawing = drawingPlayer.userId === auth.currentUser().guid;
-        }
-
         return (
             <div id="chat">
                 <div className="players-wrapper">
@@ -90,7 +85,7 @@ export class Chat extends React.Component<IProps, IState> {
                                 name="current-message"
                                 placeholder="Type your message here..."
                                 ref={(el) => { this.messageInputEl = el }}
-                                disabled={imDrawing ? true : false}
+                                disabled={this.inputDisabled()}
                                 value={this.state.currentMessage}
                                 onChange={this.onChange}
                                 onKeyDown={this.onKeyDown} />
@@ -154,5 +149,16 @@ export class Chat extends React.Component<IProps, IState> {
         if (this.messagesEl !== null) {
             this.messagesEl.scrollTop = this.messagesEl.scrollHeight - this.messagesEl.clientHeight;
         }
+    }
+
+    private inputDisabled = (): boolean => {
+        const { gameState } = this.props;
+
+        const me = gameState.players.find(p => p.userId === auth.currentUser().guid);
+        if (me && gameState.phase === PhaseTypes.Drawing) {
+            return me.isDrawing || me.guessedWord;
+        }
+
+        return false;
     }
 }

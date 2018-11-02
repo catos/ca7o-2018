@@ -118,6 +118,7 @@ export class Painter extends React.Component<IProps, IState> {
                     onMouseUp={this.onMouseUp}
                     onMouseMove={this.onMouseMove}
                     onMouseOut={this.onMouseOut}
+                    onWheel={this.onMouseWheel} 
                     onContextMenu={this.onContextMenu} />
             </div>
         );
@@ -168,6 +169,12 @@ export class Painter extends React.Component<IProps, IState> {
 
     private onMouseOut = (event: React.MouseEvent<HTMLElement>) => {
         this.setState({ isDrawing: false });
+    }
+
+    private onMouseWheel = (event: React.WheelEvent<HTMLElement>) => {
+        event.stopPropagation();
+        const modifier = event.nativeEvent.wheelDelta < 0 ? -3 : 3;
+        this.props.wss.emit(WesketchEventType.ChangeBrushSize, modifier)
     }
 
     private onContextMenu = (event: React.MouseEvent<HTMLElement>) => {

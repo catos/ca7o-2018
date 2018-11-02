@@ -362,6 +362,12 @@
     font-size: 75%;
 }
 
+#debug .players {
+    background-color: #d7f8daab;
+    padding: 0.5rem;
+    font-size: 75%;
+}
+
 #debug .events {
     background-color: #f8ead7ab;
     padding: 0.5rem;
