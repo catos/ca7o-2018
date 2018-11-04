@@ -1,15 +1,19 @@
 import * as React from 'react';
-import { WesketchSocket, IWesketchEvent, WesketchEventType } from './WesketchSocket';
-import { TEST_DRAWINGS } from './TestDrawings';
-import { IDrawing } from './IDrawing';
 import { CarouselItem, CarouselCaption, Carousel, CarouselControl } from 'reactstrap';
+
+import { WesketchEventType } from './Types/WesketchEventType';
+import { IWesketchEvent } from './Interfaces/IWesketchEvent';
+import { IWesketchDrawing } from './Interfaces/IWesketchDrawing';
+
+import { WesketchSocket } from './WesketchSocket';
+import { TEST_DRAWINGS } from './TestDrawings';
 
 interface IProps {
     wss: WesketchSocket;
 }
 
 interface IState {
-    drawings: IDrawing[];
+    drawings: IWesketchDrawing[];
     activeIndex: number;
     animating: boolean;
 }

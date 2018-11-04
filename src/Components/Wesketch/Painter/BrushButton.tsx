@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { WesketchSocket, WesketchEventType } from './WesketchSocket';
+
+import { WesketchEventType } from '../Types/WesketchEventType';
+import { WesketchSocket } from '../WesketchSocket';
 
 interface IProps {
     wss: WesketchSocket;

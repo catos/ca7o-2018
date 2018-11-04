@@ -1,12 +1,15 @@
 import * as React from 'react';
 
-import { IPlayer } from './IPlayer';
+import { PhaseTypes } from './Types/PhaseTypes';
+import { WesketchEventType } from './Types/WesketchEventType';
+import { IWesketchEvent } from './Interfaces/IWesketchEvent';
+import { IWesketchPlayer } from './Interfaces/IWesketchPlayer';
+import { IWesketchGameState } from './Interfaces/IWesketchGameState';
+
 import { snip } from '../../Common/Utils';
-import { WesketchSocket, WesketchEventType, IWesketchEvent } from './WesketchSocket';
-import { ChatMessage } from './ChatMessage';
-import { IWesketchGameState } from './Wesketch';
 import { auth } from '../../Common/AuthService';
-import { PhaseTypes } from './PhaseTypes';
+import { WesketchSocket } from './WesketchSocket';
+import { ChatMessage } from './ChatMessage';
 
 interface IProps {
     wss: WesketchSocket;
@@ -45,7 +48,7 @@ export class Chat extends React.Component<IProps, IState> {
 
     public render() {
         const { players } = this.props.gameState;
-        const sortedPlayers = players.sort((a: IPlayer, b: IPlayer) => {
+        const sortedPlayers = players.sort((a: IWesketchPlayer, b: IWesketchPlayer) => {
             return a.score > b.score ? -1 : b.score > a.score ? 1 : 0;
         });
 

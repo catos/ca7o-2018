@@ -2,46 +2,30 @@ import 'isomorphic-fetch';
 import * as React from "react";
 
 import './Wesketch.css';
-import { IPlayer } from "./IPlayer";
-import { PhaseTypes } from "./PhaseTypes";
+import { PhaseTypes } from "./Types/PhaseTypes";
+import { WesketchEventType } from './Types/WesketchEventType';
+import { IWesketchEvent } from './Interfaces/IWesketchEvent';
+import { IWesketchGameSettings } from './Interfaces/IWesketchGameSettings';
+import { IWesketchGameState } from './Interfaces/IWesketchGameState';
 
 import { auth } from '../../Common/AuthService';
-import { WesketchSocket, WesketchEventType, IWesketchEvent } from './WesketchSocket';
+import { WesketchSocket } from './WesketchSocket';
 import { WesketchSoundManager } from './WesketchSoundManager';
 
 import { Chat } from './Chat';
 import { Lobby } from './Lobby';
-import { Painter } from './Painter';
+import { Painter } from './Painter/Painter';
 import { Debug } from "./Debug";
 import { InfoBar } from './InfoBar';
-// TODO: GameEnd
-// import { GameEnd } from './GameEnd';
 import { Drawings } from './Drawings';
 
-export interface ITimer {
-    remaining: number;
-    duration: number;
-}
-
-export interface IWesketchGameState {
-    debugMode: boolean;
-    phase: PhaseTypes;
-    players: IPlayer[];
-
-    stop: boolean;
-    round: number;
-    timer: ITimer;
-    currentWord: string;
-    hintsGiven: number;
-
-    primaryColor: string;
-    secondaryColor: string;
-    brushSize: number;
-}
+// TODO: GameEnd
+// import { GameEnd } from './GameEnd';
 
 interface IState {
     wsm: WesketchSoundManager;
     wss: WesketchSocket;
+    gameSettings: IWesketchGameSettings;
     gameState: IWesketchGameState;
 }
 
@@ -53,6 +37,11 @@ export class Wesketch extends React.Component<{}, IState> {
         this.state = {
             wsm: new WesketchSoundManager(),
             wss: new WesketchSocket(),
+            gameSettings: {
+                language: 1,
+                difficulties: [2],
+                wordCount: 0
+            },
             gameState: {
                 debugMode: false,
                 phase: PhaseTypes.Lobby,
@@ -103,18 +92,23 @@ export class Wesketch extends React.Component<{}, IState> {
     }
 
     public render() {
-        const { gameState, wss } = this.state;
+        const { gameSettings, gameState, wss } = this.state;
 
-        const mainWindow = {                
-            Lobby: <Lobby gameState={gameState} wss={wss} />,
+        const mainWindow = {
+            Lobby: <Lobby
+                gameSettings={gameSettings}
+                gameState={gameState}
+                wss={wss}
+                setLanguage={this.setLanguage}
+                toggleDifficulty={this.toggleDifficulty} />,
             Drawing: <Painter gameState={gameState} wss={wss} />,
             RoundEnd: <Painter gameState={gameState} wss={wss} />,
             GameEnd: <Drawings wss={wss} />
         };
 
         return (
-            <div id="wesketch" className={ 'no-select' + (gameState.debugMode ? 'debug-mode' : '')}>
-                {mainWindow[PhaseTypes[gameState.phase]]}                
+            <div id="wesketch" className={'no-select' + (gameState.debugMode ? 'debug-mode' : '')}>
+                {mainWindow[PhaseTypes[gameState.phase]]}
                 <InfoBar gameState={gameState} wss={wss} />
                 <Chat gameState={gameState} wss={wss} />
                 <Debug gameState={gameState} events={wss.events} />
@@ -122,9 +116,35 @@ export class Wesketch extends React.Component<{}, IState> {
         );
     }
 
-    private onEvent = (event: IWesketchEvent) => {        
+    private setLanguage = (language: number) => {
+        const gameSettings = { ...this.state.gameSettings };
+        gameSettings.language = language;
+        this.setState(
+            { gameSettings },
+            () => this.state.wss.emit(WesketchEventType.UpdateGameSettings, gameSettings));
+    }
+
+    private toggleDifficulty = (difficulty: number) => {
+        const gameSettings = { ...this.state.gameSettings };
+
+        gameSettings.difficulties = gameSettings.difficulties.includes(difficulty)
+            ? gameSettings.difficulties.filter(p => p !== difficulty)
+            : gameSettings.difficulties.concat(difficulty);
+
+        this.setState(
+            { gameSettings },
+            () => this.state.wss.emit(WesketchEventType.UpdateGameSettings, gameSettings));
+    }
+
+    private onEvent = (event: IWesketchEvent) => {
         const { wsm } = this.state;
         const muteSounds = true;
+
+        if (event.type === WesketchEventType.UpdateGameSettings) {
+            this.setState({
+                gameSettings: event.value
+            });
+        }
 
         if (event.type === WesketchEventType.UpdateGameState) {
             this.setState({

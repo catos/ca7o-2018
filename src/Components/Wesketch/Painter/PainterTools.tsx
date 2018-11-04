@@ -1,8 +1,10 @@
 import * as React from 'react';
 
+import { IWesketchGameState } from '../Interfaces/IWesketchGameState';
+
 import { Vector2 } from './Vector2';
-import { WesketchSocket } from './WesketchSocket';
-import { IWesketchGameState } from './Wesketch';
+import { WesketchSocket } from '../WesketchSocket';
+
 import { ClearCanvasButton } from './ClearCanvasButton';
 import { Colors } from './Colors';
 import { BrushButton } from './BrushButton';

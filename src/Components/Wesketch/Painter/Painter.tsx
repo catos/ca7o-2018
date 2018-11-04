@@ -1,13 +1,16 @@
 import * as React from 'react';
 
-import { Vector2 } from "./Vector2";
-import { WesketchSocket, WesketchEventType, IWesketchEvent } from './WesketchSocket';
-import { auth } from '../../Common/AuthService';
+import { PhaseTypes } from '../Types/PhaseTypes';
+import { WesketchEventType } from '../Types/WesketchEventType';
+import { IWesketchEvent } from '../Interfaces/IWesketchEvent';
+import { IWesketchPlayer } from '../Interfaces/IWesketchPlayer';
+import { IWesketchGameState } from '../Interfaces/IWesketchGameState';
 
-import { IWesketchGameState } from './Wesketch';
-import { PhaseTypes } from './PhaseTypes';
+import { auth } from '../../../Common/AuthService';
+import { Vector2 } from "./Vector2";
+import { WesketchSocket } from '../WesketchSocket';
+
 import { PainterTools } from './PainterTools';
-import { IPlayer } from './IPlayer';
 
 interface IProps {
     gameState: IWesketchGameState;
@@ -204,7 +207,7 @@ export class Painter extends React.Component<IProps, IState> {
         const { wss, gameState } = this.props;
         const currentUser = auth.currentUser();
 
-        const drawingPlayer = gameState.players.find(p => p.isDrawing) as IPlayer;
+        const drawingPlayer = gameState.players.find(p => p.isDrawing) as IWesketchPlayer;
         if (event.type === WesketchEventType.SaveDrawing
             && drawingPlayer.userId === currentUser.guid) {
             wss.emit(WesketchEventType.SaveDrawing, {

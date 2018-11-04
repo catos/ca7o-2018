@@ -23,6 +23,17 @@
 #phase-lobby {
     background-color: #ffffff;
     padding: 4rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+#phase-lobby > div {
+    width: 48%;
+}
+
+#phase-lobby .game-rules {
+    background-color: aliceblue;
+    padding: 2rem;
 }
 
 #phase-lobby .lobby-ready-check {
@@ -361,6 +372,7 @@
 
 #debug i.toggler {
     padding: 0.5rem;
+    font-size: 1rem;
 }
 
 #debug .info {

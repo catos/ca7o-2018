@@ -1,5 +1,7 @@
 import * as React from 'react'
-import { WesketchEventType, WesketchSocket } from './WesketchSocket';
+
+import { WesketchEventType } from '../Types/WesketchEventType';
+import { WesketchSocket } from '../WesketchSocket';
 
 interface IProps {
     currentColor: string;

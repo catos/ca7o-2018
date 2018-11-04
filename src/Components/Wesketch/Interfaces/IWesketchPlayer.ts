@@ -1,4 +1,4 @@
-export interface IPlayer {
+export interface IWesketchPlayer {
     clientId: string;
     userId: string;
     name: string;

@@ -1,24 +1,19 @@
 import * as React from 'react';
-import { PhaseTypes } from './PhaseTypes';
-import { ITimer } from './Wesketch';
+
+import { PhaseTypes } from './Types/PhaseTypes';
+import { IWesketchTimer } from './Interfaces/IWesketchTimes';
 
 interface ITimerProps {
     phase: PhaseTypes;
-    timer: ITimer;
+    timer: IWesketchTimer;
 }
 
 export const Timer: React.SFC<ITimerProps> = (props) => {
     const { timer } = props;
-
-    // if (props.phase === PhaseTypes.Drawing) {
-        return (
-            <div id="timer">
-                <div className="timer-bar" style={{ width: Math.floor(timer.remaining / timer.duration * 100) + '%' }} />
-            </div>
-        );
-    // }
-
-    // return (
-    //     <div id="timer" />
-    // )
+    
+    return (
+        <div id="timer">
+            <div className="timer-bar" style={{ width: Math.floor(timer.remaining / timer.duration * 100) + '%' }} />
+        </div>
+    );
 }

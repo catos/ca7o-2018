@@ -1,11 +1,13 @@
 import * as React from 'react'
 
-import { IWesketchGameState } from './Wesketch';
-import { WesketchSocket, WesketchEventType } from './WesketchSocket';
+import { PhaseTypes } from './Types/PhaseTypes';
+import { WesketchEventType } from './Types/WesketchEventType';
+import { IWesketchPlayer } from './Interfaces/IWesketchPlayer';
+import { IWesketchGameState } from './Interfaces/IWesketchGameState';
+
 import { auth } from '../../Common/AuthService';
 import { Timer } from './Timer';
-import { PhaseTypes } from './PhaseTypes';
-import { IPlayer } from './IPlayer';
+import { WesketchSocket } from './WesketchSocket';
 
 interface IProps {
     gameState: IWesketchGameState;
@@ -92,7 +94,7 @@ export class InfoBar extends React.Component<IProps, {}> {
     }
 
     private toggleDebugMode = () => {
-        const players: IPlayer[] = [
+        const players: IWesketchPlayer[] = [
             { clientId: '/wesketch#WdWJMyw-CvTuwzziAAAK', userId: '48351e45-1cbc-46f1-afdc-4eb5f20cd934', name: 'Test Testerson', isReady: true, score: 0, drawCount: 0, isDrawing: false, guessedWord: false },
             { clientId: '/wesketch#WnKF0W69_TvOBQMRAAAL', userId: '4f6a7db2-3160-4e2f-b077-ad0386323097', name: 'Cato Skogholt', isReady: true, score: 0, drawCount: 0, isDrawing: true, guessedWord: false },
         ];
@@ -120,7 +122,7 @@ export class InfoBar extends React.Component<IProps, {}> {
     }
 
     private toggleGameEnd = () => {
-        const players: IPlayer[] = [
+        const players: IWesketchPlayer[] = [
             { clientId: '/wesketch#WdWJMyw-CvTuwzziAAAK', userId: '48351e45-1cbc-46f1-afdc-4eb5f20cd934', name: 'Test Testerson', isReady: false, score: 56, drawCount: 3, isDrawing: false, guessedWord: false },
             { clientId: '/wesketch#WnKF0W69_TvOBQMRAAAL', userId: '4f6a7db2-3160-4e2f-b077-ad0386323097', name: 'Cato Skogholt', isReady: false, score: 73, drawCount: 3, isDrawing: false, guessedWord: false },
             { clientId: 'f0cc3457-1e00-416b-a785-a8bd921c25a5', userId: '3', name: 'Turd Furgeson', isReady: false, score: 51, drawCount: 3, isDrawing: false, guessedWord: false },

@@ -1,7 +1,9 @@
 import * as React from 'react';
 
-import { IWesketchGameState } from './Wesketch';
-import { WesketchSocket, WesketchEventType } from './WesketchSocket';
+import { WesketchEventType } from './Types/WesketchEventType';
+import { IWesketchGameState } from './Interfaces/IWesketchGameState';
+
+import { WesketchSocket } from './WesketchSocket';
 import { Drawings } from './Drawings';
 
 interface IProps {

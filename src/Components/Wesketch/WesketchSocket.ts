@@ -1,39 +1,10 @@
 import * as io from 'socket.io-client';
 
+import { WesketchEventType } from './Types/WesketchEventType';
+import { IWesketchEvent } from './Interfaces/IWesketchEvent';
+
 import { AppConfig } from '../../AppConfig';
 import { auth } from '../../Common/AuthService';
-
-export enum WesketchEventType {
-    ServerError,
-    PlayerJoined,
-    PlayerLeft,
-    PlayerReady,
-    PlaySound,
-    StopSound,
-    Message,
-    SystemMessage,
-    Draw,
-    StopDraw,
-    GiveUp,
-    GiveHint,
-    ClearCanvas,
-    ChangeColor,
-    ChangeBrushSize,
-    UpdateGameState,
-    ResetGame,
-    SaveDrawing,
-    GetDrawings,
-    ShowScores,
-}
-
-export interface IWesketchEvent {
-    clientId: string;
-    userId: string;
-    userName: string;
-    timestamp: Date;
-    type: WesketchEventType;
-    value: any;
-}
 
 export class WesketchSocket {
     public socketId: string;

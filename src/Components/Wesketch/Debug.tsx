@@ -1,9 +1,10 @@
 import * as React from 'react';
 import * as moment from 'moment';
 
-import { IWesketchGameState } from './Wesketch';
-import { IWesketchEvent, WesketchEventType } from './WesketchSocket';
-import { PhaseTypes } from './PhaseTypes';
+import { PhaseTypes } from './Types/PhaseTypes';
+import { WesketchEventType } from './Types/WesketchEventType';
+import { IWesketchGameState } from './Interfaces/IWesketchGameState';
+import { IWesketchEvent } from './Interfaces/IWesketchEvent';
 
 interface IProps {
     gameState: IWesketchGameState;
