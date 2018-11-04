@@ -1,6 +1,6 @@
 import { PhaseTypes } from "../Types/PhaseTypes";
 import { IWesketchPlayer } from "./IWesketchPlayer";
-import { IWesketchTimer } from "./IWesketchTimes";
+import { IWesketchTimer } from "./IWesketchTimer";
 
 export interface IWesketchGameState {
     debugMode: boolean;

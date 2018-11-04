@@ -43,7 +43,7 @@ export class PainterTools extends React.Component<IProps, IState> {
                 <ClearCanvasButton wss={wss} />
                 {/* <div className="button fa fa-fill" /> */}
                 <BrushButton wss={wss} brushSize={gameState.brushSize} />
-                <Colors currentColor={gameState.primaryColor} wss={wss} />
+                <Colors wss={wss} currentColor={gameState.primaryColor} />
             </div>
         );
     }

@@ -1,10 +1,7 @@
 import * as React from 'react';
 
-import { PhaseTypes } from './Types/PhaseTypes';
-import { WesketchEventType } from './Types/WesketchEventType';
-import { IWesketchEvent } from './Interfaces/IWesketchEvent';
-import { IWesketchPlayer } from './Interfaces/IWesketchPlayer';
-import { IWesketchGameState } from './Interfaces/IWesketchGameState';
+import { PhaseTypes, WesketchEventTypes } from './Types';
+import { IWesketchEvent, IWesketchGameState, IWesketchPlayer } from './Interfaces';
 
 import { snip } from '../../Common/Utils';
 import { auth } from '../../Common/AuthService';
@@ -113,12 +110,12 @@ export class Chat extends React.Component<IProps, IState> {
             previousMessage: prevState.currentMessage,
             currentMessage: ''
         }));
-        this.props.wss.emit(WesketchEventType.Message, { message: this.state.currentMessage });
+        this.props.wss.emit(WesketchEventTypes.Message, { message: this.state.currentMessage });
     }
 
     private onEvent = (event: IWesketchEvent) => {
-        if (event.type === WesketchEventType.Message ||
-            event.type === WesketchEventType.SystemMessage) {
+        if (event.type === WesketchEventTypes.Message ||
+            event.type === WesketchEventTypes.SystemMessage) {
 
             const messageEvents = this.state.messageEvents;
             messageEvents.push(event);

@@ -1,10 +1,10 @@
-import { WesketchEventType } from "../Types/WesketchEventType";
+import { WesketchEventTypes } from "../Types";
 
 export interface IWesketchEvent {
     clientId: string;
     userId: string;
     userName: string;
     timestamp: Date;
-    type: WesketchEventType;
+    type: WesketchEventTypes;
     value: any;
 }

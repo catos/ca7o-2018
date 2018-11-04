@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { CarouselItem, CarouselCaption, Carousel, CarouselControl } from 'reactstrap';
 
-import { WesketchEventType } from './Types/WesketchEventType';
-import { IWesketchEvent } from './Interfaces/IWesketchEvent';
-import { IWesketchDrawing } from './Interfaces/IWesketchDrawing';
+import { WesketchEventTypes } from './Types/WesketchEventTypes';
+import { IWesketchDrawing, IWesketchEvent } from './Interfaces';
 
 import { WesketchSocket } from './WesketchSocket';
 import { TEST_DRAWINGS } from './TestDrawings';
@@ -103,7 +102,7 @@ export class Drawings extends React.Component<IProps, IState> {
     }
 
     private onEvent = (event: IWesketchEvent) => {
-        if (event.type === WesketchEventType.GetDrawings) {
+        if (event.type === WesketchEventTypes.GetDrawings) {
             const drawings = event.value;
             this.setState({ drawings });
         }

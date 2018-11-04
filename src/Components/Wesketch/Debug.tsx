@@ -1,10 +1,8 @@
 import * as React from 'react';
 import * as moment from 'moment';
 
-import { PhaseTypes } from './Types/PhaseTypes';
-import { WesketchEventType } from './Types/WesketchEventType';
-import { IWesketchGameState } from './Interfaces/IWesketchGameState';
-import { IWesketchEvent } from './Interfaces/IWesketchEvent';
+import { PhaseTypes, WesketchEventTypes } from './Types';
+import { IWesketchEvent, IWesketchGameState } from './Interfaces';
 
 interface IProps {
     gameState: IWesketchGameState;
@@ -93,10 +91,10 @@ export class Debug extends React.Component<IProps, IState> {
                     {this.props.events.slice(Math.max(this.props.events.length - 10, 1)).map((event, idx) =>
                         <tr key={idx}>
                             <td>{moment(event.timestamp).format('HH:mm:ss')}</td>
-                            <td>{WesketchEventType[event.type]}</td>
+                            <td>{WesketchEventTypes[event.type]}</td>
                             <td>{event.userName}</td>
                             <td>
-                                {(event.type !== WesketchEventType.UpdateGameState)
+                                {(event.type !== WesketchEventTypes.UpdateGameState)
                                     ? JSON.stringify(event.value, undefined, 2)
                                     : ''
                                 }

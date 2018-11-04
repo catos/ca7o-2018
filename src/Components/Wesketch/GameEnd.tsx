@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { WesketchEventType } from './Types/WesketchEventType';
-import { IWesketchGameState } from './Interfaces/IWesketchGameState';
+import { WesketchEventTypes } from './Types';
+import { IWesketchGameState } from './Interfaces';
 
 import { WesketchSocket } from './WesketchSocket';
 import { Drawings } from './Drawings';
@@ -44,6 +44,6 @@ export class GameEnd extends React.Component<IProps, any> {
     }
 
     private resetGame = () => {
-        this.props.wss.emit(WesketchEventType.ResetGame, {});
+        this.props.wss.emit(WesketchEventTypes.ResetGame, {});
     }
 }

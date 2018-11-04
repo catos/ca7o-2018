@@ -1,9 +1,7 @@
 import * as React from 'react'
 
-import { PhaseTypes } from './Types/PhaseTypes';
-import { WesketchEventType } from './Types/WesketchEventType';
-import { IWesketchPlayer } from './Interfaces/IWesketchPlayer';
-import { IWesketchGameState } from './Interfaces/IWesketchGameState';
+import { PhaseTypes, WesketchEventTypes } from './Types';
+import { IWesketchGameState, IWesketchPlayer } from './Interfaces';
 
 import { auth } from '../../Common/AuthService';
 import { Timer } from './Timer';
@@ -86,11 +84,11 @@ export class InfoBar extends React.Component<IProps, {}> {
     }
 
     private giveHint = () => {
-        this.props.wss.emit(WesketchEventType.GiveHint, {});
+        this.props.wss.emit(WesketchEventTypes.GiveHint, {});
     }
 
     private giveUp = () => {
-        this.props.wss.emit(WesketchEventType.GiveUp, {});
+        this.props.wss.emit(WesketchEventTypes.GiveUp, {});
     }
 
     private toggleDebugMode = () => {
@@ -118,7 +116,7 @@ export class InfoBar extends React.Component<IProps, {}> {
 
         this.setState({ gameState });
 
-        this.props.wss.emit(WesketchEventType.UpdateGameState, gameState);
+        this.props.wss.emit(WesketchEventTypes.UpdateGameState, gameState);
     }
 
     private toggleGameEnd = () => {
@@ -149,11 +147,11 @@ export class InfoBar extends React.Component<IProps, {}> {
         };
 
         this.setState({ gameState });
-        this.props.wss.emit(WesketchEventType.UpdateGameState, gameState);
+        this.props.wss.emit(WesketchEventTypes.UpdateGameState, gameState);
     }
 
     private resetGame = () => {
-        this.props.wss.emit(WesketchEventType.ResetGame, {});
+        this.props.wss.emit(WesketchEventTypes.ResetGame, {});
     }
 
     private hintArray = (): string[] => {

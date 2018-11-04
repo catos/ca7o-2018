@@ -1,9 +1,7 @@
 import * as React from 'react';
 
-import { PhaseTypes } from './Types/PhaseTypes';
-import { WesketchEventType } from './Types/WesketchEventType';
-import { IWesketchGameSettings } from './Interfaces/IWesketchGameSettings';
-import { IWesketchGameState } from './Interfaces/IWesketchGameState';
+import { PhaseTypes, WesketchEventTypes } from './Types';
+import { IWesketchGameSettings, IWesketchGameState } from './Interfaces';
 
 import { auth } from '../../Common/AuthService';
 import { WesketchSocket } from './WesketchSocket';
@@ -116,7 +114,7 @@ export class Lobby extends React.Component<IProps, {}> {
         if (player !== undefined
             && gameState.phase === PhaseTypes.Lobby
             && !gameState.players.every(p => p.isReady)) {
-            this.props.wss.emit(WesketchEventType.PlayerReady, player);
+            this.props.wss.emit(WesketchEventTypes.PlayerReady, player);
         }
     }
 }

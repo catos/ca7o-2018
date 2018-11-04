@@ -2,11 +2,8 @@ import 'isomorphic-fetch';
 import * as React from "react";
 
 import './Wesketch.css';
-import { PhaseTypes } from "./Types/PhaseTypes";
-import { WesketchEventType } from './Types/WesketchEventType';
-import { IWesketchEvent } from './Interfaces/IWesketchEvent';
-import { IWesketchGameSettings } from './Interfaces/IWesketchGameSettings';
-import { IWesketchGameState } from './Interfaces/IWesketchGameState';
+import { PhaseTypes, WesketchEventTypes } from './Types';
+import { IWesketchGameSettings, IWesketchGameState, IWesketchEvent } from './Interfaces';
 
 import { auth } from '../../Common/AuthService';
 import { WesketchSocket } from './WesketchSocket';
@@ -71,7 +68,7 @@ export class Wesketch extends React.Component<{}, IState> {
             userName: user.name,
             timestamp: new Date()
         } as IWesketchEvent;
-        wss.emit(WesketchEventType.PlayerJoined, event);
+        wss.emit(WesketchEventTypes.PlayerJoined, event);
 
         // Watch events
         wss.on('event', this.onEvent);
@@ -87,7 +84,7 @@ export class Wesketch extends React.Component<{}, IState> {
             userName: user.name,
             timestamp: new Date()
         } as IWesketchEvent;
-        wss.emit(WesketchEventType.PlayerLeft, event);
+        wss.emit(WesketchEventTypes.PlayerLeft, event);
         wss.disconnect();
     }
 
@@ -121,7 +118,7 @@ export class Wesketch extends React.Component<{}, IState> {
         gameSettings.language = language;
         this.setState(
             { gameSettings },
-            () => this.state.wss.emit(WesketchEventType.UpdateGameSettings, gameSettings));
+            () => this.state.wss.emit(WesketchEventTypes.UpdateGameSettings, gameSettings));
     }
 
     private toggleDifficulty = (difficulty: number) => {
@@ -133,26 +130,26 @@ export class Wesketch extends React.Component<{}, IState> {
 
         this.setState(
             { gameSettings },
-            () => this.state.wss.emit(WesketchEventType.UpdateGameSettings, gameSettings));
+            () => this.state.wss.emit(WesketchEventTypes.UpdateGameSettings, gameSettings));
     }
 
     private onEvent = (event: IWesketchEvent) => {
         const { wsm } = this.state;
         const muteSounds = true;
 
-        if (event.type === WesketchEventType.UpdateGameSettings) {
+        if (event.type === WesketchEventTypes.UpdateGameSettings) {
             this.setState({
                 gameSettings: event.value
             });
         }
 
-        if (event.type === WesketchEventType.UpdateGameState) {
+        if (event.type === WesketchEventTypes.UpdateGameState) {
             this.setState({
                 gameState: event.value
             });
         }
 
-        if (event.type === WesketchEventType.PlaySound && !muteSounds) {
+        if (event.type === WesketchEventTypes.PlaySound && !muteSounds) {
             const volume = !event.value.global &&
                 event.value.userId === auth.currentUser().guid && event.value
                 ? -1
@@ -160,7 +157,7 @@ export class Wesketch extends React.Component<{}, IState> {
             wsm.play(event.value.name, volume);
         }
 
-        if (event.type === WesketchEventType.StopSound) {
+        if (event.type === WesketchEventTypes.StopSound) {
             wsm.fade();
         }
     }

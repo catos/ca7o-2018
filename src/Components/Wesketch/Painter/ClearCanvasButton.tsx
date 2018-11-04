@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { WesketchEventType } from '../Types/WesketchEventType';
+import { WesketchEventTypes } from '../Types';
 import { WesketchSocket } from '../WesketchSocket';
 
 interface IProps {
@@ -9,7 +9,7 @@ interface IProps {
 
 export const ClearCanvasButton: React.SFC<IProps> = (props) => {
     const clearCanvas = () => {
-        props.wss.emit(WesketchEventType.ClearCanvas, {})
+        props.wss.emit(WesketchEventTypes.ClearCanvas, {})
     };
 
     return (

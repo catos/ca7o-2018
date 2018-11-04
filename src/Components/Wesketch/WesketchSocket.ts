@@ -1,7 +1,7 @@
 import * as io from 'socket.io-client';
 
-import { WesketchEventType } from './Types/WesketchEventType';
-import { IWesketchEvent } from './Interfaces/IWesketchEvent';
+import { WesketchEventTypes } from './Types';
+import { IWesketchEvent } from './Interfaces';
 
 import { AppConfig } from '../../AppConfig';
 import { auth } from '../../Common/AuthService';
@@ -41,8 +41,8 @@ export class WesketchSocket {
         });
 
         this.socket.on('event', (event: IWesketchEvent) => {
-            console.log(`[ WesketchSocket.event ] event.userId: ${event.userId}, type: ${WesketchEventType[event.type]}`);
-            if (event.type !== WesketchEventType.Draw) {
+            console.log(`[ WesketchSocket.event ] event.userId: ${event.userId}, type: ${WesketchEventTypes[event.type]}`);
+            if (event.type !== WesketchEventTypes.Draw) {
                 this.events.push(event);
             }
         });
@@ -57,7 +57,7 @@ export class WesketchSocket {
         this.socket.on(eventName, cb);
     }
 
-    public emit = (type: WesketchEventType, value: any) => {
+    public emit = (type: WesketchEventTypes, value: any) => {
         const user = auth.currentUser();
         const event = {
             clientId: this.socketId,

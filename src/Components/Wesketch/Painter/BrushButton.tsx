@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { WesketchEventType } from '../Types/WesketchEventType';
+import { WesketchEventTypes } from '../Types';
 import { WesketchSocket } from '../WesketchSocket';
 
 interface IProps {
@@ -11,7 +11,7 @@ interface IProps {
 export const BrushButton: React.SFC<IProps> = (props) => {
     const onMouseUp = (event: React.MouseEvent<HTMLElement>) => {
         const modifier = event.button === 2 ? -3 : 3;
-        props.wss.emit(WesketchEventType.ChangeBrushSize, modifier)
+        props.wss.emit(WesketchEventTypes.ChangeBrushSize, modifier)
     };
 
     const onContextMenu = (event: React.MouseEvent<HTMLElement>) => {

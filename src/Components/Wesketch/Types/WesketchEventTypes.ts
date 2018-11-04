@@ -1,4 +1,4 @@
-export enum WesketchEventType {
+export enum WesketchEventTypes {
     ServerError,
     PlayerJoined,
     PlayerLeft,

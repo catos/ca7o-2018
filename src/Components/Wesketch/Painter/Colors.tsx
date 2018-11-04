@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { WesketchEventType } from '../Types/WesketchEventType';
+import { WesketchEventTypes } from '../Types';
 import { WesketchSocket } from '../WesketchSocket';
 
 interface IProps {
@@ -23,7 +23,7 @@ const COLORS = [
 
 export const Colors: React.SFC<IProps> = (props) => {
     const changeColor = (newColor: string) => {
-        props.wss.emit(WesketchEventType.ChangeColor, newColor);
+        props.wss.emit(WesketchEventTypes.ChangeColor, newColor);
     }
 
     return (

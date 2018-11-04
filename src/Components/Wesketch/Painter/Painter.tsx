@@ -1,10 +1,7 @@
 import * as React from 'react';
 
-import { PhaseTypes } from '../Types/PhaseTypes';
-import { WesketchEventType } from '../Types/WesketchEventType';
-import { IWesketchEvent } from '../Interfaces/IWesketchEvent';
-import { IWesketchPlayer } from '../Interfaces/IWesketchPlayer';
-import { IWesketchGameState } from '../Interfaces/IWesketchGameState';
+import { PhaseTypes, WesketchEventTypes } from '../Types';
+import { IWesketchEvent, IWesketchGameState, IWesketchPlayer } from '../Interfaces';
 
 import { auth } from '../../../Common/AuthService';
 import { Vector2 } from "./Vector2";
@@ -151,7 +148,7 @@ export class Painter extends React.Component<IProps, IState> {
                 color
             });
             this.draw(this.state.from, this.state.to, this.state.color);
-            this.props.wss.emit(WesketchEventType.Draw, { from: this.state.from, to: this.state.to, color })
+            this.props.wss.emit(WesketchEventTypes.Draw, { from: this.state.from, to: this.state.to, color })
         }
     }
 
@@ -161,7 +158,7 @@ export class Painter extends React.Component<IProps, IState> {
 
         if (this.state.isDrawing) {
             this.draw(this.state.from, this.state.to, this.state.color);
-            this.props.wss.emit(WesketchEventType.Draw, { from: this.state.from, to: this.state.to, color: this.state.color })
+            this.props.wss.emit(WesketchEventTypes.Draw, { from: this.state.from, to: this.state.to, color: this.state.color })
         }
 
         this.setState({ from: this.state.to });
@@ -180,7 +177,7 @@ export class Painter extends React.Component<IProps, IState> {
         event.preventDefault();
         if (this.state.canDraw) {
             const modifier = event.nativeEvent.wheelDelta < 0 ? -3 : 3;
-            this.props.wss.emit(WesketchEventType.ChangeBrushSize, modifier)
+            this.props.wss.emit(WesketchEventTypes.ChangeBrushSize, modifier)
         }
     }
 
@@ -208,27 +205,27 @@ export class Painter extends React.Component<IProps, IState> {
         const currentUser = auth.currentUser();
 
         const drawingPlayer = gameState.players.find(p => p.isDrawing) as IWesketchPlayer;
-        if (event.type === WesketchEventType.SaveDrawing
+        if (event.type === WesketchEventTypes.SaveDrawing
             && drawingPlayer.userId === currentUser.guid) {
-            wss.emit(WesketchEventType.SaveDrawing, {
+            wss.emit(WesketchEventTypes.SaveDrawing, {
                 player: currentUser.name,
                 word: gameState.currentWord,
                 data: this.canvas.toDataURL()
             });
         }
 
-        if (event.type === WesketchEventType.Draw) {
+        if (event.type === WesketchEventTypes.Draw) {
             // Do not redraw your own drawing :D
             if (event.userId !== currentUser.guid) {
                 this.draw(event.value.from, event.value.to, event.value.color);
             }
         }
 
-        if (event.type === WesketchEventType.ClearCanvas) {
+        if (event.type === WesketchEventTypes.ClearCanvas) {
             this.ctx.clearRect(0, 0, this.state.canvasRect.width, this.state.canvasRect.height);
         }
 
-        if (event.type === WesketchEventType.UpdateGameState) {
+        if (event.type === WesketchEventTypes.UpdateGameState) {
             this.ctx.lineWidth = gameState.brushSize;
             this.ctx.strokeStyle = gameState.primaryColor;
         }

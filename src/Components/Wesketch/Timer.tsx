@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { PhaseTypes } from './Types/PhaseTypes';
-import { IWesketchTimer } from './Interfaces/IWesketchTimes';
+import { IWesketchTimer } from './Interfaces/IWesketchTimer';
 
 interface ITimerProps {
     phase: PhaseTypes;
