@@ -39,10 +39,8 @@ export class PainterTools extends React.Component<IProps, IState> {
                 onDrag={this.onDrag}>
 
                 <ClearCanvasButton wss={wss} />
-                <div className="button fa fa-fill" />                
+                {/* <div className="button fa fa-fill" /> */}
                 <BrushButton wss={wss} brushSize={gameState.brushSize} />
-                {/* <BrushSizeButton label="+" modifier={3} wss={wss} /> */}
-                {/* <BrushSizeButton label="-" modifier={-3} wss={wss} /> */}
                 <Colors currentColor={gameState.primaryColor} wss={wss} />
             </div>
         );

@@ -105,6 +105,8 @@ export class Painter extends React.Component<IProps, IState> {
                     <div>To: {this.state.to.x}, {this.state.to.y}</div>
                     <div>canvasRect: {this.state.canvasRect.left}, {this.state.canvasRect.top} - {this.state.canvasRect.width}, {this.state.canvasRect.height}</div>
                     <div>window.scroll: {window.scrollX}, {window.scrollY}</div>
+                    <div>isDrawing: {this.state.isDrawing.toString()}</div>
+                    <div>canDraw: {this.state.canDraw.toString()}</div>
                 </div>
 
                 {this.state.canDraw
@@ -118,7 +120,7 @@ export class Painter extends React.Component<IProps, IState> {
                     onMouseUp={this.onMouseUp}
                     onMouseMove={this.onMouseMove}
                     onMouseOut={this.onMouseOut}
-                    onWheel={this.onMouseWheel} 
+                    onWheel={this.onMouseWheel}
                     onContextMenu={this.onContextMenu} />
             </div>
         );
@@ -172,9 +174,11 @@ export class Painter extends React.Component<IProps, IState> {
     }
 
     private onMouseWheel = (event: React.WheelEvent<HTMLElement>) => {
-        event.stopPropagation();
-        const modifier = event.nativeEvent.wheelDelta < 0 ? -3 : 3;
-        this.props.wss.emit(WesketchEventType.ChangeBrushSize, modifier)
+        event.preventDefault();
+        if (this.state.canDraw) {
+            const modifier = event.nativeEvent.wheelDelta < 0 ? -3 : 3;
+            this.props.wss.emit(WesketchEventType.ChangeBrushSize, modifier)
+        }
     }
 
     private onContextMenu = (event: React.MouseEvent<HTMLElement>) => {

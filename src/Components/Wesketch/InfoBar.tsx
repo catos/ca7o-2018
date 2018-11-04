@@ -52,10 +52,17 @@ export class InfoBar extends React.Component<IProps, {}> {
                     <div className="info-col info-col-1">
                         {hints}
                     </div>
-                    <div className="info-col info-col-2">ROUND: <span className="bold">{gameState.round}</span> of <span className="bold">{gameState.players.length * 3}</span></div>
+
+                    <div className="info-col info-col-2">
+                        {gameState.phase !== PhaseTypes.Lobby
+                            ? <div>ROUND : <span className="bold">{gameState.round}</span> of <span className="bold">{gameState.players.length * 3}</span></div>
+                            : ''}
+                    </div>
 
                     <div className="info-col info-col-3">
-                        <div className="info-timer-number">{gameState.timer.remaining}</div>
+                        {gameState.phase !== PhaseTypes.Lobby
+                            ? <div className="info-timer-number">{gameState.timer.remaining}</div>
+                            : ''}
                     </div>
 
                     <div className="info-col info-col-4">
