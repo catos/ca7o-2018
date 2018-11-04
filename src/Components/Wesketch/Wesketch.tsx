@@ -61,6 +61,7 @@ export class Wesketch extends React.Component<{}, IState> {
     public componentDidMount() {
         const { wss } = this.state;
 
+        // Player joined
         const user = auth.currentUser();
         const event = {
             clientId: wss.socketId,
@@ -69,6 +70,9 @@ export class Wesketch extends React.Component<{}, IState> {
             timestamp: new Date()
         } as IWesketchEvent;
         wss.emit(WesketchEventTypes.PlayerJoined, event);
+
+        // Send gamesettings
+        wss.emit(WesketchEventTypes.UpdateGameSettings, this.state.gameSettings)
 
         // Watch events
         wss.on('event', this.onEvent);
@@ -108,7 +112,7 @@ export class Wesketch extends React.Component<{}, IState> {
                 {mainWindow[PhaseTypes[gameState.phase]]}
                 <InfoBar gameState={gameState} wss={wss} />
                 <Chat gameState={gameState} wss={wss} />
-                <Debug gameState={gameState} events={wss.events} />
+                <Debug gameSettings={gameSettings} gameState={gameState} events={wss.events} />
             </div>
         );
     }

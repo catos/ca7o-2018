@@ -2,9 +2,10 @@ import * as React from 'react';
 import * as moment from 'moment';
 
 import { PhaseTypes, WesketchEventTypes } from './Types';
-import { IWesketchEvent, IWesketchGameState } from './Interfaces';
+import { IWesketchEvent, IWesketchGameState, IWesketchGameSettings } from './Interfaces';
 
 interface IProps {
+    gameSettings: IWesketchGameSettings;
     gameState: IWesketchGameState;
     events: IWesketchEvent[];
 }
@@ -28,7 +29,7 @@ export class Debug extends React.Component<IProps, IState> {
     }
 
     public render() {
-        const { gameState } = this.props;
+        const { gameSettings, gameState } = this.props;
 
         const gameStateString = this.state.showGameState
             ? <table className="table table-sm">
@@ -42,6 +43,10 @@ export class Debug extends React.Component<IProps, IState> {
                     <tr><th>primaryColor</th><td>{gameState.primaryColor}</td></tr>
                     <tr><th>secondaryColor</th><td>{gameState.secondaryColor}</td></tr>
                     <tr><th>brushSize</th><td>{gameState.brushSize}</td></tr>
+                    <tr><th>-- Settings</th><td>&nbsp;</td></tr>
+                    <tr><th>language</th><td>{gameSettings.language}</td></tr>
+                    <tr><th>difficulties</th><td>{JSON.stringify(gameSettings.difficulties)}</td></tr>
+                    <tr><th>wordCount</th><td>{gameSettings.wordCount}</td></tr>
                 </tbody>
             </table>
             : '';
