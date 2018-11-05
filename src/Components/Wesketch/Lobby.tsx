@@ -11,15 +11,14 @@ interface IProps {
     gameState: IWesketchGameState;
     wss: WesketchSocket;
 
-    setLanguage: (language: number) => void;
-    toggleDifficulty: (difficulty: number) => void;
+    setLanguage: (event: React.FormEvent<HTMLInputElement>) => void;
+    toggleDifficulty: (event: React.FormEvent<HTMLInputElement>) => void;
 }
 
 export class Lobby extends React.Component<IProps, {}> {
 
     constructor(props: IProps) {
         super(props);
-        this.onFieldValueChange = this.onFieldValueChange.bind(this);
     }
 
     public render() {
@@ -55,15 +54,17 @@ export class Lobby extends React.Component<IProps, {}> {
                     <div className="form-group">
                         <h4>Language</h4>
                         <div className="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="rEnglish" name="rEnglish" className="custom-control-input"
+                            <input type="radio" id="rEnglish" name="language" className="custom-control-input" 
+                                value="1"
                                 checked={gameSettings.language === 1}
-                                onClick={() => this.props.setLanguage(1)} />
+                                onChange={this.props.setLanguage} />
                             <label className="custom-control-label" htmlFor="rEnglish">English</label>
                         </div>
                         <div className="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="rNorwegian" name="rNorwegian" className="custom-control-input"
+                            <input type="radio" id="rNorwegian" name="language" className="custom-control-input" 
+                                value="2"
                                 checked={gameSettings.language === 2}
-                                onClick={() => this.props.setLanguage(2)} />
+                                onChange={this.props.setLanguage} />
                             <label className="custom-control-label" htmlFor="rNorwegian">Norwegian</label>
                         </div>
                     </div>
@@ -72,20 +73,23 @@ export class Lobby extends React.Component<IProps, {}> {
                         <h4>Difficulty</h4>
                         <div className="custom-control custom-checkbox custom-control-inline">
                             <input type="checkbox" className="custom-control-input" id="cbEasy"
+                                value="1" 
                                 checked={gameSettings.difficulties.includes(1)}
-                                onClick={() => this.props.toggleDifficulty(1)} />
+                                onChange={this.props.toggleDifficulty} />
                             <label className="custom-control-label" htmlFor="cbEasy">Easy</label>
                         </div>
                         <div className="custom-control custom-checkbox custom-control-inline">
                             <input type="checkbox" className="custom-control-input" id="cbNormal"
+                                value="2" 
                                 checked={gameSettings.difficulties.includes(2)}
-                                onClick={() => this.props.toggleDifficulty(2)} />
+                                onChange={this.props.toggleDifficulty} />
                             <label className="custom-control-label" htmlFor="cbNormal">Normal</label>
                         </div>
                         <div className="custom-control custom-checkbox custom-control-inline">
                             <input type="checkbox" className="custom-control-input" id="cbHard"
+                                value="3" 
                                 checked={gameSettings.difficulties.includes(3)}
-                                onClick={() => this.props.toggleDifficulty(3)} />
+                                onChange={this.props.toggleDifficulty} />
                             <label className="custom-control-label" htmlFor="cbHard">Hard</label>
                         </div>
                     </div>
@@ -97,14 +101,6 @@ export class Lobby extends React.Component<IProps, {}> {
                 </div>
             </div>
         );
-    }
-
-    private onFieldValueChange(fieldName: string, value: string) {
-        const nextState = {
-            ...this.state,
-            [fieldName]: value
-        };
-        this.setState(nextState);
     }
 
     private togglePlayerReady = () => {

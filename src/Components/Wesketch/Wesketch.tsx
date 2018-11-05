@@ -117,15 +117,27 @@ export class Wesketch extends React.Component<{}, IState> {
         );
     }
 
-    private setLanguage = (language: number) => {
+    // private setLanguage = (language: number) => {
+    //     const gameSettings = { ...this.state.gameSettings };
+    //     gameSettings.language = language;
+    //     this.setState(
+    //         { gameSettings },
+    //         () => this.state.wss.emit(WesketchEventTypes.UpdateGameSettings, gameSettings));
+    // }
+
+    private setLanguage = (event: React.FormEvent<HTMLInputElement>) => {
         const gameSettings = { ...this.state.gameSettings };
-        gameSettings.language = language;
+        gameSettings.language = +event.currentTarget.value;
         this.setState(
             { gameSettings },
             () => this.state.wss.emit(WesketchEventTypes.UpdateGameSettings, gameSettings));
     }
 
-    private toggleDifficulty = (difficulty: number) => {
+    // private toggleDifficulty = (difficulty: number) => {
+    private toggleDifficulty = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const difficulty = +event.currentTarget.value;
+        console.log(`difficulty: ${difficulty}`);
+        
         const gameSettings = { ...this.state.gameSettings };
 
         gameSettings.difficulties = gameSettings.difficulties.includes(difficulty)
