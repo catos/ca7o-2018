@@ -63,6 +63,7 @@ export class Debug extends React.Component<IProps, IState> {
                         <th>IsDrawing</th>
                         <th>DrawCount</th>
                         <th>GuessedWord</th>
+                        <th>Pings</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,6 +77,7 @@ export class Debug extends React.Component<IProps, IState> {
                             <td>{player.isDrawing.toString()}</td>
                             <td>{player.drawCount}</td>
                             <td>{player.guessedWord.toString()}</td>
+                            <td>{player.pingCount}</td>
                         </tr>
                     )}
                 </tbody>

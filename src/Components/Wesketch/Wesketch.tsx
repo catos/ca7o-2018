@@ -137,7 +137,7 @@ export class Wesketch extends React.Component<{}, IState> {
     private toggleDifficulty = (event: React.ChangeEvent<HTMLInputElement>) => {
         const difficulty = +event.currentTarget.value;
         console.log(`difficulty: ${difficulty}`);
-        
+
         const gameSettings = { ...this.state.gameSettings };
 
         gameSettings.difficulties = gameSettings.difficulties.includes(difficulty)
@@ -150,7 +150,7 @@ export class Wesketch extends React.Component<{}, IState> {
     }
 
     private onEvent = (event: IWesketchEvent) => {
-        const { wsm } = this.state;
+        const { wsm, wss } = this.state;
         const muteSounds = true;
 
         if (event.type === WesketchEventTypes.UpdateGameSettings) {
@@ -175,6 +175,18 @@ export class Wesketch extends React.Component<{}, IState> {
 
         if (event.type === WesketchEventTypes.StopSound) {
             wsm.fade();
+        }
+
+        if (event.type === WesketchEventTypes.Ping) {
+            console.log(`Ping received from server`);
+            const user = auth.currentUser();
+            const pingEvent = {
+                clientId: wss.socketId,
+                userId: user.guid,
+                userName: user.name,
+                timestamp: new Date()
+            } as IWesketchEvent;
+            wss.emit(WesketchEventTypes.Ping, pingEvent);
         }
     }
 }

@@ -205,8 +205,7 @@ export class Painter extends React.Component<IProps, IState> {
         const currentUser = auth.currentUser();
 
         const drawingPlayer = gameState.players.find(p => p.isDrawing) as IWesketchPlayer;
-        if (event.type === WesketchEventTypes.SaveDrawing
-            && drawingPlayer.userId === currentUser.guid) {
+        if (event.type === WesketchEventTypes.SaveDrawing && drawingPlayer.userId === currentUser.guid) {
             wss.emit(WesketchEventTypes.SaveDrawing, {
                 player: currentUser.name,
                 word: gameState.currentWord,

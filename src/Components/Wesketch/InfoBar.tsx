@@ -93,8 +93,8 @@ export class InfoBar extends React.Component<IProps, {}> {
 
     private toggleDebugMode = () => {
         const players: IWesketchPlayer[] = [
-            { clientId: '/wesketch#WdWJMyw-CvTuwzziAAAK', userId: '48351e45-1cbc-46f1-afdc-4eb5f20cd934', name: 'Test Testerson', isReady: true, score: 0, drawCount: 0, isDrawing: false, guessedWord: false },
-            { clientId: '/wesketch#WnKF0W69_TvOBQMRAAAL', userId: '4f6a7db2-3160-4e2f-b077-ad0386323097', name: 'Cato Skogholt', isReady: true, score: 0, drawCount: 0, isDrawing: true, guessedWord: false },
+            { clientId: '/wesketch#WdWJMyw-CvTuwzziAAAK', userId: 'ee822f6d-11a5-4594-b70e-225416131b2b', name: 'thomas', isReady: true, score: 0, drawCount: 0, isDrawing: false, guessedWord: false, pingCount: 0 },
+            { clientId: '/wesketch#WnKF0W69_TvOBQMRAAAL', userId: '4f6a7db2-3160-4e2f-b077-ad0386323097', name: 'Cato Skogholt', isReady: true, score: 0, drawCount: 0, isDrawing: true, guessedWord: false, pingCount: 0 },
         ];
 
         const gameState: IWesketchGameState = {
@@ -121,12 +121,12 @@ export class InfoBar extends React.Component<IProps, {}> {
 
     private toggleGameEnd = () => {
         const players: IWesketchPlayer[] = [
-            { clientId: '/wesketch#WdWJMyw-CvTuwzziAAAK', userId: '48351e45-1cbc-46f1-afdc-4eb5f20cd934', name: 'Test Testerson', isReady: false, score: 56, drawCount: 3, isDrawing: false, guessedWord: false },
-            { clientId: '/wesketch#WnKF0W69_TvOBQMRAAAL', userId: '4f6a7db2-3160-4e2f-b077-ad0386323097', name: 'Cato Skogholt', isReady: false, score: 73, drawCount: 3, isDrawing: false, guessedWord: false },
-            { clientId: 'f0cc3457-1e00-416b-a785-a8bd921c25a5', userId: '3', name: 'Turd Furgeson', isReady: false, score: 51, drawCount: 3, isDrawing: false, guessedWord: false },
-            { clientId: 'f0cc3457-1e00-416b-a785-a8bd921c25a4', userId: '4', name: 'Jack Daniels', isReady: false, score: 85, drawCount: 3, isDrawing: false, guessedWord: false },
-            { clientId: 'f0cc3457-1e00-416b-a785-a8bd921c25a3', userId: '5', name: 'Niels Armstrogn', isReady: false, score: 116, drawCount: 3, isDrawing: false, guessedWord: false },
-            { clientId: 'f0cc3457-1e00-416b-a785-a8bd921c25a1', userId: '6', name: 'Bjarte Tjøstheim', isReady: false, score: 19, drawCount: 3, isDrawing: false, guessedWord: false }
+            { clientId: '/wesketch#WdWJMyw-CvTuwzziAAAK', userId: 'ee822f6d-11a5-4594-b70e-225416131b2b', name: 'thomas', isReady: false, score: 56, drawCount: 3, isDrawing: false, guessedWord: false, pingCount: 0 },
+            { clientId: '/wesketch#WnKF0W69_TvOBQMRAAAL', userId: '4f6a7db2-3160-4e2f-b077-ad0386323097', name: 'Cato Skogholt', isReady: false, score: 73, drawCount: 3, isDrawing: false, guessedWord: false, pingCount: 0 },
+            { clientId: 'f0cc3457-1e00-416b-a785-a8bd921c25a5', userId: '3', name: 'Turd Furgeson', isReady: false, score: 51, drawCount: 3, isDrawing: false, guessedWord: false, pingCount: 0 },
+            { clientId: 'f0cc3457-1e00-416b-a785-a8bd921c25a4', userId: '4', name: 'Jack Daniels', isReady: false, score: 85, drawCount: 3, isDrawing: false, guessedWord: false, pingCount: 0 },
+            { clientId: 'f0cc3457-1e00-416b-a785-a8bd921c25a3', userId: '5', name: 'Niels Armstrogn', isReady: false, score: 116, drawCount: 3, isDrawing: false, guessedWord: false, pingCount: 0 },
+            { clientId: 'f0cc3457-1e00-416b-a785-a8bd921c25a1', userId: '6', name: 'Bjarte Tjøstheim', isReady: false, score: 19, drawCount: 3, isDrawing: false, guessedWord: false, pingCount: 0 }
         ];
 
         const gameState: IWesketchGameState = {
