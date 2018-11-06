@@ -83,22 +83,19 @@ export class WordsList extends React.Component<{}, IState> {
             <div id="word-list">
                 <WordFilters totalPages={result.totalPages} onChange={this.getWords} />
 
-                {this.state.currentWord !== null
-                    ? <WordForm
-                        word={this.state.currentWord}
-                        onFieldValueChange={this.onFieldValueChange}
-                        saveWord={this.saveWord} />
-                    : ''}
+                {this.state.currentWord !== null && <WordForm
+                    word={this.state.currentWord}
+                    onFieldValueChange={this.onFieldValueChange}
+                    saveWord={this.saveWord} />}
 
-                {this.state.addWord
-                    ? <WordForm
-                        word={newWord}
-                        onFieldValueChange={this.onFieldValueChange}
-                        saveWord={this.saveWord} />
-                    : ''}
+                {this.state.addWord && <WordForm
+                    word={newWord}
+                    onFieldValueChange={this.onFieldValueChange}
+                    saveWord={this.saveWord} />}
 
-                    <button onClick={this.addWord}>Add word</button>
-                <div className="meta"><b>{result.count}</b> words found - Page <b>{result.currentPage}</b> of <b>{result.totalPages}</b></div>
+                <button className="btn btn-primary" onClick={this.addWord}>Add word</button>
+
+                <div className="meta"> <small>addWord: {this.state.addWord.toString()}</small> <b>{result.count}</b> words found - Page <b>{result.currentPage}</b> of <b>{result.totalPages}</b></div>
                 <div className="result">
                     {result.words.map((word, idx) =>
                         <div key={idx} className={this.wordClasses(word)} title={word.word + ': ' + word.description}
@@ -138,6 +135,8 @@ export class WordsList extends React.Component<{}, IState> {
     }
 
     private getWords = (filters?: string) => {
+        console.log(`filters: ${filters}`);
+
         const url = filters !== undefined
             ? `/api/wesketch/words${filters}`
             : '/api/wesketch/words';

@@ -30,28 +30,51 @@ export class WordFilters extends React.Component<IProps, IState> {
             <div className="filters">
                 <form className="form-inline" onSubmit={this.onSubmit}>
                     <div className="filter-languages btn-group mr-3">
-                        <button type="button" className={"btn" + (this.state.languages.includes(1) ? ' btn-primary' : ' btn-secondary')} onClick={() => this.toggleLanguage(1)}>English</button>
-                        <button type="button" className={"btn" + (this.state.languages.includes(2) ? ' btn-primary' : ' btn-secondary')} onClick={() => this.toggleLanguage(2)}>Norwegian</button>
+                        <button type="button"
+                            value="1"
+                            className={"btn" + (this.state.languages.includes(1) ? ' btn-primary' : ' btn-secondary')}
+                            onClick={this.toggleLanguage}>English</button>
+                        <button type="button"
+                            value="2"
+                            className={"btn" + (this.state.languages.includes(2) ? ' btn-primary' : ' btn-secondary')}
+                            onClick={this.toggleLanguage}>Norwegian</button>
                     </div>
 
                     <div className="filter-difficulties btn-group mr-3">
-                        <button type="button" className={"btn" + (this.state.difficulties.includes(1) ? ' btn-primary' : ' btn-secondary')} onClick={() => this.toggleDifficulty(1)}>Easy</button>
-                        <button type="button" className={"btn" + (this.state.difficulties.includes(2) ? ' btn-primary' : ' btn-secondary')} onClick={() => this.toggleDifficulty(2)}>Normal</button>
-                        <button type="button" className={"btn" + (this.state.difficulties.includes(3) ? ' btn-primary' : ' btn-secondary')} onClick={() => this.toggleDifficulty(3)}>Hard</button>
+                        <button type="button"
+                            value="1"
+                            className={"btn" + (this.state.difficulties.includes(1) ? ' btn-primary' : ' btn-secondary')}
+                            onClick={this.toggleDifficulty}>Easy</button>
+                        <button type="button"
+                            value="2"
+                            className={"btn" + (this.state.difficulties.includes(2) ? ' btn-primary' : ' btn-secondary')}
+                            onClick={this.toggleDifficulty}>Normal</button>
+                        <button type="button"
+                            value="3"
+                            className={"btn" + (this.state.difficulties.includes(3) ? ' btn-primary' : ' btn-secondary')}
+                            onClick={this.toggleDifficulty}>Hard</button>
                     </div>
 
-                    <div className="form-group mr-3">
+                    <div className="input-group mr-3">
                         <input className="form-control" type="text" name="q" placeholder="Search words"
                             value={this.state.q}
                             onChange={this.onFieldValueChange}
                             onKeyUp={this.onKeyUpSearch}
                         />
+                        <div className="input-group-append">
+                            <button className="btn btn-primary" type="submit">Search</button>
+                        </div>
                     </div>
 
-                    <button className="btn btn-primary mr-3" type="submit">Filter</button>
 
-                    <button className="btn btn-dark" onClick={() => this.modifyPage(-1)}><span className="fa fa-caret-left" /></button>
-                    <button className="btn btn-dark" onClick={() => this.modifyPage(1)}><span className="fa fa-caret-right" /></button>
+                    <button className="btn btn-dark"
+                        value="-1"
+                        onClick={this.modifyPage}><span className="fa fa-caret-left" />
+                    </button>
+                    <button className="btn btn-dark"
+                        value="1"
+                        onClick={this.modifyPage}><span className="fa fa-caret-right" />
+                    </button>
                 </form>
             </div>
         );
@@ -77,8 +100,8 @@ export class WordFilters extends React.Component<IProps, IState> {
         }
     }
 
-    private toggleDifficulty = (difficulty: number) => {
-
+    private toggleDifficulty = (event: React.MouseEvent<HTMLButtonElement>) => {
+        const difficulty = +event.currentTarget.value;
         const difficulties = this.state.difficulties.includes(difficulty)
             ? this.state.difficulties.filter(p => p !== difficulty)
             : this.state.difficulties.concat(difficulty);
@@ -86,8 +109,8 @@ export class WordFilters extends React.Component<IProps, IState> {
         this.setState({ difficulties, page: 1 }, () => this.updateFilters());
     }
 
-    private toggleLanguage = (language: number) => {
-
+    private toggleLanguage = (event: React.MouseEvent<HTMLButtonElement>) => {
+        const language = +event.currentTarget.value;
         const languages = this.state.languages.includes(language)
             ? this.state.languages.filter(p => p !== language)
             : this.state.languages.concat(language);
@@ -95,7 +118,8 @@ export class WordFilters extends React.Component<IProps, IState> {
         this.setState({ languages, page: 1 }, () => this.updateFilters());
     }
 
-    private modifyPage = (pageModifier: number) => {
+    private modifyPage = (event: React.MouseEvent<HTMLButtonElement>) => {
+        const pageModifier = +event.currentTarget.value;
         const nextPage = this.state.page + pageModifier;
         const page = nextPage > 0 && nextPage <= this.props.totalPages
             ? nextPage
