@@ -1,12 +1,13 @@
 import * as React from 'react';
 import * as moment from 'moment';
 
-import { Form, FormGroup, Input, FormFeedback, Button, Modal, ModalBody, ModalHeader, Label } from 'reactstrap';
+import { Form, FormGroup, Input, FormFeedback, Button, Modal, ModalBody, ModalHeader, Label, ModalFooter } from 'reactstrap';
 import { IWord, DifficultyTypes, LanguageTypes } from './WordsList';
 
 interface IProps {
     word?: IWord;
     onSave: (word: IWord) => void;
+    onDelete: (word: IWord) => void;
     onCancel: () => void;
 }
 
@@ -22,19 +23,19 @@ export class WordForm extends React.Component<IProps, IState> {
         word: '',
         description: '',
         language: 1,
-        difficulty: 1
+        difficulty: 2
     }
 
     constructor(props: IProps) {
         super(props);
 
         this.state = {
-            word: props.word ? {...props.word} : this.newWord
+            word: props.word ? { ...props.word } : this.newWord
         }
     }
 
     public componentWillReceiveProps() {
-        this.setState({ word: this.props.word ? {...this.props.word} : this.newWord });
+        this.setState({ word: this.props.word ? { ...this.props.word } : this.newWord });
     }
 
     public render() {
@@ -87,9 +88,13 @@ export class WordForm extends React.Component<IProps, IState> {
                                 )}
                             </Input>
                         </FormGroup>
-                        <Button className="btn btn-primary" label="Save" onClick={this.saveWord}>Save</Button>
                     </Form>
                 </ModalBody>
+                <ModalFooter>
+                    <Button className="btn btn-danger delete" label="Delete" onClick={this.deleteWord}>Delete</Button>
+                    <Button className="btn btn-light" label="Cancel" onClick={this.props.onCancel}>Cancel</Button>
+                    <Button className="btn btn-primary save" label="Save" onClick={this.saveWord}>Save</Button>
+                </ModalFooter>
             </Modal>
         );
     }
@@ -103,5 +108,10 @@ export class WordForm extends React.Component<IProps, IState> {
     private saveWord = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         this.props.onSave(this.state.word);
+    }
+
+    private deleteWord = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        this.props.onDelete(this.state.word);
     }
 }

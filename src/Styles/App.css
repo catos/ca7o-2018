@@ -44,6 +44,15 @@ body, html, #layout {
               user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
+.modal .delete {
+    position: absolute;
+    left: 1rem;
+}
+
+.modal .save {
+    width: 25%;
+}
+
 /*** LAYOUT ***************************/
 
 #header-bg {

@@ -129,6 +129,8 @@ export class WordFilters extends React.Component<IProps, IState> {
     }
 
     private updateFilters = () => {
+        console.log(`filters: `, this.state);
+        
         const filters = `?q=${this.state.q}&difficulties=${this.state.difficulties}&languages=${this.state.languages}&page=${this.state.page}`;
         this.props.onChange(filters);
     }

@@ -15,19 +15,25 @@ export interface IApiErrorResponse {
 
 class ApiService {
 
-    public async get(endpoint: string) {
+    public get = async(endpoint: string) => {
         const response = await fetch(AppConfig.serverUrl + endpoint, this.getOptions('GET'));
         return await this.checkStatus(response);
     }
 
-    public async post(endpoint: string, body: any) {
+    public post = async(endpoint: string, body: any) => {
         const options = this.getOptions('POST', body);
         const response = await fetch(AppConfig.serverUrl + endpoint, options) as Response;
         return await this.checkStatus(response);
     }
 
-    public async put(endpoint: string, body: any) {
+    public put = async(endpoint: string, body: any) => {
         const options = this.getOptions('PUT', body);
+        const response = await fetch(AppConfig.serverUrl + endpoint, options) as Response;
+        return await this.checkStatus(response);
+    }
+
+    public delete = async(endpoint: string) => {
+        const options = this.getOptions('DELETE');
         const response = await fetch(AppConfig.serverUrl + endpoint, options) as Response;
         return await this.checkStatus(response);
     }
