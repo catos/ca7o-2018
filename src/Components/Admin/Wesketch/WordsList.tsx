@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as moment from 'moment';
 
 import { api } from '../../../Common/ApiService';
 import { WordFilters } from './WordFilters';
@@ -39,8 +38,8 @@ export interface IWordResult {
 
 interface IState {
     filters: string;
-    currentWord: IWord | null;
-    addWord: boolean;
+    showForm: boolean;
+    currentWord?: IWord;
     result: IWordResult
 }
 
@@ -51,8 +50,7 @@ export class WordsList extends React.Component<{}, IState> {
 
         this.state = {
             filters: '',
-            currentWord: null,
-            addWord: false,
+            showForm: false,
             result: {
                 count: 0,
                 totalPages: 0,
@@ -70,36 +68,22 @@ export class WordsList extends React.Component<{}, IState> {
     public render() {
         const { result } = this.state;
 
-        const newWord: IWord = {
-            created: moment.now(),
-            word: '',
-            description: '',
-            language: 1,
-            difficulty: 1
-        }
-
-
         return (
             <div id="word-list">
                 <WordFilters totalPages={result.totalPages} onChange={this.getWords} />
 
-                {this.state.currentWord !== null && <WordForm
+                {this.state.showForm && <WordForm
                     word={this.state.currentWord}
-                    onFieldValueChange={this.onFieldValueChange}
-                    saveWord={this.saveWord} />}
-
-                {this.state.addWord && <WordForm
-                    word={newWord}
-                    onFieldValueChange={this.onFieldValueChange}
-                    saveWord={this.saveWord} />}
+                    onSave={this.onSaveWord}
+                    onCancel={this.onCancelWord} />}
 
                 <button className="btn btn-primary" onClick={this.addWord}>Add word</button>
 
-                <div className="meta"> <small>addWord: {this.state.addWord.toString()}</small> <b>{result.count}</b> words found - Page <b>{result.currentPage}</b> of <b>{result.totalPages}</b></div>
+                <div className="meta"><b>{result.count}</b> words found - Page <b>{result.currentPage}</b> of <b>{result.totalPages}</b></div>
                 <div className="result">
                     {result.words.map((word, idx) =>
                         <div key={idx} className={this.wordClasses(word)} title={word.word + ': ' + word.description}
-                            onClick={() => this.selectWord(word)}>
+                            onClick={() => this.editWord(word)}>
                             {word.word}
 
                             <span className="language">{LanguageTypes[word.language].substring(0, 2)}</span>
@@ -110,44 +94,39 @@ export class WordsList extends React.Component<{}, IState> {
         );
     }
 
-    private onFieldValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const currentWord = { ...this.state.currentWord } as IWord;
-        currentWord[event.target.name] = event.target.value;
-        this.setState({ currentWord });
-    }
-
-    private addWord = (event: React.MouseEvent<HTMLElement>) => {
-        this.setState({ addWord: !this.state.addWord });
-    }
-
-    private saveWord = () => {
-        // if (word.guid === null) {
-        //     api.post('/api/wesketch/words/', word).catch(error => console.log(error));
-        // } else {
-        const { currentWord } = this.state;
-        if (currentWord !== null) {
-            api.put(`/api/wesketch/words/${currentWord.guid}`, currentWord)
-                .then(() => {
-                    this.setState({ currentWord: null }, () => this.getWords());
-                })
-                .catch(error => console.log(error));
+    private onSaveWord = async(word: IWord) => {
+        if (word.guid !== undefined) {
+            const result = await api.put(`/api/wesketch/words/${word.guid}`, word);
+            // TODO: check if error (result.errors.length) and display to user (TOAST)
+            console.log('result', result);            
+            this.setState({ currentWord: undefined, showForm: false }, () => this.getWords());
+        } else {
+            const result = await api.post(`/api/wesketch/words`, word);
+            // TODO: check if error (result.errors.length) and display to user
+            console.log('result', result);
+            this.setState({ currentWord: undefined, showForm: false }, () => this.getWords());
         }
     }
 
-    private getWords = (filters?: string) => {
-        console.log(`filters: ${filters}`);
+    private onCancelWord = () => {
+        this.setState({ currentWord: undefined, showForm: false });
+    }
 
+    private getWords = async(filters?: string) => {
         const url = filters !== undefined
             ? `/api/wesketch/words${filters}`
             : '/api/wesketch/words';
 
-        api.get(url)
-            .then(result => this.setState({ result }))
-            .catch(error => console.log(error));
+        const result = await api.get(url);
+        this.setState({ result });
     }
 
-    private selectWord = (word: IWord) => {
-        this.setState({ currentWord: word });
+    private addWord = (event: React.MouseEvent<HTMLElement>) => {
+        this.setState({ currentWord: undefined, showForm: true });
+    }
+
+    private editWord = (word: IWord) => {
+        this.setState({ currentWord: word, showForm: true });
     }
 
     private wordClasses = (word: IWord) => {

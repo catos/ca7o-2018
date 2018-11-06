@@ -1,43 +1,44 @@
 import * as React from 'react';
+import * as moment from 'moment';
 
 import { Form, FormGroup, Input, FormFeedback, Button, Modal, ModalBody, ModalHeader, Label } from 'reactstrap';
 import { IWord, DifficultyTypes, LanguageTypes } from './WordsList';
 
 interface IProps {
-    word: IWord;
-    onFieldValueChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    saveWord: () => void;
+    word?: IWord;
+    onSave: (word: IWord) => void;
+    onCancel: () => void;
 }
 
 interface IState {
-    show: boolean;
+    word: IWord,
 }
 
 export class WordForm extends React.Component<IProps, IState> {
 
-    // private newWord: IWord = {
-    //     guid: '',
-    //     created: moment.now(),
-    //     word: '',
-    //     description: '',
-    //     language: 1,
-    //     difficulty: 1
-    // }
+    private newWord: IWord = {
+        guid: undefined,
+        created: moment.now(),
+        word: '',
+        description: '',
+        language: 1,
+        difficulty: 1
+    }
 
-    constructor(props: any) {
+    constructor(props: IProps) {
         super(props);
 
         this.state = {
-            show: true
+            word: props.word ? {...props.word} : this.newWord
         }
     }
 
     public componentWillReceiveProps() {
-        this.setState({ show: true });
+        this.setState({ word: this.props.word ? {...this.props.word} : this.newWord });
     }
 
     public render() {
-        const { word } = this.props;
+        const { word } = this.state;
 
         const difficultyTypesKeys = Object.keys(DifficultyTypes)
             .filter(p => typeof DifficultyTypes[p as any] === "number");
@@ -46,7 +47,7 @@ export class WordForm extends React.Component<IProps, IState> {
             .filter(p => typeof LanguageTypes[p as any] === "number");
 
         return (
-            <Modal isOpen={this.state.show} toggle={this.toggle}>
+            <Modal isOpen={true} toggle={this.props.onCancel}>
                 <ModalHeader>
                     {word.guid === undefined ? 'Add word' : 'Edit word'}
                 </ModalHeader>
@@ -56,21 +57,21 @@ export class WordForm extends React.Component<IProps, IState> {
                             <Label>Word</Label>
                             <Input className="mr-2" type="text" name="word" id="word" placeholder="Word"
                                 value={word.word}
-                                onChange={this.props.onFieldValueChange} />
+                                onChange={this.onFieldValueChange} />
                             <FormFeedback valid={false}>WORD is required</FormFeedback>
                         </FormGroup>
                         <FormGroup>
                             <Label>Description</Label>
                             <Input className="mr-2" type="text" name="description" id="description" placeholder="Description"
                                 value={word.description}
-                                onChange={this.props.onFieldValueChange} />
+                                onChange={this.onFieldValueChange} />
                             <FormFeedback valid={false}>description is required</FormFeedback>
                         </FormGroup>
                         <FormGroup>
                             <Label>Difficulty</Label>
                             <Input className="mr-2" type="select" name="difficulty" id="difficulty" placeholder="Difficulty"
                                 value={word.difficulty}
-                                onChange={this.props.onFieldValueChange}>
+                                onChange={this.onFieldValueChange}>
                                 {difficultyTypesKeys.map((key, idx) =>
                                     <option key={idx} value={DifficultyTypes[key]}>{key}</option>
                                 )}
@@ -80,20 +81,27 @@ export class WordForm extends React.Component<IProps, IState> {
                             <Label>Language</Label>
                             <Input className="mr-2" type="select" name="language" id="language" placeholder="Language"
                                 value={word.language}
-                                onChange={this.props.onFieldValueChange}>
+                                onChange={this.onFieldValueChange}>
                                 {languageTypesKeys.map((key, idx) =>
                                     <option key={idx} value={LanguageTypes[key]}>{key}</option>
                                 )}
                             </Input>
                         </FormGroup>
-                        <Button className="btn btn-primary" label="Save" onClick={this.props.saveWord}>Save</Button>
+                        <Button className="btn btn-primary" label="Save" onClick={this.saveWord}>Save</Button>
                     </Form>
                 </ModalBody>
             </Modal>
         );
     }
 
-    private toggle = () => {
-        this.setState({ show: !this.state.show });
+    private onFieldValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const word = { ...this.state.word } as IWord;
+        word[event.target.name] = event.target.value;
+        this.setState({ word });
+    }
+
+    private saveWord = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        this.props.onSave(this.state.word);
     }
 }
