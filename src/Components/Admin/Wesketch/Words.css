@@ -18,26 +18,19 @@
 #word-list .result {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 #word-list .result .word {
     position: relative;
     cursor: pointer;
-    padding: 0.5rem 1.5rem 0.5rem 0.5rem;
-    min-width: 5rem;
+    padding: 0.5rem;
+    width: 6rem;
     text-overflow: ellipsis;
+    text-align: center;
     white-space: nowrap;
     overflow: hidden;
-    margin: 0 .25rem .75rem .25rem;
-}
-
-#word-list .result .word .language {
-    position: absolute;
-    top: 0.1rem;
-    right: 0.25rem;
-    text-transform: uppercase;
-    font-size: 0.9rem;
+    margin: 0 .25rem .5rem .25rem;
 }
 
 #word-list .badge {

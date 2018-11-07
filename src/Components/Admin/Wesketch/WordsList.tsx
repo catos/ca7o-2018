@@ -37,8 +37,15 @@ export interface IWordResult {
     words: IWord[];
 }
 
+export interface IWordFilters {
+    q: string;
+    difficulties: number[];
+    languages: number[];
+    page: number;
+}
+
 interface IState {
-    filters: string;
+    filters: IWordFilters;
     showForm: boolean;
     currentWord?: IWord;
     result: IWordResult
@@ -52,7 +59,12 @@ export class WordsList extends React.Component<{}, IState> {
         super(props);
 
         this.state = {
-            filters: '',
+            filters: {
+                q: '',
+                difficulties: [],
+                languages: [],
+                page: 1
+            },
             showForm: false,
             result: {
                 count: 0,
@@ -76,6 +88,7 @@ export class WordsList extends React.Component<{}, IState> {
         return (
             <div id="word-list">
                 <WordFilters
+                    filters={this.state.filters} 
                     totalPages={result.totalPages}
                     onChange={this.onFiltersChange}
                     addWord={this.addWord} />
@@ -87,9 +100,7 @@ export class WordsList extends React.Component<{}, IState> {
                     onCancel={this.onCancelWord} />}
 
                 <div className="meta">
-                    <span className="fa fa-angle-double-left mr-2 opacity-50" />
                     <span><b>{result.count}</b> words found - Page <b>{result.currentPage}</b> of <b>{result.totalPages}</b></span>
-                    <span className="fa fa-angle-double-right ml-2" />
                 </div>
 
                 <div className="result">
@@ -97,8 +108,6 @@ export class WordsList extends React.Component<{}, IState> {
                         <div key={idx} className={this.wordClasses(word)} title={word.word + ': ' + word.description}
                             onClick={() => this.editWord(word)}>
                             {word.word}
-
-                            <span className="language">{LanguageTypes[word.language].substring(0, 2)}</span>
                         </div>
                     )}
                 </div>
@@ -141,15 +150,6 @@ export class WordsList extends React.Component<{}, IState> {
         this.setState({ currentWord: undefined, showForm: false });
     }
 
-    private onFiltersChange = (filters: string) => {
-        this.setState({ filters }, () => this.getWords());
-    }
-
-    private getWords = async () => {
-        const result = await api.get(`/api/wesketch/words${this.state.filters}`);
-        this.setState({ result });
-    }
-
     private addWord = (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
         this.setState({ currentWord: undefined, showForm: true });
@@ -157,6 +157,16 @@ export class WordsList extends React.Component<{}, IState> {
 
     private editWord = (word: IWord) => {
         this.setState({ currentWord: word, showForm: true });
+    }
+
+    private onFiltersChange = (filters: IWordFilters) => {
+        this.setState({ filters }, () => this.getWords());
+    }
+
+    private getWords = async () => {
+        const filters = `?q=${this.state.filters.q}&difficulties=${this.state.filters.difficulties}&languages=${this.state.filters.languages}&page=${this.state.filters.page}`;
+        const result = await api.get(`/api/wesketch/words${filters}`);
+        this.setState({ result });
     }
 
     private wordClasses = (word: IWord) => {
