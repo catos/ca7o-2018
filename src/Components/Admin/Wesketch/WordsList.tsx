@@ -77,7 +77,8 @@ export class WordsList extends React.Component<{}, IState> {
             <div id="word-list">
                 <WordFilters
                     totalPages={result.totalPages}
-                    onChange={this.onFiltersChange} />
+                    onChange={this.onFiltersChange}
+                    addWord={this.addWord} />
 
                 {this.state.showForm && <WordForm
                     word={this.state.currentWord}
@@ -85,10 +86,12 @@ export class WordsList extends React.Component<{}, IState> {
                     onDelete={this.onDeleteWord}
                     onCancel={this.onCancelWord} />}
 
-                <button className="btn btn-primary" onClick={this.addWord}>Add word</button>
+                <div className="meta">
+                    <span className="fa fa-angle-double-left mr-2 opacity-50" />
+                    <span><b>{result.count}</b> words found - Page <b>{result.currentPage}</b> of <b>{result.totalPages}</b></span>
+                    <span className="fa fa-angle-double-right ml-2" />
+                </div>
 
-                <div className="meta"><b>{result.count}</b> words found - Page <b>{result.currentPage}</b> of <b>{result.totalPages}</b></div>
-                <div>Filters: {this.state.filters}</div>
                 <div className="result">
                     {result.words.map((word, idx) =>
                         <div key={idx} className={this.wordClasses(word)} title={word.word + ': ' + word.description}
@@ -100,7 +103,7 @@ export class WordsList extends React.Component<{}, IState> {
                     )}
                 </div>
 
-                <button onClick={() => this.setState({ showErrorMessage: true })}>Toast!</button>
+                <button className="btn btn-warning" onClick={() => this.setState({ errorMessage: 'Bare en test', showErrorMessage: true })}>Toast!</button>
                 <Toast
                     message={this.state.errorMessage}
                     visible={this.state.showErrorMessage}
@@ -113,24 +116,24 @@ export class WordsList extends React.Component<{}, IState> {
     private onSaveWord = async (word: IWord) => {
         if (word.guid !== undefined) {
             const result = await api.put(`/api/wesketch/words/${word.guid}`, word);
-            // TODO: check if error (result.errors.length) and display to user (TOAST)
-            console.log('result', result);
-            if (result.errors.length) {
+            if (result.errors && result.errors.length) {
                 this.setState({ errorMessage: result.errors[0], showErrorMessage: true });
             }
             this.setState({ currentWord: undefined, showForm: false }, () => this.getWords());
         } else {
             const result = await api.post(`/api/wesketch/words`, word);
-            // TODO: check if error (result.errors.length) and display to user
-            console.log('result', result);
+            if (result.errors && result.errors.length) {
+                this.setState({ errorMessage: result.errors[0], showErrorMessage: true });
+            }
             this.setState({ currentWord: undefined, showForm: false }, () => this.getWords());
         }
     }
 
     private onDeleteWord = async (word: IWord) => {
         const result = await api.delete(`/api/wesketch/words/${word.guid}`);
-        // TODO: check if error (result.errors.length) and display to user
-        console.log('result', result);
+        if (result.errors && result.errors.length) {
+            this.setState({ errorMessage: result.errors[0], showErrorMessage: true });
+        }
         this.setState({ currentWord: undefined, showForm: false }, () => this.getWords());
     }
 
@@ -148,6 +151,7 @@ export class WordsList extends React.Component<{}, IState> {
     }
 
     private addWord = (event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault();
         this.setState({ currentWord: undefined, showForm: true });
     }
 

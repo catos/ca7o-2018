@@ -3,6 +3,7 @@ import * as React from 'react';
 interface IProps {
     totalPages: number;
     onChange: (filters: string) => void;
+    addWord: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 interface IState {
@@ -75,6 +76,8 @@ export class WordFilters extends React.Component<IProps, IState> {
                         value="1"
                         onClick={this.modifyPage}><span className="fa fa-caret-right" />
                     </button>
+
+                    <button className="btn btn-dark" onClick={this.props.addWord}><span className="fa fa-plus" /></button>
                 </form>
             </div>
         );

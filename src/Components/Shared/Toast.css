@@ -2,8 +2,9 @@
     position: fixed;
     visibility: hidden;
     opacity: 0;
-    top: 5rem;
-    right: 2rem;
+    top: 9rem;
+    left: 50%;
+    transform: translateX(-50%);
     color: #383d41;
     background-color: #e2e3e5;
     border-color: #d6d8db;
