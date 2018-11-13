@@ -99,6 +99,7 @@ export class WordFilters extends React.Component<IProps, {}> {
     }
 
     private modifyPage = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
         const filters = { ...this.props.filters };
 
         const modifier = +event.currentTarget.value;

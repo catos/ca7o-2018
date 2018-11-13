@@ -22,7 +22,7 @@ export class WesketchSocket {
 
         // Client connected
         this.socket.on('connect', () => {
-            console.log(`[ WebSocketService.connect ] socket.id: ${this.socket.id}`)
+            // console.log(`[ WebSocketService.connect ] socket.id: ${this.socket.id}`)
             // this.socketId = this.socket.id;
             // const event = {
             //     client: this.socketId,
@@ -36,12 +36,12 @@ export class WesketchSocket {
 
         // Client disconnected
         this.socket.on('disconnect', () => {            
-            console.log(`[ WebSocketService.connect ] socket.id: ${this.socket.id}`)
+            // console.log(`[ WebSocketService.connect ] socket.id: ${this.socket.id}`)
             this.socket.disconnect();
         });
 
         this.socket.on('event', (event: IWesketchEvent) => {
-            console.log(`[ WesketchSocket.event ] event.userId: ${event.userId}, type: ${WesketchEventTypes[event.type]}`);
+            // console.log(`[ WesketchSocket.event ] event.userId: ${event.userId}, type: ${WesketchEventTypes[event.type]}`);
             if (event.type !== WesketchEventTypes.Draw) {
                 this.events.push(event);
             }
@@ -49,7 +49,7 @@ export class WesketchSocket {
     }
 
     public disconnect = () => {
-        console.log(`[ WebSocketService.disconnect ] socket.id: ${this.socket.id}`)
+        // console.log(`[ WebSocketService.disconnect ] socket.id: ${this.socket.id}`)
         this.socket.disconnect();
     }
 

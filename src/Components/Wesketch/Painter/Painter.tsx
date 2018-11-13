@@ -99,7 +99,7 @@ export class Painter extends React.Component<IProps, IState> {
         return (
             <div id="painter" className={this.state.canDraw ? 'can-draw' : ''}>
 
-                <div id="debug" className="debug-painter">
+                {/* <div id="debug" className="debug-painter">
                     <div>Coords: {this.state.mousePos.x}, {this.state.mousePos.y}</div>
                     <div>From: {this.state.from.x}, {this.state.from.y}</div>
                     <div>To: {this.state.to.x}, {this.state.to.y}</div>
@@ -107,7 +107,7 @@ export class Painter extends React.Component<IProps, IState> {
                     <div>window.scroll: {window.scrollX}, {window.scrollY}</div>
                     <div>isDrawing: {this.state.isDrawing.toString()}</div>
                     <div>canDraw: {this.state.canDraw.toString()}</div>
-                </div>
+                </div> */}
 
                 {this.state.canDraw
                     ? <PainterTools wss={wss} gameState={gameState} />

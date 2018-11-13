@@ -34,10 +34,6 @@ export class WordForm extends React.Component<IProps, IState> {
         }
     }
 
-    public componentWillReceiveProps() {
-        this.setState({ word: this.props.word ? { ...this.props.word } : this.newWord });
-    }
-
     public render() {
         const { word } = this.state;
 

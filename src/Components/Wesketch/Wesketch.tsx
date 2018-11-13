@@ -178,7 +178,6 @@ export class Wesketch extends React.Component<{}, IState> {
         }
 
         if (event.type === WesketchEventTypes.Ping) {
-            console.log(`Ping received from server`);
             const user = auth.currentUser();
             const pingEvent = {
                 clientId: wss.socketId,
