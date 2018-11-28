@@ -7,6 +7,10 @@ import { PlayerMe } from './PlayerMe';
 import { IGameState } from './IGameState';
 
 /**
+ * https://stackoverflow.com/questions/9033166/multiplayer-javascript-game-built-with-node-js-separating-players/9035404#9035404
+ */
+
+/**
  * 
  * 1-100 soliders cost 10 per soldiers
  * 100-200 soliders cost 20 per soldiers

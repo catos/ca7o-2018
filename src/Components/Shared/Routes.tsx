@@ -17,6 +17,7 @@ import { WordsList } from '../Admin/Wesketch/WordsList';
 import { Wesketch } from '../Wesketch/Wesketch';
 import { Mdk } from '../Mdk/Mdk';
 import { Ticker } from '../Ticker/Ticker';
+import { Cac } from '../Cac/Cac';
 
 import { NotFound } from './NotFound';
 import { auth } from '../../Common/AuthService';
@@ -34,6 +35,7 @@ export class Routes extends React.Component {
                 <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/mdk' component={Mdk} />
                 <ProtectedRoute isAuthorized={auth.isAuthenticated()} exact={true} path='/wesketch' component={Wesketch} />
                 <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/ticker' component={Ticker} />
+                <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/cac' component={Cac} />
 
                 {/* Admin */}
                 <ProtectedRoute isAuthorized={auth.isAdministrator()} exact={true} path='/users' component={UserList} />
