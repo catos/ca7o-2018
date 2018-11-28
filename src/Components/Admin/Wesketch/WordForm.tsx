@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as moment from 'moment';
-
 import { Form, FormGroup, Input, FormFeedback, Button, Modal, ModalBody, ModalHeader, Label, ModalFooter } from 'reactstrap';
+
+import { dictionary } from '../../../Common/DictionaryService';
 import { IWord, DifficultyTypes, LanguageTypes } from './WordsList';
 
 interface IProps {
@@ -88,6 +89,7 @@ export class WordForm extends React.Component<IProps, IState> {
                 </ModalBody>
                 <ModalFooter>
                     <Button className="btn btn-danger delete" label="Delete" onClick={this.deleteWord}>Delete</Button>
+                    <Button className="btn btn-info" onClick={this.getDescription}>Dict</Button>
                     <Button className="btn btn-light" label="Cancel" onClick={this.props.onCancel}>Cancel</Button>
                     <Button className="btn btn-primary save" label="Save" onClick={this.saveWord}>Save</Button>
                 </ModalFooter>
@@ -109,5 +111,10 @@ export class WordForm extends React.Component<IProps, IState> {
     private deleteWord = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         this.props.onDelete(this.state.word);
+    }
+
+    private getDescription = (event: React.MouseEvent<HTMLButtonElement>) => {
+        console.log(`OK`);
+        dictionary.getInformation(this.state.word.word);
     }
 }
