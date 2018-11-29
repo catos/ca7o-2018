@@ -13,8 +13,23 @@ import { CacSocket, ICacEvent } from './CacSocket';
 //     log: string[]
 // }
 
+interface IPlayer {
+    socketId: string;
+    name: string;
+    ticks: number;
+    clicks: number;
+    tps: number;
+}
+
+interface IGameState {
+    timer: number;
+    clicks: number;
+    players: IPlayer[]
+}
+
 interface IState {
     cs: CacSocket;
+    gameState: IGameState;
 }
 
 export class Cac extends React.Component<{}, IState> {
@@ -23,7 +38,12 @@ export class Cac extends React.Component<{}, IState> {
         super(props);
 
         this.state = {
-            cs: new CacSocket()
+            cs: new CacSocket(),
+            gameState: {
+                timer: 0,
+                clicks: 0,
+                players: []
+            }
         };
 
 
@@ -38,18 +58,37 @@ export class Cac extends React.Component<{}, IState> {
         this.state.cs.disconnect();
     }
 
-    public render () {
+    public render() {
+        const { gameState } = this.state;
+
         return (
             <div>
                 <h3>Cac!</h3>
+                <ul>
+                    <li>My socketId: {this.state.cs.socketId}</li>
+                    <li>timer: {gameState.timer}</li>
+                    <li>clicks: {gameState.clicks}</li>
+                    <li>players:
+                        <ul>
+                            {gameState.players.map((player, idx) =>
+                                <li key={idx}>{player.socketId} - {player.name} - {player.clicks}</li>
+                            )}
+                        </ul>
+                    </li>
+                </ul>
                 <button className="btn btn-primary" onClick={this.test}>Click</button>
             </div>
         );
     }
 
     private onEvent = (event: ICacEvent) => {
-        console.log(`onEvent - type: ${event.type}`);
-        
+        // console.log(`onEvent - type: ${event.type}`);
+
+        if (event.type === 'UpdateGameState') {
+            const gameState = event.value as IGameState;
+            this.setState({ gameState });
+        }
+
     }
 
     private test = (event: React.MouseEvent<HTMLButtonElement>) => {

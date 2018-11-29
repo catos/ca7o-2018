@@ -4,9 +4,8 @@ import { AppConfig } from '../../AppConfig';
 import { auth } from '../../Common/AuthService';
 
 export interface ICacEvent {
-    clientId: string;
-    userId: string;
-    userName: string;
+    socketId: string;
+    name: string;
     timestamp: Date;
     type: string;
     value: any;
@@ -28,7 +27,8 @@ export class CacSocket {
 
         // Client connected
         this.socket.on('connect', () => {
-            // console.log(`[ WebSocketService.connect ] socket.id: ${this.socket.id}`)
+            this.socketId = this.socket.id;
+            console.log(`[ WebSocketService.connect ] socket.id: ${this.socket.id}`)
             // this.socketId = this.socket.id;
             // const event = {
             //     client: this.socketId,
@@ -41,13 +41,13 @@ export class CacSocket {
         })
 
         // Client disconnected
-        this.socket.on('disconnect', () => {            
+        this.socket.on('disconnect', () => {
             console.log(`[ WebSocketService.connect ] socket.id: ${this.socket.id}`)
             this.socket.disconnect();
         });
 
         this.socket.on('event', (event: ICacEvent) => {
-            console.log(`[ WesketchSocket.event ] event.userId: ${event.userId}, type: ${event.type}`);
+            // console.log(`[ WesketchSocket.event ] event.userId: ${event.userId}, type: ${event.type}`);
         });
     }
 
@@ -57,15 +57,15 @@ export class CacSocket {
     }
 
     public on = (eventName: string, cb: (event: ICacEvent) => any) => {
+        console.log('this.socket', this.socket);
         this.socket.on(eventName, cb);
     }
 
     public emit = (type: string, value: any) => {
         const user = auth.currentUser();
         const event = {
-            clientId: this.socketId,
-            userId: user.guid,
-            userName: user.name,
+            socketId: this.socket.id,
+            name: user.name,
             timestamp: new Date(),
             type,
             value
