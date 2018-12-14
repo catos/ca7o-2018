@@ -23,7 +23,7 @@ export class CacSocket {
         this.events = [];
 
         // Create socket
-        this.socket = io(`${AppConfig.serverUrl}/cac`);
+        this.socket = io(`${AppConfig.serverUrl}/cac`, { query: `name=${auth.currentUser().name}` });
 
         // Client connected
         this.socket.on('connect', () => {
