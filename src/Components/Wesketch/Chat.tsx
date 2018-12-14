@@ -122,6 +122,11 @@ export class Chat extends React.Component<IProps, IState> {
             this.setState({ messageEvents });
 
             this.scrollDown();
+
+            console.log(event.value.message);
+            if (event.value.message.indexOf('started!') > -1) {
+                this.focusField();
+            }
         }
     }
 
