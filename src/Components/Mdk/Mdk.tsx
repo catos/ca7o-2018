@@ -192,6 +192,11 @@ export class Mdk extends React.Component<{}, IState> {
         api.get(`/api/recipes/random-week`)
             .then(response => {
                 const recipes = response as IRecipe[];
+
+                if (recipes.length < this.state.days.length) {
+                    return;
+                }
+
                 const days = this.state.days.map((day, i) => {
                     day.recipe = recipes[i];
                     return day;

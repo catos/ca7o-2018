@@ -1,5 +1,5 @@
 .recipe-details {
-    display: flex;
+    /* display: flex; */
 }
 
 .recipe-details .recipe-meta {
@@ -28,7 +28,20 @@
     cursor: pointer;
 }
 
+.recipe-details .thumbnail {
+    display: flex;
+}
+
 .recipe-details .thumbnail img {
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 1.85rem;
+}
+
+.recipe-details .thumbnail .thumbnail-input {
+    margin-right: 1rem;
+    flex: 2;
+}
+
+.recipe-details .thumbnail .thumbnail-preview {
+    flex: 1;
 }

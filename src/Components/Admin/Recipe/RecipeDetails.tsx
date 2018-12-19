@@ -58,9 +58,16 @@ export class RecipeDetails extends React.Component<IProps, IState> {
             <div className="m-4 recipe-details">
 
                 <div className="recipe-meta">
-                    <h2>Edit recipe <small><Link to={'/recipes'}>Back to list</Link></small></h2>
-                    <div>Created: {moment(recipe.created).format('YYYY-MM-DD')}</div>
+                    <div>
+                        <Link className="btn btn-info" to={'/recipes'}>Back to list</Link>
+                        <Button className="btn btn-danger float-right" onClick={this.deleteRecipe}>Delete</Button>
+                    </div>
+                    <hr/>
                     <Form className="needs-validation was-validated" noValidate={true}>
+                        <FormGroup>
+                            <Label for="created">Created</Label>
+                            <Input type="text" readOnly={true} className="form-control-plaintext" id="created" value={moment(recipe.created).format('YYYY-MM-DD')} />
+                        </FormGroup>
                         <FormGroup>
                             <Label for="name">Name</Label>
                             <Input type="text" name="name" id="name" placeholder="Name"
@@ -69,14 +76,14 @@ export class RecipeDetails extends React.Component<IProps, IState> {
                             <FormFeedback valid={false}>A name is required</FormFeedback>
                         </FormGroup>
                         <FormGroup className="thumbnail">
-                            <div>
+                            <div className="thumbnail-input">
                                 <Label for="thumbnail">Thumbnail</Label>
                                 <Input type="text" name="thumbnail" id="thumbnail" placeholder="Thumbnail"
                                     value={recipe.thumbnail}
                                     onChange={this.onFieldValueChange} />
                                 <FormFeedback valid={false}>Thumbnail is required</FormFeedback>
                             </div>
-                            <div>
+                            <div className="thumbnail-preview">
                                 {recipe.thumbnail.length
                                     ? <img src={recipe.thumbnail} alt={recipe.thumbnail} />
                                     : ''
@@ -123,9 +130,7 @@ export class RecipeDetails extends React.Component<IProps, IState> {
                             <FormFeedback valid={false}>Thumbnail is required</FormFeedback>
                         </FormGroup>
                         <FormGroup>
-                            <Button className="btn btn-primary" label="Save" onClick={this.saveRecipe}>
-                                Save
-                        </Button>
+                            <Button className="btn btn-primary" label="Save" onClick={this.saveRecipe}>Save</Button>
                         </FormGroup>
                     </Form>
                 </div>
@@ -201,6 +206,15 @@ export class RecipeDetails extends React.Component<IProps, IState> {
                 })
                 .catch(error => console.log(error));
         }
+    }
+
+    private deleteRecipe = async () => {
+        const { recipe } = this.state;
+        const result = await api.delete(`/api/recipes/${recipe.guid}`);
+        if (result.errors && result.errors.length) {
+            console.log('error!: ', result);
+        }
+        console.log('error!: ', result);
     }
 
     private updateIngredient = (ingredient: IIngredient) => {
