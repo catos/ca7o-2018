@@ -1,5 +1,7 @@
 .recipe-details {
-    /* display: flex; */
+    display: flex;
+    width: 100%;
+    flex-direction: column;
 }
 
 .recipe-details .recipe-meta {
@@ -44,4 +46,17 @@
 
 .recipe-details .thumbnail .thumbnail-preview {
     flex: 1;
+}
+
+/** RecpieDetails 2 */
+.recipe-details .editor {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.recipe-details .editor textarea {
+    flex: 1;
+    height: 80%;
+    margin-bottom: 1rem;
 }

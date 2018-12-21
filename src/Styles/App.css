@@ -6,6 +6,10 @@ body, html, #layout {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+main {
+    display: flex;
+}
+
 /*** TOOLS ***************************/
 
 .opacity-hover:hover {

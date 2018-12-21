@@ -32,7 +32,7 @@ export class RecipeList extends React.Component<{}, IState> {
     public render() {
         return (
             <div className="m-4">
-                <h2>Recipes <small><Link to={'/recipes/-1'}>Add recipe</Link></small></h2>
+                <h2>Recipes <small><Link to={'/recipes/-1'}>Add recipe</Link> - <Link to={'/recipes2/-1'}>Add recipe 2</Link></small></h2>
                 <table className="table">
                     <thead>
                         <tr>

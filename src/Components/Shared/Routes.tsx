@@ -12,6 +12,7 @@ import { UserList } from '../Admin/User/UserList';
 import { UserDetails } from '../Admin/User/UserDetails';
 import { RecipeList } from '../Admin/Recipe/RecipeList';
 import { RecipeDetails } from '../Admin/Recipe/RecipeDetails';
+import { RecipeDetails2 } from '../Admin/Recipe/RecipeDetails2';
 import { WordsList } from '../Admin/Wesketch/WordsList';
 
 import { Wesketch } from '../Wesketch/Wesketch';
@@ -42,6 +43,7 @@ export class Routes extends React.Component {
                 <ProtectedRoute isAuthorized={auth.isAdministrator()} path='/users/:id' component={UserDetails} />
                 <ProtectedRoute isAuthorized={auth.isAdministrator()} exact={true} path='/recipes' component={RecipeList} />
                 <ProtectedRoute isAuthorized={auth.isAdministrator()} path='/recipes/:id' component={RecipeDetails} />
+                <ProtectedRoute isAuthorized={auth.isAdministrator()} path='/recipes2/:id' component={RecipeDetails2} />
 
                 <ProtectedRoute isAuthorized={auth.isAdministrator()} exact={true} path='/wesketch/words' component={WordsList} />
 
