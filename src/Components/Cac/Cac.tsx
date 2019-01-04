@@ -2,18 +2,6 @@ import * as React from 'react';
 import { CacSocket, ICacEvent } from './CacSocket';
 import { CacEvents } from './CacEvents';
 
-// interface IGameState {
-//     stopGame: boolean;
-//     now: number;
-//     dt: number;
-//     dtAcc: number;
-//     last: number;
-//     step: number;
-//     ticks: number;
-//     // players: IPlayer[],
-//     log: string[]
-// }
-
 interface IPlayer {
     socketId: string;
     name: string;
