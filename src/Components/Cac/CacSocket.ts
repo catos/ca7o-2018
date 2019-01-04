@@ -6,7 +6,7 @@ import { auth } from '../../Common/AuthService';
 export interface ICacEvent {
     socketId: string;
     name: string;
-    timestamp: Date;
+    timestamp: number;
     type: string;
     value: any;
 }
@@ -63,13 +63,13 @@ export class CacSocket {
 
     public emit = (type: string, value: any) => {
         const user = auth.currentUser();
-        const event = {
+        const event: ICacEvent = {
             socketId: this.socket.id,
             name: user.name,
-            timestamp: new Date(),
+            timestamp: Date.now(),
             type,
             value
-        } as ICacEvent;
+        };
 
         this.events.push(event);
         this.socket.emit('event', event);

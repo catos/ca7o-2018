@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { CacSocket, ICacEvent } from './CacSocket';
+import { CacEvents } from './CacEvents';
 
 // interface IGameState {
 //     stopGame: boolean;
@@ -22,8 +23,9 @@ interface IPlayer {
 }
 
 interface IGameState {
-    timer: number;
-    clicks: number;
+    updated: number;
+    prevUpdated: number;
+    ticks: number;
     players: IPlayer[]
 }
 
@@ -40,13 +42,12 @@ export class Cac extends React.Component<{}, IState> {
         this.state = {
             cs: new CacSocket(),
             gameState: {
-                timer: 0,
-                clicks: 0,
+                updated: Date.now(),
+                prevUpdated: Date.now(),
+                ticks: 0,
                 players: []
             }
         };
-
-
     }
 
     public componentDidMount() {
@@ -65,10 +66,10 @@ export class Cac extends React.Component<{}, IState> {
             <div>
                 <h3>Cac!</h3>
                 <ul>
-                    <li>My socketId: {this.state.cs.socketId}</li>
-                    <li>timer: {gameState.timer}</li>
-                    <li>clicks: {gameState.clicks}</li>
-                    <li>players:
+                    <li>Updated: {gameState.updated}</li>
+                    <li>Previously Updated: {gameState.prevUpdated}</li>
+                    <li>Ticks: {gameState.ticks}</li>
+                    <li>Players:
                         <ul>
                             {gameState.players.map((player, idx) =>
                                 <li key={idx}>{player.socketId} - {player.name} - {player.clicks}</li>
@@ -77,12 +78,16 @@ export class Cac extends React.Component<{}, IState> {
                     </li>
                 </ul>
                 <button className="btn btn-primary" onClick={this.test}>Click</button>
+
+                <hr />
+
+                <CacEvents cs={this.state.cs} />
             </div>
         );
     }
 
     private onEvent = (event: ICacEvent) => {
-        // console.log(`onEvent - type: ${event.type}`);
+        console.log(`onEvent - type: ${event.type}`);
 
         if (event.type === 'UpdateGameState') {
             const gameState = event.value as IGameState;

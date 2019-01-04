@@ -150,8 +150,8 @@ header nav .user-menu img {
 /*** MAIN ***************************/
 
 main {
-    margin: 0 auto;
-    width: 960px;
+    /* margin: 0 auto;
+    width: 960px; */
     grid-area: main;
     background-color: #ffffff;
 }
