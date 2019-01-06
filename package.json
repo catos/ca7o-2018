@@ -1,45 +1,51 @@
 {
-    "name": "ca7o",
-    "version": "0.1.0",
-    "private": true,
-    "main": "./src/server.js",
-    "dependencies": {
-        "axios": "^0.18.0",
-        "es6-promise": "^4.2.5",
-        "howler": "^2.0.15",
-        "isomorphic-fetch": "^2.2.1",
-        "jwt-decode": "^2.2.0",
-        "moment": "^2.22.2",
-        "react": "^16.5.2",
-        "react-dom": "^16.5.2",
-        "react-router-dom": "^4.3.1",
-        "react-scripts-ts": "^2.17.0",
-        "reactstrap": "^6.5.0",
-        "socket.io-client": "^2.1.1",
-        "typescript": "^3.1.2"
-    },
-    "scripts": {
-        "start": "react-scripts-ts start",
-        "build": "react-scripts-ts build",
-        "test": "react-scripts-ts test --env=jsdom",
-        "eject": "react-scripts-ts eject",
-        "postinstall": "react-scripts-ts build"
-    },
-    "engines": {
-        "node": "~8.11.2",
-        "npm": "~6.4.1"
-    },
-    "devDependencies": {
-        "@types/axios": "^0.14.0",
-        "@types/howler": "^2.0.5",
-        "@types/isomorphic-fetch": "^0.0.34",
-        "@types/jest": "^23.3.5",
-        "@types/jwt-decode": "^2.2.1",
-        "@types/node": "^10.11.6",
-        "@types/react": "^16.4.16",
-        "@types/react-dom": "^16.0.9",
-        "@types/react-router-dom": "^4.3.1",
-        "@types/reactstrap": "^6.4.0",
-        "@types/socket.io-client": "^1.4.32"
-    }
+  "name": "ca7o",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/server.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "es6-promise": "^4.2.5",
+    "howler": "^2.0.15",
+    "isomorphic-fetch": "^2.2.1",
+    "jwt-decode": "^2.2.0",
+    "moment": "^2.22.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-router-dom": "^4.3.1",
+    "react-scripts-ts": "^4.0.8",
+    "reactstrap": "^6.5.0",
+    "socket.io-client": "^2.1.1",
+    "typescript": "^3.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject",
+    "postinstall": "react-scripts-ts build"
+  },
+  "engines": {
+    "node": "~8.11.2",
+    "npm": "~6.4.1"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/howler": "^2.0.5",
+    "@types/isomorphic-fetch": "^0.0.34",
+    "@types/jest": "^23.3.5",
+    "@types/jwt-decode": "^2.2.1",
+    "@types/node": "^10.11.6",
+    "@types/react": "^16.4.16",
+    "@types/react-dom": "^16.0.9",
+    "@types/react-router-dom": "^4.3.1",
+    "@types/reactstrap": "^6.4.0",
+    "@types/socket.io-client": "^1.4.32"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

@@ -54,8 +54,6 @@ export class Cac extends React.Component<{}, IState> {
             <div>
                 <h3>Cac!</h3>
                 <ul>
-                    <li>Updated: {gameState.updated}</li>
-                    <li>Previously Updated: {gameState.prevUpdated}</li>
                     <li>Ticks: {gameState.ticks}</li>
                     <li>Players:
                         <ul>
@@ -65,7 +63,10 @@ export class Cac extends React.Component<{}, IState> {
                         </ul>
                     </li>
                 </ul>
-                <button className="btn btn-primary" onClick={this.test}>Click</button>
+                <button className="btn btn-primary mr-1" onClick={this.joinGame}>Join Game</button>
+                <button className="btn btn-success mr-1" onClick={this.startGame}>Start Game</button>
+                <button className="btn btn-danger mr-1" onClick={this.stopGame}>Stop Game</button>
+                <button className="btn btn-secondary mr-1" onClick={this.click}>Click</button>
 
                 <hr />
 
@@ -84,7 +85,22 @@ export class Cac extends React.Component<{}, IState> {
 
     }
 
-    private test = (event: React.MouseEvent<HTMLButtonElement>) => {
+    private joinGame = (event: React.MouseEvent<HTMLButtonElement>) => {
+        console.log('join game pls!');        
+        this.state.cs.emit('join-game', { name: 'Cato' });
+    }
+
+    private startGame = (event: React.MouseEvent<HTMLButtonElement>) => {
+        console.log('start game pls!');        
+        this.state.cs.emit('start-game', {});
+    }
+
+    private stopGame = (event: React.MouseEvent<HTMLButtonElement>) => {
+        console.log('stop game pls!');        
+        this.state.cs.emit('stop-game', {});
+    }
+
+    private click = (event: React.MouseEvent<HTMLButtonElement>) => {
         console.log('test click!');
         this.state.cs.emit('click', { foo: 'bar' });
     }
