@@ -1,7 +1,6 @@
 import * as io from 'socket.io-client';
 
 import { AppConfig } from '../../AppConfig';
-import { auth } from '../../Common/AuthService';
 
 export interface ICacEvent {
     socketId: string;
@@ -12,18 +11,18 @@ export interface ICacEvent {
 }
 
 export class CacSocket {
+    public clientName: string;
     public socketId: string;
     public events: ICacEvent[];
 
-    private socket: SocketIOClient.Socket;
-
+    private socket: SocketIOClient.Socket;    
 
     constructor() {
-
+        this.clientName = 'New Player';
         this.events = [];
 
         // Create socket
-        this.socket = io(`${AppConfig.serverUrl}/cac`, { query: `name=${auth.currentUser().name}` });
+        this.socket = io(`${AppConfig.serverUrl}/cac`);
 
         // Client connected
         this.socket.on('connect', () => {
@@ -62,10 +61,9 @@ export class CacSocket {
     }
 
     public emit = (type: string, value: any) => {
-        const user = auth.currentUser();
         const event: ICacEvent = {
             socketId: this.socket.id,
-            name: user.name,
+            name: this.clientName,
             timestamp: Date.now(),
             type,
             value
@@ -73,5 +71,9 @@ export class CacSocket {
 
         this.events.push(event);
         this.socket.emit('event', event);
+    }
+
+    public setClientName(name: string) {
+        this.clientName = name;
     }
 }

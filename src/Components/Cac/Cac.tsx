@@ -2,12 +2,35 @@ import * as React from 'react';
 import { CacSocket, ICacEvent } from './CacSocket';
 import { CacEvents } from './CacEvents';
 
-interface IPlayer {
+export interface ICity {
+    level: number;
+    workTimer: number;
+    isWorking: boolean;
+}
+
+export interface IArmy {
+    level: number;
+    strength: number;
+    soldiers: number;
+}
+
+export interface ICitizens {
+    level: number;
+    efficiency: number;
+    workers: number;
+}
+
+export interface IPlayer {
     socketId: string;
     name: string;
-    ticks: number;
-    clicks: number;
-    tps: number;
+    coins: number;
+    cps: number;
+    isDead: boolean;
+    isComputer: boolean;
+
+    city: ICity;
+    army: IArmy;
+    citizens: ICitizens;
 }
 
 interface IGameState {
@@ -19,6 +42,7 @@ interface IGameState {
 
 interface IState {
     cs: CacSocket;
+    myName: string;
     gameState: IGameState;
 }
 
@@ -29,6 +53,7 @@ export class Cac extends React.Component<{}, IState> {
 
         this.state = {
             cs: new CacSocket(),
+            myName: '',
             gameState: {
                 updated: Date.now(),
                 prevUpdated: Date.now(),
@@ -53,16 +78,8 @@ export class Cac extends React.Component<{}, IState> {
         return (
             <div>
                 <h3>Cac!</h3>
-                <ul>
-                    <li>Ticks: {gameState.ticks}</li>
-                    <li>Players:
-                        <ul>
-                            {gameState.players.map((player, idx) =>
-                                <li key={idx}>{player.socketId} - {player.name} - {player.clicks}</li>
-                            )}
-                        </ul>
-                    </li>
-                </ul>
+
+                <input type="text" value={this.state.myName} onChange={this.onFieldValueChange} />
                 <button className="btn btn-primary mr-1" onClick={this.joinGame}>Join Game</button>
                 <button className="btn btn-success mr-1" onClick={this.startGame}>Start Game</button>
                 <button className="btn btn-danger mr-1" onClick={this.stopGame}>Stop Game</button>
@@ -70,9 +87,28 @@ export class Cac extends React.Component<{}, IState> {
 
                 <hr />
 
+                <ul>
+                    <li>Ticks: {gameState.ticks}</li>
+                    <li>Players:
+                        <ul>
+                            {gameState.players.map((player, idx) =>
+                                <li key={idx}>{player.socketId} - {player.name} - {player.coins}</li>
+                            )}
+                        </ul>
+                    </li>
+                </ul>
+
                 <CacEvents cs={this.state.cs} />
             </div>
         );
+    }
+
+    private onFieldValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const nextState = {
+            ...this.state,
+            myName: event.target.value
+        };
+        this.setState(nextState);
     }
 
     private onEvent = (event: ICacEvent) => {
@@ -86,17 +122,18 @@ export class Cac extends React.Component<{}, IState> {
     }
 
     private joinGame = (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log('join game pls!');        
-        this.state.cs.emit('join-game', { name: 'Cato' });
+        console.log('join game pls!');
+        this.state.cs.setClientName(this.state.myName);
+        this.state.cs.emit('join-game', {});
     }
 
     private startGame = (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log('start game pls!');        
+        console.log('start game pls!');
         this.state.cs.emit('start-game', {});
     }
 
     private stopGame = (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log('stop game pls!');        
+        console.log('stop game pls!');
         this.state.cs.emit('stop-game', {});
     }
 
