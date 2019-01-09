@@ -1,49 +1,21 @@
 import * as React from 'react';
 import { CacSocket, ICacEvent } from './CacSocket';
 import { CacEvents } from './CacEvents';
+import { Lobby } from './Lobby';
+import { IPlayer } from './Interfaces';
+import { PlayerMe } from './PlayerMe';
 
-export interface ICity {
-    level: number;
-    workTimer: number;
-    isWorking: boolean;
-}
-
-export interface IArmy {
-    level: number;
-    strength: number;
-    soldiers: number;
-}
-
-export interface ICitizens {
-    level: number;
-    efficiency: number;
-    workers: number;
-}
-
-export interface IPlayer {
-    socketId: string;
-    name: string;
-    coins: number;
-    cps: number;
-    isDead: boolean;
-    isComputer: boolean;
-
-    city: ICity;
-    army: IArmy;
-    citizens: ICitizens;
-}
-
-interface IGameState {
-    updated: number;
-    prevUpdated: number;
+export interface IGameState {
+    phase: string;
+    gameOver: boolean;
     ticks: number;
-    players: IPlayer[]
+    players: IPlayer[];
 }
 
 interface IState {
     cs: CacSocket;
     myName: string;
-    gameState: IGameState;
+    gs: IGameState;
 }
 
 export class Cac extends React.Component<{}, IState> {
@@ -54,9 +26,9 @@ export class Cac extends React.Component<{}, IState> {
         this.state = {
             cs: new CacSocket(),
             myName: 'Player 1',
-            gameState: {
-                updated: Date.now(),
-                prevUpdated: Date.now(),
+            gs: {
+                phase: '',
+                gameOver: false,
                 ticks: 0,
                 players: []
             }
@@ -73,63 +45,82 @@ export class Cac extends React.Component<{}, IState> {
     }
 
     public render() {
-        const { gameState } = this.state;
+        const { gs, cs } = this.state;
+
+        const opponents = gs.players.filter(p => p.name !== this.state.myName);
+        const opponentsRender = opponents.length
+            ? <div className="bg-light mb-3 p-3">
+                <h4>Opponents</h4>
+                <div className="card-deck">
+                    {opponents.map((player, idx) =>
+                        <div key={idx} className={'p-3 card text-center border' + (player.isDead ? ' border-danger text-danger' : '')}>
+                            <h3>{player.name} {player.isDead ? <span className="fa fa-skull" /> : ''} {player.isComputer ? '[AI]' : ''}</h3>
+                            <h4>{player.army.soldiers} <span className="fa fa-chess-knight" /> - {player.citizens.workers} <span className="fa fa-chess-pawn" /> - {player.coins} <span className="fa fa-coins" /></h4>
+                            <small>@{player.cps} <span className="fa fa-coins" />/s</small>
+                            <div className="card-text mt-3">
+                                <div>
+                                    <button className="btn btn-danger">Attack</button>
+                                    <button className="btn btn-danger">+10</button>
+                                    <button className="btn btn-danger">+100</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+            : '';
+
+        const me = gs.players.find(p => p.name === this.state.myName);
+        
+        const mainWindow = {
+            lobby: <Lobby gs={gs} cs={cs} />,
+            running: <div>Playing...</div>,
+            over: <div>Game Over</div>
+        };
+
+        if (me === undefined) {
+            return;
+        }
 
         return (
-            <div>
-                <h3>Cac!</h3>
+            <div id="cac">
 
-                <input type="text" value={this.state.myName} onChange={this.onFieldValueChange} />
-                <button className="btn btn-primary mr-1" onClick={this.joinGame}>Join Game</button>
-                <button className="btn btn-success mr-1" onClick={this.startGame}>Start Game</button>
-                <button className="btn btn-danger mr-1" onClick={this.stopGame}>Stop Game</button>
+                {mainWindow[gs.phase]}
+
                 <button className="btn btn-secondary mr-1" onClick={this.click}>Click</button>
+                <button className="btn btn-danger mr-1" onClick={this.stopGame}>Stop Game</button>
 
                 <hr />
 
                 <ul>
-                    <li>Ticks: {gameState.ticks}</li>
+                    <li>Phase: {gs.phase}</li>
+                    <li>Ticks: {gs.ticks}</li>
                     <li>Players:
                         <ul>
-                            {gameState.players.map((player, idx) =>
+                            {gs.players.map((player, idx) =>
                                 <li key={idx}>{player.socketId} - {player.name} - {player.coins}</li>
                             )}
                         </ul>
                     </li>
                 </ul>
 
+                {opponentsRender}
+
+                <PlayerMe player={me} gs={gs} />
+
                 <CacEvents cs={this.state.cs} />
             </div>
         );
-    }
-
-    private onFieldValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const nextState = {
-            ...this.state,
-            myName: event.target.value
-        };
-        this.setState(nextState);
     }
 
     private onEvent = (event: ICacEvent) => {
         console.log(`onEvent - type: ${event.type}`);
 
         if (event.type === 'UpdateGameState') {
-            const gameState = event.value as IGameState;
-            this.setState({ gameState });
+            const gs = event.value as IGameState;
+            this.setState({ gs });
         }
 
-    }
-
-    private joinGame = (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log('join game pls!');
-        this.state.cs.setClientName(this.state.myName);
-        this.state.cs.emit('join-game', {});
-    }
-
-    private startGame = (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log('start game pls!');
-        this.state.cs.emit('start-game', {});
     }
 
     private stopGame = (event: React.MouseEvent<HTMLButtonElement>) => {

@@ -1,3 +1,51 @@
+#cac .header {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+}
+
+#cac .header div {
+    min-width: 10rem;
+}
+
+#cac #player .header {
+    display: flex;
+}
+
+#cac #player .container {
+    display: flex;
+}
+
+#cac #player .container > div {
+    width: 100%;
+}
+
+#cac #player .player-city {
+    text-align: center;
+}
+#cac #player .player-army {
+    text-align: center;
+}
+#cac #player .player-citizens {
+    text-align: center;
+}
+
+#cac #player .production-container {
+    display: flex;
+}
+
+#cac #player .production-slot {
+    background-color: #999;
+    width: 3rem;
+    height: 3rem;    
+}
+
+#cac #player .production-slot.disabled {
+    background-color: #333;
+}
+
 #cac .events {
     background-color: #ffffff;
     height: 14rem;
