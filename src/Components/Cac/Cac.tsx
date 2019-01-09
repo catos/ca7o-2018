@@ -53,7 +53,7 @@ export class Cac extends React.Component<{}, IState> {
 
         this.state = {
             cs: new CacSocket(),
-            myName: '',
+            myName: 'Player 1',
             gameState: {
                 updated: Date.now(),
                 prevUpdated: Date.now(),
