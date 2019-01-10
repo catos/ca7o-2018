@@ -78,10 +78,6 @@ export class Cac extends React.Component<{}, IState> {
             over: <div>Game Over</div>
         };
 
-        if (me === undefined) {
-            return;
-        }
-
         return (
             <div id="cac">
 
@@ -106,7 +102,9 @@ export class Cac extends React.Component<{}, IState> {
 
                 {opponentsRender}
 
-                <PlayerMe player={me} gs={gs} />
+                {me !== undefined
+                    ? <PlayerMe player={me} gs={gs} />
+                    : ''}
 
                 <CacEvents cs={this.state.cs} />
             </div>

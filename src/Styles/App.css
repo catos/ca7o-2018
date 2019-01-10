@@ -88,7 +88,7 @@ header {
 
 header nav {
     display: grid;
-    grid-template-columns: 12rem auto 12rem;
+    grid-template-columns: 6rem auto 12rem;
 
     margin: 0 auto;
     width: 960px;

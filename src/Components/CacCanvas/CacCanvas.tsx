@@ -23,6 +23,8 @@ interface IState {
 export class CacCanvas extends React.Component<{}, IState> {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
+    private cui: CanvasUI;
+    private mousePos: Vector2;
 
     constructor(props: any) {
         super(props);
@@ -38,6 +40,8 @@ export class CacCanvas extends React.Component<{}, IState> {
                 players: []
             }
         };
+
+        this.mousePos = new Vector2(0, 0);
     }
 
     public componentDidMount() {
@@ -45,20 +49,18 @@ export class CacCanvas extends React.Component<{}, IState> {
         this.state.cs.on('event', this.onEvent);
 
         if (this.canvas !== null) {
-            this.canvas.width = 960;
-            this.canvas.height = 544;
+            this.canvas.width = 500;
+            this.canvas.height = 500;
             this.ctx = this.canvas.getContext('2d')!;
-        
+            this.ctx.scale(4, 4);
+
             this.setState({
                 canvasRect: this.canvas.getBoundingClientRect()
             });
+
         }
 
-        const cui = new CanvasUI(this.canvas, this.ctx);
-        cui.button(100, 100, 'Click', () => {
-            console.log('onClick!! fire event!');
-            this.state.cs.emit('click', { foo: 'bar' });
-        });
+        this.update();
     }
 
     public componentWillUnmount() {
@@ -79,6 +81,31 @@ export class CacCanvas extends React.Component<{}, IState> {
         );
     }
 
+    private draw = () => {
+        this.ctx.fillStyle = '#fff';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.cui = new CanvasUI(this.canvas, this.ctx);
+        this.cui.label(50, 50, 'onClick!');
+        this.cui.button(100, 100, 'Click', () => {
+            console.log('onClick!! fire event!');
+            this.state.cs.emit('click', { foo: 'bar' });
+        });
+
+        this.cui.pixel(10, 10);
+        this.cui.pixel(490, 490);
+        this.cui.pixel(10, 490);
+        this.cui.pixel(490, 10);
+        this.cui.label(5, 5, `Mouse: ${this.mousePos.x}, ${this.mousePos.y}`)
+}
+
+    private update = (time: number = 0) => {
+        
+        this.draw();
+
+        requestAnimationFrame(this.update);
+    }
+
     private onEvent = (event: ICacEvent) => {
         console.log(`onEvent - type: ${event.type}`);
 
@@ -97,16 +124,9 @@ export class CacCanvas extends React.Component<{}, IState> {
     // }
 
     private onMouseMove = (event: React.MouseEvent<HTMLElement>) => {
-        const mousePos = new Vector2(
+        this.mousePos = new Vector2(
             event.clientX - this.state.canvasRect.left,
             event.clientY - this.state.canvasRect.top + window.scrollY);
-
-        this.ctx.clearRect(0, 0, 100, 50);
-        this.ctx.beginPath();
-        this.ctx.fillStyle = '#000000';
-        this.ctx.font = `15px serif`;
-        this.ctx.fillText(`Mouse: ${mousePos.x}, ${mousePos.y}`, 10, 10);
-        this.ctx.stroke();
     }
 
     // private onMouseOut = (event: React.MouseEvent<HTMLElement>) => {
