@@ -1,4 +1,6 @@
 import * as React from 'react';
+
+import './Cac.css';
 import { CacSocket, ICacEvent } from './CacSocket';
 import { CacEvents } from './CacEvents';
 import { Lobby } from './Lobby';
@@ -60,8 +62,9 @@ export class Cac extends React.Component<{}, IState> {
                             <h4>{player.army.soldiers} <span className="fa fa-chess-knight" /> - {player.citizens.workers} <span className="fa fa-chess-pawn" /> - {player.coins} <span className="fa fa-coins" /></h4>
                             <small>@{player.cps} <span className="fa fa-coins" />/s</small>
                             <div className="card-text mt-3">
-                                <div>
-                                    <button className="btn btn-danger">Attack</button>
+                                <h5>Attack</h5>
+                                <div className="btn-group">
+                                    <button className="btn btn-danger">+1</button>
                                     <button className="btn btn-danger">+10</button>
                                     <button className="btn btn-danger">+100</button>
                                 </div>
@@ -73,7 +76,7 @@ export class Cac extends React.Component<{}, IState> {
             : '';
 
         const me = gs.players.find(p => p.name === this.state.myName);
-        
+
         const mainWindow = {
             lobby: <Lobby gs={gs} cs={cs} />,
             running: <div>Playing...</div>,
@@ -84,32 +87,22 @@ export class Cac extends React.Component<{}, IState> {
             <div id="cac">
 
                 {mainWindow[gs.phase]}
-
-                <button className="btn btn-secondary mr-1" onClick={this.click}>Click</button>
                 <button className="btn btn-danger mr-1" onClick={this.stopGame}>Stop Game</button>
-
                 <hr />
 
                 <ul>
                     <li>Timer: {gs.timer}</li>
                     <li>Ticks: {gs.ticks}</li>
                     <li>Phase: {gs.phase}</li>
-                    <li>Players:
-                        <ul>
-                            {gs.players.map((player, idx) =>
-                                <li key={idx}>{player.socketId} - {player.name} - {player.coins}</li>
-                            )}
-                        </ul>
-                    </li>
                 </ul>
 
                 {opponentsRender}
 
                 {me !== undefined
-                    ? <PlayerMe player={me} gs={gs} />
+                    ? <PlayerMe player={me} gs={gs} cs={cs} />
                     : ''}
 
-                <CacEvents cs={this.state.cs} />
+                <CacEvents cs={cs} />
             </div>
         );
     }
@@ -127,10 +120,5 @@ export class Cac extends React.Component<{}, IState> {
     private stopGame = (event: React.MouseEvent<HTMLButtonElement>) => {
         console.log('stop game pls!');
         this.state.cs.emit('stop-game', {});
-    }
-
-    private click = (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log('test click!');
-        this.state.cs.emit('click', { foo: 'bar' });
     }
 }

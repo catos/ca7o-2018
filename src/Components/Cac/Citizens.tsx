@@ -59,7 +59,7 @@ export class Citizens extends React.Component<IProps, IState> {
                 </div>
 
                 <div>
-                    <button className="btn btn-info">
+                    <button className="btn btn-lg btn-info">
                         <h5>Upgrade</h5>
                         <div>+10% Efficiency</div>
                         <div>Cost: 100 <span className="fa fa-coins" /></div>

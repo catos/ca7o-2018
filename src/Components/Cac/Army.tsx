@@ -59,7 +59,7 @@ export class Army extends React.Component<IProps, IState> {
                 </div>
 
                 <div>
-                    <button className="btn btn-info">
+                    <button className="btn btn-info btn-lg">
                         <h5>Upgrade</h5>
                         <div>+10% Strength</div>
                         <div>Cost: 100 <span className="fa fa-coins" /></div>

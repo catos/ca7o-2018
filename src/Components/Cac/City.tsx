@@ -1,11 +1,13 @@
 import * as React from 'react';
 
+import { CacSocket } from './CacSocket';
 import { IPlayer } from './Interfaces';
 import { IGameState } from './Cac';
 
 interface IProps {
     player: IPlayer;
-    gameState: IGameState;
+    gs: IGameState;
+    cs: CacSocket;
 }
 
 export class City extends React.Component<IProps, {}> {
@@ -33,14 +35,14 @@ export class City extends React.Component<IProps, {}> {
                     Rewards: {Math.floor(this.props.player.citizens.workers / 5)} <span className="fa fa-coins" />
                 </div>
                 <div>
-                    <button className={'btn' + (player.city.isWorking ? ' btn-secondary' : ' btn-primary')} onClick={this.onClick}>
+                    <button className={'btn btn-lg' + (player.city.isWorking ? ' btn-secondary' : ' btn-primary')} onClick={this.work}>
                         Work
                         <div><small>Time: {Math.floor(player.city.workTimer / 1000)} seconds</small></div>
                     </button>
                 </div>
 
                 <div>
-                    <button className="btn btn-info">
+                    <button className="btn btn-lg btn-info">
                         <h5>Upgrade</h5>
                         <div>Cost: {player.city.level * 100} <span className="fa fa-coins" /></div>
                         <div>Current Level: {player.city.level}</div>
@@ -49,10 +51,8 @@ export class City extends React.Component<IProps, {}> {
             </div>);
     }
 
-    private onClick = () => {
-        // this.props.player.work();
-        console.log('onClick');
-        
+    private work = (event: React.MouseEvent<HTMLButtonElement>) => {
+        this.props.cs.emit('work', {});
     }
 
 }

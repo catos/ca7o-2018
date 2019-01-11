@@ -14,20 +14,34 @@
     display: flex;
 }
 
+#cac .btn-group {
+    display: block;
+}
+
+#cac .btn {
+    width: 4rem;
+}
+
+#cac .btn.btn-lg {
+    width: 12rem;
+}
+
 #cac #player .container {
     display: flex;
 }
 
-#cac #player .container > div {
+#cac #player .container>div {
     width: 100%;
 }
 
 #cac #player .player-city {
     text-align: center;
 }
+
 #cac #player .player-army {
     text-align: center;
 }
+
 #cac #player .player-citizens {
     text-align: center;
 }
@@ -39,7 +53,7 @@
 #cac #player .production-slot {
     background-color: #999;
     width: 3rem;
-    height: 3rem;    
+    height: 3rem;
 }
 
 #cac #player .production-slot.disabled {
