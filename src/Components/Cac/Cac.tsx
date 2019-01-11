@@ -6,9 +6,10 @@ import { IPlayer } from './Interfaces';
 import { PlayerMe } from './PlayerMe';
 
 export interface IGameState {
+    timer: number;
+    ticks: number;
     phase: string;
     gameOver: boolean;
-    ticks: number;
     players: IPlayer[];
 }
 
@@ -27,9 +28,10 @@ export class Cac extends React.Component<{}, IState> {
             cs: new CacSocket(),
             myName: 'Player 1',
             gs: {
+                timer: 0,
+                ticks: 0,
                 phase: '',
                 gameOver: false,
-                ticks: 0,
                 players: []
             }
         };
@@ -89,8 +91,9 @@ export class Cac extends React.Component<{}, IState> {
                 <hr />
 
                 <ul>
-                    <li>Phase: {gs.phase}</li>
+                    <li>Timer: {gs.timer}</li>
                     <li>Ticks: {gs.ticks}</li>
+                    <li>Phase: {gs.phase}</li>
                     <li>Players:
                         <ul>
                             {gs.players.map((player, idx) =>
