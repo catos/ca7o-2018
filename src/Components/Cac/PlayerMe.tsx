@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { CacSocket } from './CacSocket';
 
-import { IPlayer } from './Interfaces';
+import { IPlayer } from './Models';
 import { IGameState } from './Cac';
 import { City } from './City';
 import { Army } from './Army';

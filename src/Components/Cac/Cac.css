@@ -1,3 +1,15 @@
+#cac .debug {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+#cac .debug > div {
+    margin: 0 0.5rem;
+    border: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+}
+
 #cac .header {
     padding: 1rem;
     margin-bottom: 1rem;

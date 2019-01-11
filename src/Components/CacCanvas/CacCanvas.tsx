@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IPlayer } from "../Cac/Interfaces";
+import { IPlayer } from "../Cac/Models";
 import { CacSocket, ICacEvent } from "../Cac/CacSocket";
 import { Vector2 } from "../Wesketch/Painter/Vector2";
 import { CanvasUI } from "./CanvasUI";

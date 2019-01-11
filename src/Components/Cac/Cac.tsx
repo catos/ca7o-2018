@@ -4,7 +4,7 @@ import './Cac.css';
 import { CacSocket, ICacEvent } from './CacSocket';
 import { CacEvents } from './CacEvents';
 import { Lobby } from './Lobby';
-import { IPlayer } from './Interfaces';
+import { IPlayer } from './Models';
 import { PlayerMe } from './PlayerMe';
 
 export interface IGameState {
@@ -88,13 +88,12 @@ export class Cac extends React.Component<{}, IState> {
 
                 {mainWindow[gs.phase]}
                 <button className="btn btn-danger mr-1" onClick={this.stopGame}>Stop Game</button>
-                <hr />
 
-                <ul>
-                    <li>Timer: {gs.timer}</li>
-                    <li>Ticks: {gs.ticks}</li>
-                    <li>Phase: {gs.phase}</li>
-                </ul>
+                <div className="debug">
+                    <div>Timer: {gs.timer}</div>
+                    <div>Ticks: {gs.ticks}</div>
+                    <div>Phase: {gs.phase}</div>
+                </div>
 
                 {opponentsRender}
 
