@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { CacSocket } from "./CacSocket";
-import { IGameState } from "./Cac";
+import { IGameState } from "./Models";
 
 interface IProps {
     gs: IGameState;
@@ -17,16 +17,18 @@ export class Lobby extends React.Component<IProps, IState> {
         super(props);
 
         this.state = {
-            myName: 'Player 1'
+            myName: ''
         }
     }
 
     public render() {
         return (
-            <div>
-                <input type="text" value={this.state.myName} onChange={this.onFieldValueChange} />
-                <button className="btn btn-primary mr-1" onClick={this.joinGame}>Join Game</button>
-                <button className="btn btn-success mr-1" onClick={this.startGame}>Start Game</button>
+            <div className="lobby">
+                <input type="text" value={this.state.myName} onChange={this.onFieldValueChange} placeholder="Enter your name" />
+                <div>
+                    <button className="btn btn-primary mr-1" onClick={this.joinGame}>Join Game</button>
+                    <button className="btn btn-success mr-1" onClick={this.startGame}>Start Game</button>
+                </div>
             </div>
         );
     }

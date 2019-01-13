@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 import { CacSocket } from './CacSocket';
-import { IPlayer } from './Models';
-import { IGameState } from './Cac';
+import { IPlayer, IGameState } from './Models';
 
 interface IProps {
     player: IPlayer;
@@ -15,7 +14,6 @@ export class City extends React.Component<IProps, {}> {
         super(props);
     }
 
-
     public render() {
         const { player } = this.props;
 
@@ -23,21 +21,22 @@ export class City extends React.Component<IProps, {}> {
             <div className="player-city">
                 <h3>City</h3>
                 <h4>Level {player.city.level.value}</h4>
-                <div>Treasury: {player.coins} <span className="fa fa-coins" /> @{player.cps} <span className="fa fa-coins" />/s</div>
+                <div>Treasury: {player.coins} <span className="fa fa-coins" /> @{player.cpt} <span className="fa fa-coins" />/s</div>
                 <div><hr /></div>
                 <div><strong>Bonuses</strong></div>
-                <div>Cost: +0%</div>
-                <div>Build time: +0%</div>
-                <div>Defense: +10%</div>
+                <div>Work: +{player.city.bonuses.work}%</div>
+                <div>Discount: +{player.city.bonuses.buildCost}%</div>
+                <div>Build time: +{player.city.bonuses.buildTime}%</div>
+                <div>Defense: +{player.city.bonuses.defence}%</div>
                 <div><hr /></div>
                 <h5>Work the fields</h5>
                 <div className="mb-3">
-                    Rewards: {Math.floor(player.citizens.workers / 2 * player.city.level.value)} <span className="fa fa-coins" />
+                    Rewards: {Math.floor(player.citizens.workers * (player.city.bonuses.work / 100 + 1))} <span className="fa fa-coins" />
                 </div>
                 <div>
                     <button className={'btn btn-lg' + (player.city.work.inProgress ? ' btn-secondary' : ' btn-primary')} onClick={this.work}>
                         Work
-                        <div><small>Time: {Math.floor(player.city.work.time / 1000)} seconds</small></div>
+                        <div><small>Time: {Math.floor(player.city.work.timeRemaining / 1000)} seconds</small></div>
                     </button>
                 </div>
 
@@ -46,8 +45,8 @@ export class City extends React.Component<IProps, {}> {
                         className={'btn btn-lg' + (player.city.level.inProgress || player.coins < player.city.level.value * 100 ? ' btn-secondary' : ' btn-info')} 
                         onClick={this.upgrade}>
                         <h5>Upgrade</h5>
-                        <div>Cost: {player.city.level.value * 100} <span className="fa fa-coins" /></div>
-                        <div><small>Time: {Math.floor(player.city.level.time / 1000)} seconds</small></div>
+                        <div>Cost: {player.city.level.value * player.city.level.cost} <span className="fa fa-coins" /></div>
+                        <div><small>Time: {Math.floor(player.city.level.timeRemaining / 1000)} seconds</small></div>
                     </button>
                 </div>
             </div>);

@@ -1,34 +1,28 @@
 export interface IProperty {
     value: number;
     cost: number;
-    time: number;
+    timeRemaining: number;
+    timeToUpgrade: number;
     inProgress: boolean;
 }
 
-export class City {
-    public level: IProperty;
-    public work: IProperty;
+export interface ICityBonuses {
+    work: number;
+    buildCost: number;
+    buildTime: number;
+    defence: number;
+}
 
-    constructor() {
-        this.level = {
-            value: 1,
-            cost: 100,
-            time: 10000,
-            inProgress: false
-        };
-        this.work = {
-            value: 1,
-            cost: 0,
-            time: 3000,
-            inProgress: false
-        };
-    }
+export interface ICity {
+    level: IProperty;
+    work: IProperty;
+    bonuses: ICityBonuses;
 }
 
 export interface IArmy {
-    level: number;
+    level: IProperty;
+    soldiers: IProperty;
     strength: number;
-    soldiers: number;
 }
 
 export interface ICitizens {
@@ -41,10 +35,18 @@ export interface IPlayer {
     socketId: string;
     name: string;
     coins: number;
-    cps: number;
+    cpt: number;
     isDead: boolean;
     isComputer: boolean;
-    city: City;
+    city: ICity;
     army: IArmy;
     citizens: ICitizens;
+}
+
+export interface IGameState {
+    timer: number;
+    ticks: number;
+    phase: string;
+    gameOver: boolean;
+    players: IPlayer[];
 }

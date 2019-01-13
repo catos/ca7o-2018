@@ -4,20 +4,11 @@ import './Cac.css';
 import { CacSocket, ICacEvent } from './CacSocket';
 import { CacEvents } from './CacEvents';
 import { Lobby } from './Lobby';
-import { IPlayer } from './Models';
+import { IGameState } from './Models';
 import { PlayerMe } from './PlayerMe';
-
-export interface IGameState {
-    timer: number;
-    ticks: number;
-    phase: string;
-    gameOver: boolean;
-    players: IPlayer[];
-}
 
 interface IState {
     cs: CacSocket;
-    myName: string;
     gs: IGameState;
 }
 
@@ -28,7 +19,6 @@ export class Cac extends React.Component<{}, IState> {
 
         this.state = {
             cs: new CacSocket(),
-            myName: 'Player 1',
             gs: {
                 timer: 0,
                 ticks: 0,
@@ -51,16 +41,17 @@ export class Cac extends React.Component<{}, IState> {
     public render() {
         const { gs, cs } = this.state;
 
-        const opponents = gs.players.filter(p => p.name !== this.state.myName);
+        const opponents = gs.players.filter(p => p.socketId !== this.state.cs.socketId);
         const opponentsRender = opponents.length
-            ? <div className="bg-light mb-3 p-3">
+            ? <div className="p-3">
                 <h4>Opponents</h4>
                 <div className="card-deck">
                     {opponents.map((player, idx) =>
                         <div key={idx} className={'p-3 card text-center border' + (player.isDead ? ' border-danger text-danger' : '')}>
                             <h3>{player.name} {player.isDead ? <span className="fa fa-skull" /> : ''} {player.isComputer ? '[AI]' : ''}</h3>
+                            <div className="text-center">{player.socketId}</div>
                             <h4>{player.army.soldiers} <span className="fa fa-chess-knight" /> - {player.citizens.workers} <span className="fa fa-chess-pawn" /> - {player.coins} <span className="fa fa-coins" /></h4>
-                            <small>@{player.cps} <span className="fa fa-coins" />/s</small>
+                            <small>@{player.cpt} <span className="fa fa-coins" />/s</small>
                             <div className="card-text mt-3">
                                 <h5>Attack</h5>
                                 <div className="btn-group">
@@ -75,27 +66,25 @@ export class Cac extends React.Component<{}, IState> {
             </div>
             : '';
 
-        const me = gs.players.find(p => p.name === this.state.myName);
+        const me = gs.players.find(p => p.socketId === this.state.cs.socketId);
 
         const mainWindow = {
             lobby: <Lobby gs={gs} cs={cs} />,
-            running: <div>Playing...</div>,
+            running: <div className="bar">
+                <button className="btn btn-danger mr-1" onClick={this.stopGame}>Stop Game</button>
+                <div>Timer: {gs.timer}</div>
+                <div>Ticks: {gs.ticks}</div>
+                <div>Phase: {gs.phase}</div>
+            </div>,
             over: <div>Game Over</div>
         };
 
         return (
-            <div id="cac">
-
-                {mainWindow[gs.phase]}
-                <button className="btn btn-danger mr-1" onClick={this.stopGame}>Stop Game</button>
-
-                <div className="debug">
-                    <div>Timer: {gs.timer}</div>
-                    <div>Ticks: {gs.ticks}</div>
-                    <div>Phase: {gs.phase}</div>
-                </div>
+            <div id="cac" className="bg-light">
 
                 {opponentsRender}
+
+                {mainWindow[gs.phase]}
 
                 {me !== undefined
                     ? <PlayerMe player={me} gs={gs} cs={cs} />

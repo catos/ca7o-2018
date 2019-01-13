@@ -1,10 +1,17 @@
-#cac .debug {
+#cac {
+    flex: 1;
+}
+
+#cac .bar {
     display: flex;
     align-items: center;
     margin: 1rem 0;
+    padding: 1rem;
+    justify-content: center;
+    background-color: #ffffff;
 }
 
-#cac .debug > div {
+#cac .bar > div {
     margin: 0 0.5rem;
     border: 1px solid #ccc;
     padding: 0.5rem 1rem;
@@ -22,20 +29,30 @@
     min-width: 10rem;
 }
 
-#cac #player .header {
-    display: flex;
-}
-
 #cac .btn-group {
     display: block;
 }
 
-#cac .btn {
+/* #cac .btn {
     width: 4rem;
 }
 
 #cac .btn.btn-lg {
     width: 12rem;
+} */
+
+#cac .lobby {
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff;
+}
+
+#cac #player {
+    background-color: #ffffff;
+}
+
+#cac #player .header {
+    display: flex;
 }
 
 #cac #player .container {

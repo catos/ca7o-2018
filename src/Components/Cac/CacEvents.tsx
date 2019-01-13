@@ -56,7 +56,9 @@ export class CacEvents extends React.Component<IProps, IState> {
 
     private onEvent = (event: ICacEvent) => {
         const events = [...this.state.events];
-        events.push(event);
+        if (event.type !== 'UpdateGameState') {
+            events.push(event);
+        }
         this.setState({ events });
     }
 }

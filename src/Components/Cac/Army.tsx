@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { IPlayer } from './Models';
+import { IPlayer, IGameState } from './Models';
+import { CacSocket } from './CacSocket';
 
 interface IProps {
     player: IPlayer;
+    gs: IGameState;
+    cs: CacSocket;
 }
 
 interface IState {
@@ -29,8 +32,8 @@ export class Army extends React.Component<IProps, IState> {
         return (
             <div className="player-army">
                 <h3>Army</h3>
-                <h4>Level {player.army.level}</h4>
-                <div>Soldiers: {player.army.soldiers} <span className="fa fa-chess-knight" /></div>
+                <h4>Level {player.army.level.value}</h4>
+                <div>Soldiers: {player.army.soldiers.value} <span className="fa fa-chess-knight" /></div>
                 <div><hr /></div>
                 <div><strong>Bonuses</strong></div>
                 <div>Strength: +0%</div>
@@ -39,33 +42,37 @@ export class Army extends React.Component<IProps, IState> {
                 <div><hr /></div>
                 <h5>Train soldiers</h5>
                 <div className="mb-3">
-                    Cost: 10 <span className="fa fa-coins" /> per <span className="fa fa-chess-knight" />
+                    Cost: {player.army.soldiers.cost} <span className="fa fa-coins" /> per <span className="fa fa-chess-knight" />
                 </div>
 
-                <div className="btn-group">
-                    <button className="btn btn-primary">+1</button>
-                    <button className="btn btn-primary">+10</button>
-                    <button className="btn btn-primary">+100</button>
-                </div>
-                <div className="btn-group">
-                    <button className="btn btn-secondary">+1</button>
-                    <button className="btn btn-secondary">+10</button>
-                    <button className="btn btn-secondary">+100</button>
-                </div>
-                <div className="btn-group">
-                    <button className="btn btn-secondary">+1</button>
-                    <button className="btn btn-secondary">+10</button>
-                    <button className="btn btn-secondary">+100</button>
-                </div>
+                <button className={this.canCraftCss(player.army.soldiers.inProgress)} onClick={this.recruit}>
+                    Recruit
+                    <div><small>Time: {Math.floor(player.army.soldiers.timeRemaining / 1000)} seconds</small></div>
+                </button>
 
                 <div>
-                    <button className="btn btn-info btn-lg">
+                    <button className={this.canCraftCss(player.army.level.inProgress)} onClick={this.upgrade}>
                         <h5>Upgrade</h5>
-                        <div>+10% Strength</div>
-                        <div>Cost: 100 <span className="fa fa-coins" /></div>
+                        <div>Cost: {player.army.level.value * player.army.level.cost} <span className="fa fa-coins" /></div>
+                        <div><small>Time: {Math.floor(player.army.level.timeRemaining / 1000)} seconds</small></div>
                     </button>
                 </div>
             </div>
         );
     }
+
+    private canCraftCss = (inProgress: boolean) => {
+        return inProgress
+            ? 'btn btn-lg btn-secondary'
+            : 'btn btn-lg btn-primary';
+    }
+
+    private recruit = (event: React.MouseEvent<HTMLButtonElement>) => {
+        this.props.cs.emit('army-recruit', {});
+    }
+
+    private upgrade = (event: React.MouseEvent<HTMLButtonElement>) => {
+        this.props.cs.emit('army-upgrade', {});
+    }
+
 }
