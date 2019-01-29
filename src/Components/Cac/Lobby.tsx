@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import { CacSocket } from "./CacSocket";
+import { SocketClientService } from "./SocketClientService";
 import { IGameState } from "./Models";
 
 interface IProps {
     gs: IGameState;
-    cs: CacSocket;
+    socketService: SocketClientService;
 }
 
 interface IState {
@@ -43,13 +43,13 @@ export class Lobby extends React.Component<IProps, IState> {
 
     private joinGame = (event: React.MouseEvent<HTMLButtonElement>) => {
         console.log('join game pls!');
-        this.props.cs.setClientName(this.state.myName);
-        this.props.cs.emit('join-game', {});
+        // TODO: this.props.socketService.setClientName(this.state.myName);
+        this.props.socketService.emit('join-game', this.state.myName);
     }
 
     private startGame = (event: React.MouseEvent<HTMLButtonElement>) => {
         console.log('start game pls!');
-        this.props.cs.emit('start-game', {});
+        this.props.socketService.emit('start-game', {});
     }
 
 

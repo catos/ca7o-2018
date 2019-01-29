@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { CacSocket, ICacEvent } from './CacSocket';
+import { SocketClientService, ISocketEvent } from './SocketClientService';
 
 interface IProps {
-    cs: CacSocket
+    socketService: SocketClientService;
 }
 
 interface IState {
-    events: ICacEvent[]
+    events: ISocketEvent[]
 }
 
 export class CacEvents extends React.Component<IProps, IState> {
@@ -21,7 +21,7 @@ export class CacEvents extends React.Component<IProps, IState> {
 
     public componentDidMount() {
         // Watch events
-        this.props.cs.on('event', this.onEvent);
+        this.props.socketService.eventHandlers.push({ eventType: '*', handle: this.onEvent });
     }
 
     public render() {
@@ -32,7 +32,6 @@ export class CacEvents extends React.Component<IProps, IState> {
                     <thead>
                         <tr>
                             <th>SocketId</th>
-                            <th>Name</th>
                             <th>Timestamp</th>
                             <th>Type</th>
                             <th>Value</th>
@@ -42,7 +41,6 @@ export class CacEvents extends React.Component<IProps, IState> {
                         {this.state.events.sort((a, b) => b.timestamp - a.timestamp).slice(0, 10).map((e, idx) =>
                             <tr key={idx}>
                                 <td>{e.socketId}</td>
-                                <td>{e.name}</td>
                                 <td>{e.timestamp}</td>
                                 <td>{e.type}</td>
                                 <td>{JSON.stringify(e.value)}</td>
@@ -54,9 +52,9 @@ export class CacEvents extends React.Component<IProps, IState> {
         );
     }
 
-    private onEvent = (event: ICacEvent) => {
+    private onEvent = (event: ISocketEvent) => {
         const events = [...this.state.events];
-        if (event.type !== 'UpdateGameState') {
+        if (event.type !== 'update-game-state') {
             events.push(event);
         }
         this.setState({ events });

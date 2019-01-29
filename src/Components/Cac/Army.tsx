@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { IPlayer, IGameState } from './Models';
-import { CacSocket } from './CacSocket';
+import { SocketClientService } from './SocketClientService';
 
 interface IProps {
     player: IPlayer;
     gs: IGameState;
-    cs: CacSocket;
+    socketService: SocketClientService;
 }
 
 interface IState {
@@ -68,11 +68,11 @@ export class Army extends React.Component<IProps, IState> {
     }
 
     private recruit = (event: React.MouseEvent<HTMLButtonElement>) => {
-        this.props.cs.emit('army-recruit', {});
+        this.props.socketService.emit('army-recruit', {});
     }
 
     private upgrade = (event: React.MouseEvent<HTMLButtonElement>) => {
-        this.props.cs.emit('army-upgrade', {});
+        this.props.socketService.emit('army-upgrade', {});
     }
 
 }

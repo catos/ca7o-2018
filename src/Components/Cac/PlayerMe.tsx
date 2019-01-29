@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { CacSocket } from './CacSocket';
+import { SocketClientService } from './SocketClientService';
 
 import { IPlayer, IGameState } from './Models';
 import { City } from './City';
@@ -10,7 +10,7 @@ import { Citizens } from './Citizens';
 interface IProps {
     player: IPlayer;
     gs: IGameState;
-    cs: CacSocket;
+    socketService: SocketClientService;
 }
 
 export class PlayerMe extends React.Component<IProps, {}> {
@@ -26,8 +26,8 @@ export class PlayerMe extends React.Component<IProps, {}> {
                 <h1 className="text-center">{player.name}</h1>
                 <div className="text-center">{player.socketId}</div>
                 <div className="container">
-                    <City player={player} gs={this.props.gs} cs={this.props.cs} />
-                    <Army player={player} gs={this.props.gs} cs={this.props.cs} />
+                    <City player={player} gs={this.props.gs} socketService={this.props.socketService} />
+                    <Army player={player} gs={this.props.gs} socketService={this.props.socketService} />
                     <Citizens player={player} />
                 </div>
             </div>

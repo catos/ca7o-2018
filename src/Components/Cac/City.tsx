@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import { CacSocket } from './CacSocket';
+import { SocketClientService } from './SocketClientService';
 import { IPlayer, IGameState } from './Models';
 
 interface IProps {
     player: IPlayer;
     gs: IGameState;
-    cs: CacSocket;
+    socketService: SocketClientService;
 }
 
 export class City extends React.Component<IProps, {}> {
@@ -42,10 +42,10 @@ export class City extends React.Component<IProps, {}> {
 
                 <div>
                     <button 
-                        className={'btn btn-lg' + (player.city.level.inProgress || player.coins < player.city.level.value * 100 ? ' btn-secondary' : ' btn-info')} 
+                        className={'btn btn-lg' + (player.city.level.inProgress || player.coins < player.city.level.cost ? ' btn-secondary' : ' btn-info')} 
                         onClick={this.upgrade}>
                         <h5>Upgrade</h5>
-                        <div>Cost: {player.city.level.value * player.city.level.cost} <span className="fa fa-coins" /></div>
+                        <div>Cost: {player.city.level.cost} <span className="fa fa-coins" /></div>
                         <div><small>Time: {Math.floor(player.city.level.timeRemaining / 1000)} seconds</small></div>
                     </button>
                 </div>
@@ -53,11 +53,11 @@ export class City extends React.Component<IProps, {}> {
     }
 
     private work = (event: React.MouseEvent<HTMLButtonElement>) => {
-        this.props.cs.emit('city-work', {});
+        this.props.socketService.emit('city-work', {});
     }
 
     private upgrade = (event: React.MouseEvent<HTMLButtonElement>) => {
-        this.props.cs.emit('city-upgrade', {});
+        this.props.socketService.emit('city-upgrade', {});
     }
 
 }
