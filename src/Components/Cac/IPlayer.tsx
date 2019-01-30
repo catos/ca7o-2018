@@ -17,18 +17,13 @@ export interface ICity {
     level: IProperty;
     work: IProperty;
     bonuses: ICityBonuses;
+    workers: IProperty;
 }
 
 export interface IArmy {
     level: IProperty;
     soldiers: IProperty;
     strengthBonus: number;
-}
-
-export interface ICitizens {
-    level: number;
-    efficiency: number;
-    workers: IProperty;
 }
 
 export interface IPlayer {
@@ -40,13 +35,4 @@ export interface IPlayer {
     isComputer: boolean;
     city: ICity;
     army: IArmy;
-    citizens: ICitizens;
-}
-
-export interface IGameState {
-    timer: number;
-    ticks: number;
-    phase: string;
-    gameOver: boolean;
-    players: IPlayer[];
 }

@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { IPlayer, IGameState } from './Models';
+
+import { IPlayer } from './IPlayer';
+import { IGameState } from './IGameState';
 import { SocketClientService } from './SocketClientService';
 
 interface IProps {

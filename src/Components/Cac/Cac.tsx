@@ -1,11 +1,12 @@
 import * as React from 'react';
 
-import { AppConfig } from '../../AppConfig';
 import './Cac.css';
+import { AppConfig } from '../../AppConfig';
 import { SocketClientService, ISocketEvent } from './SocketClientService';
+import { IGameState } from './IGameState';
 import { CacEvents } from './CacEvents';
+
 import { Lobby } from './Lobby';
-import { IGameState } from './Models';
 import { PlayerMe } from './PlayerMe';
 import { CacDeveloperTools } from './CacDeveloperTools';
 
@@ -48,7 +49,7 @@ export class Cac extends React.Component<{}, IState> {
                         <div key={idx} className={'p-3 card text-center border' + (player.isDead ? ' border-danger text-danger' : '')}>
                             <h3>{player.name} {player.isDead ? <span className="fa fa-skull" /> : ''} {player.isComputer ? '[AI]' : ''}</h3>
                             <div className="text-center">{player.socketId}</div>
-                            <h4>{player.army.soldiers} <span className="fa fa-chess-knight" /> - {player.citizens.workers} <span className="fa fa-chess-pawn" /> - {player.coins} <span className="fa fa-coins" /></h4>
+                            <h4>{player.army.soldiers} <span className="fa fa-chess-knight" /> - {player.city.workers} <span className="fa fa-chess-pawn" /> - {player.coins} <span className="fa fa-coins" /></h4>
                             <small>@{player.cpt} <span className="fa fa-coins" />/s</small>
                             <div className="card-text mt-3">
                                 <h5>Attack</h5>
@@ -96,13 +97,12 @@ export class Cac extends React.Component<{}, IState> {
     }
 
     private updateGameState = (event: ISocketEvent) => {
-        console.log(`updateGameState:`, event);
+        // console.log(`updateGameState:`, event);
         const gs = event.value as IGameState;
         this.setState({ gs });
     }
 
     private stopGame = (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log('stop game pls!');
         this.state.socketService.emit('stop-game', {});
     }
 }
