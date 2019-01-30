@@ -22,16 +22,15 @@ export class PlayerMe extends React.Component<IProps, {}> {
     public render() {
         const { player } = this.props;
         return (
-            <div id="player" className="mb-3 p-3">
-                <h1 className="text-center">{player.name}</h1>
-                <div className="text-center lead">
-                    Treasury: {player.coins} <span className="fa fa-coins" /> @{player.cpt} <span className="fa fa-coins" />/s
+            <div className="player">
+                <h1 className="name">{player.name}</h1>
+                <div>
+                    <span className="coins">Treasury: {player.coins} <span className="fa fa-coins" /></span>
+                    <span className="cps">@{player.cpt} <span className="fa fa-coins" />/s</span>
                 </div>
-                <div className="container">
-                    <City player={player} gs={this.props.gs} socketService={this.props.socketService} />
-                    <Army player={player} gs={this.props.gs} socketService={this.props.socketService} />
-                </div>
-            </div>
+                <City player={player} gs={this.props.gs} socketService={this.props.socketService} />
+                <Army player={player} gs={this.props.gs} socketService={this.props.socketService} />
+            </div >
         );
     }
 }

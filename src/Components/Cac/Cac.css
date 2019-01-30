@@ -29,64 +29,37 @@
     min-width: 10rem;
 }
 
+#cac .player .btn {
+    position: relative;
+    min-width: 10rem;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+    box-shadow: 2px 2px 3px 0px #cccccc;
+}
+#cac .player .btn .content {
+    z-index: 1;
+}
+#cac .player .btn .progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: #373a3c;
+    height: 100%;
+    content: "asDF2"
+}
+#cac .player .btn .label {
+    font-size: 1.25rem;
+}
+#cac .player .btn .cost,
+#cac .player .btn .time {
+    font-size: 0.9rem;
+}
+
 #cac .btn-group {
     display: block;
-}
-
-/* #cac .btn {
-    width: 4rem;
-}
-
-#cac .btn.btn-lg {
-    width: 12rem;
-} */
-
-#cac .lobby {
-    display: flex;
-    justify-content: center;
-    background-color: #ffffff;
-}
-
-#cac #player {
-    background-color: #ffffff;
-}
-
-#cac #player .header {
-    display: flex;
-}
-
-#cac #player .container {
-    display: flex;
-}
-
-#cac #player .container>div {
-    width: 100%;
-}
-
-#cac #player .player-city {
-    text-align: center;
-}
-
-#cac #player .player-army {
-    text-align: center;
-}
-
-#cac #player .player-citizens {
-    text-align: center;
-}
-
-#cac #player .production-container {
-    display: flex;
-}
-
-#cac #player .production-slot {
-    background-color: #999;
-    width: 3rem;
-    height: 3rem;
-}
-
-#cac #player .production-slot.disabled {
-    background-color: #333;
 }
 
 #cac .events {
@@ -97,3 +70,64 @@
     padding: 1rem;
     color: #000000;
 }
+
+#cac .lobby {
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff;
+}
+
+#cac .player {
+    background-color: #ffffff;
+}
+
+#cac .player .treasury {
+    font-size: 1.25em;
+}
+
+#cac .player .treasury .coins {
+    color: #ff7518;
+}
+
+#cac .player .treasury .cps {
+    color: #3fb618;
+}
+
+#cac .player .city {
+    display: grid;
+    grid-template-columns: 10rem 10rem 100%;
+    /* grid-template-rows: 20rem; */
+    grid-template-areas: "info bonuses interaction";
+}
+
+#cac .player .city .info {
+    grid-area: info;
+}
+
+#cac .player .city .bonuses {
+    grid-area: bonuses;
+}
+
+#cac .player .city .interaction {
+    grid-area: interaction;
+}
+
+#cac .player .army {
+    display: grid;
+    grid-template-columns: 10rem 10rem 100%;
+    /* grid-template-rows: 20rem; */
+    grid-template-areas: "info bonuses interaction";
+}
+
+#cac .player .army .info {
+    grid-area: info;
+}
+
+#cac .player .army .bonuses {
+    grid-area: bonuses;
+}
+
+#cac .player .army .interaction {
+    grid-area: interaction;
+}
+
