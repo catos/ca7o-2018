@@ -28,7 +28,7 @@ export class PlayerMe extends React.Component<IProps, {}> {
                 <div className="container">
                     <City player={player} gs={this.props.gs} socketService={this.props.socketService} />
                     <Army player={player} gs={this.props.gs} socketService={this.props.socketService} />
-                    <Citizens player={player} />
+                    <Citizens player={player} gs={this.props.gs} socketService={this.props.socketService} />
                 </div>
             </div>
         );

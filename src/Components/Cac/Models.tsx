@@ -22,13 +22,13 @@ export interface ICity {
 export interface IArmy {
     level: IProperty;
     soldiers: IProperty;
-    strength: number;
+    strengthBonus: number;
 }
 
 export interface ICitizens {
     level: number;
     efficiency: number;
-    workers: number;
+    workers: IProperty;
 }
 
 export interface IPlayer {

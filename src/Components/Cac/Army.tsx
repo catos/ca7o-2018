@@ -36,7 +36,7 @@ export class Army extends React.Component<IProps, IState> {
                 <div>Soldiers: {player.army.soldiers.value} <span className="fa fa-chess-knight" /></div>
                 <div><hr /></div>
                 <div><strong>Bonuses</strong></div>
-                <div>Strength: +0%</div>
+                <div>Strength: +{player.army.strengthBonus}%</div>
                 <div>&nbsp;</div>
                 <div>&nbsp;</div>
                 <div><hr /></div>
@@ -44,7 +44,6 @@ export class Army extends React.Component<IProps, IState> {
                 <div className="mb-3">
                     Cost: {player.army.soldiers.cost} <span className="fa fa-coins" /> per <span className="fa fa-chess-knight" />
                 </div>
-
                 <button className={this.canCraftCss(player.army.soldiers.inProgress)} onClick={this.recruit}>
                     Recruit
                     <div><small>Time: {Math.floor(player.army.soldiers.timeRemaining / 1000)} seconds</small></div>

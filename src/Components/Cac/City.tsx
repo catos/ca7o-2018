@@ -31,7 +31,7 @@ export class City extends React.Component<IProps, {}> {
                 <div><hr /></div>
                 <h5>Work the fields</h5>
                 <div className="mb-3">
-                    Rewards: {Math.floor(player.citizens.workers * (player.city.bonuses.work / 100 + 1))} <span className="fa fa-coins" />
+                    Rewards: {Math.floor(player.citizens.workers.value * (player.city.bonuses.work / 100 + 1))} <span className="fa fa-coins" />
                 </div>
                 <div>
                     <button className={'btn btn-lg' + (player.city.work.inProgress ? ' btn-secondary' : ' btn-primary')} onClick={this.work}>

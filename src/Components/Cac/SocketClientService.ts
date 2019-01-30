@@ -44,9 +44,9 @@ export class SocketClientService {
         this.socket.emit('event', event);
     }
 
-    public emit = (type: string = 'message', value: any, socketId: string = 'n/a') => {
+    public emit = (type: string = 'message', value: any) => {
         const event: ISocketEvent = {
-            socketId,
+            socketId: this.socket.id,
             timestamp: Date.now(),
             type,
             value
