@@ -15,14 +15,16 @@ export class CacButton extends React.Component<IProps, {}> {
     public render() {
         const { item } = this.props;
         const className =
-            'btn btn-lg' + (!item.inProgress ? ' btn-primary' : ' btn-secondary');
+            'cac-btn btn btn-lg' + (!item.inProgress ? ' btn-primary' : ' btn-secondary');
 
         return (
             <button className={className} onClick={this.onClick}>
-                <div className="label">{this.props.label}</div>
-                <div className="cost">{item.cost} <span className="fa fa-coins" /></div>
-                <div className="time">{Math.floor(item.timeRemaining / 1000)}</div>
-                <span className="progress-bar" style={{ width: Math.floor(item.timeRemaining / item.timeToUpgrade * 100) + '%' }} />
+                <div className="cac-btn-content">
+                    <div className="label">{this.props.label}</div>
+                    <div className="cost">{item.cost} <span className="fa fa-coins" /></div>
+                    <div className="time">{Math.floor(item.timeRemaining / 1000)}</div>
+                </div>
+                <span className="cac-btn-progress-bar" style={{ width: Math.floor(item.timeRemaining / item.timeToUpgrade * 100) + '%' }} />
             </button>
         );
     }
