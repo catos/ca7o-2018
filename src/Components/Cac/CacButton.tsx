@@ -21,7 +21,7 @@ export class CacButton extends React.Component<IProps, {}> {
             <button className={className} onClick={this.onClick}>
                 <div className="label">{this.props.label}</div>
                 <div className="cost">{item.cost} <span className="fa fa-coins" /></div>
-                <div className="time">{Math.floor(item.timeRemaining / 1000)} seconds</div>
+                <div className="time">{Math.floor(item.timeRemaining / 1000)}</div>
                 <span className="progress-bar" style={{ width: Math.floor(item.timeRemaining / item.timeToUpgrade * 100) + '%' }} />
             </button>
         );

@@ -44,18 +44,25 @@
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
     z-index: 1;
-    background-color: #373a3c;
-    height: 100%;
-    content: "asDF2"
+    height: 0.25rem;
+    background-color: #ffffff66;
 }
 #cac .player .btn .label {
     font-size: 1.25rem;
 }
-#cac .player .btn .cost,
-#cac .player .btn .time {
+#cac .player .btn .cost {
     font-size: 0.9rem;
+}
+#cac .player .btn .time {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #ff7518;
+    width: 2rem;
+    border-radius: 2rem;
+    height: 2rem;
+    line-height: 1.9rem;
 }
 
 #cac .btn-group {
@@ -79,6 +86,7 @@
 
 #cac .player {
     background-color: #ffffff;
+    padding: 2rem;
 }
 
 #cac .player .treasury {
@@ -96,8 +104,8 @@
 #cac .player .city {
     display: grid;
     grid-template-columns: 10rem 10rem 100%;
-    /* grid-template-rows: 20rem; */
     grid-template-areas: "info bonuses interaction";
+    margin-top: 2rem;
 }
 
 #cac .player .city .info {
@@ -115,8 +123,8 @@
 #cac .player .army {
     display: grid;
     grid-template-columns: 10rem 10rem 100%;
-    /* grid-template-rows: 20rem; */
     grid-template-areas: "info bonuses interaction";
+    margin-top: 2rem;
 }
 
 #cac .player .army .info {

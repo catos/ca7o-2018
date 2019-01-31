@@ -12,9 +12,14 @@ export interface ISocketEventHandler {
     handle: (event: ISocketEvent) => void;
 }
 
+export interface ISocketPongHandler {
+    handle: (ms: number) => void;
+}
+
 export class SocketClientService {
     public socket: SocketIOClient.Socket;
     public eventHandlers: ISocketEventHandler[] = [];
+    public pongHandlers: ISocketPongHandler[] = [];
 
     constructor(uri: string) {
 
@@ -37,7 +42,7 @@ export class SocketClientService {
         this.socket.on('connect_error', (error: any) => console.log(`### error, socketId: ${this.socket.id}, error: ${JSON.stringify(error)}`));
 
         this.socket.on('ping', () => console.log(`### Ping`));
-        this.socket.on('pong', (ms: number) => console.log(`### Pong, latency: ${ms}`));
+        this.socket.on('pong', (ms: number) => this.pongHandlers.forEach(h => h.handle(ms)));
     }
 
     public emitEvent = (event: ISocketEvent) => {

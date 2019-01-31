@@ -3,6 +3,7 @@ import * as React from 'react';
 import { IPlayer } from './IPlayer';
 import { IGameState } from './IGameState';
 import { SocketClientService } from './SocketClientService';
+import { CacButton } from './CacButton';
 
 interface IProps {
     player: IPlayer;
@@ -45,33 +46,19 @@ export class Army extends React.Component<IProps, IState> {
                 </div>
 
                 <div className="interactions">
-                    <button className={this.canCraftCss(player.army.soldiers.inProgress)} onClick={this.recruit}>
-                        <div className="label">Train soldiers</div>
-                        <div className="cost">Cost: {player.army.soldiers.cost} <span className="fa fa-coins" /> per <span className="fa fa-chess-knight" /></div>
-                        <div className="time">Time: {Math.floor(player.army.soldiers.timeRemaining / 1000)} seconds</div>
-                    </button>
-                    <button className={this.canCraftCss(player.army.level.inProgress)} onClick={this.upgrade}>
-                        <div className="label">Upgrade</div>
-                        <div className="cost">Cost: {player.army.level.value * player.army.level.cost} <span className="fa fa-coins" /></div>
-                        <div className="time">Time: {Math.floor(player.army.level.timeRemaining / 1000)} seconds</div>
-                    </button>
+                    <CacButton label="Train soldier" item={player.army.soldiers} onClick={this.recruit} />
+                    <CacButton label="Upgrade" item={player.army.level} onClick={this.upgrade} />
                 </div>
 
             </div>
         );
     }
 
-    private canCraftCss = (inProgress: boolean, color: string = 'btn-primary') => {
-        return inProgress
-            ? 'btn btn-lg btn-secondary'
-            : `btn btn-lg ${color}`;
-    }
-
-    private recruit = (event: React.MouseEvent<HTMLButtonElement>) => {
+    private recruit = () => {
         this.props.socketService.emit('army-recruit', {});
     }
 
-    private upgrade = (event: React.MouseEvent<HTMLButtonElement>) => {
+    private upgrade = () => {
         this.props.socketService.emit('army-upgrade', {});
     }
 

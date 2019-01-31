@@ -49,7 +49,7 @@ export class Cac extends React.Component<{}, IState> {
                         <div key={idx} className={'p-3 card text-center border' + (player.isDead ? ' border-danger text-danger' : '')}>
                             <h3>{player.name} {player.isDead ? <span className="fa fa-skull" /> : ''} {player.isComputer ? '[AI]' : ''}</h3>
                             <div className="text-center">{player.socketId}</div>
-                            <h4>{player.army.soldiers} <span className="fa fa-chess-knight" /> - {player.city.workers} <span className="fa fa-chess-pawn" /> - {player.coins} <span className="fa fa-coins" /></h4>
+                            <h4>{player.army.soldiers.value} <span className="fa fa-chess-knight" /> - {player.city.workers.value} <span className="fa fa-chess-pawn" /> - {player.coins} <span className="fa fa-coins" /></h4>
                             <small>@{player.cpt} <span className="fa fa-coins" />/s</small>
                             <div className="card-text mt-3">
                                 <h5>Attack</h5>
@@ -70,7 +70,7 @@ export class Cac extends React.Component<{}, IState> {
         const mainWindow = {
             lobby: <Lobby gs={gs} socketService={socketService} />,
             running: <div className="bar">
-                <button className="btn btn-danger mr-1" onClick={this.stopGame}>Stop Game</button>
+                <button className="btn btn-warning mr-1" onClick={this.stopGame}>Stop Game</button>
                 <div>Timer: {gs.timer}</div>
                 <div>Ticks: {gs.ticks}</div>
                 <div>Phase: {gs.phase}</div>
@@ -80,9 +80,6 @@ export class Cac extends React.Component<{}, IState> {
 
         return (
             <div id="cac" className="bg-light">
-
-                <CacDeveloperTools socketService={socketService} />
-
                 {opponentsRender}
 
                 {mainWindow[gs.phase]}
@@ -92,6 +89,7 @@ export class Cac extends React.Component<{}, IState> {
                     : ''}
 
                 <CacEvents socketService={socketService} />
+                <CacDeveloperTools socketService={socketService} gs={gs} />
             </div>
         );
     }

@@ -13,17 +13,30 @@ interface IProps {
     socketService: SocketClientService;
 }
 
-export class PlayerMe extends React.Component<IProps, {}> {
+interface IState {
+    latency: number;
+}
+
+export class PlayerMe extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
+
+        this.state = {
+            latency: 0
+        };
     }
 
+    public componentDidMount() {
+        // Watch events
+        this.props.socketService.pongHandlers.push({ handle: this.onPong });
+    }
 
     public render() {
         const { player } = this.props;
         return (
             <div className="player">
-                <h1 className="name">{player.name}</h1>
+                <h1 className="name">{player.name} <small>({this.state.latency} ms)</small></h1>
+                <div><small>{player.socketId}</small></div>
                 <div>
                     <span className="coins">Treasury: {player.coins} <span className="fa fa-coins" /></span>
                     <span className="cps">@{player.cpt} <span className="fa fa-coins" />/s</span>
@@ -32,5 +45,9 @@ export class PlayerMe extends React.Component<IProps, {}> {
                 <Army player={player} gs={this.props.gs} socketService={this.props.socketService} />
             </div >
         );
+    }
+
+    private onPong = (ms: number) => {
+        this.setState({ latency: ms });
     }
 }
