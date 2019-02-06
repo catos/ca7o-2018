@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SocketClientService, ISocketEvent } from './SocketClientService';
+import { SocketClientService, ISocketEvent } from '../../Common/SocketClientService';
 
 interface IProps {
     socketService: SocketClientService;

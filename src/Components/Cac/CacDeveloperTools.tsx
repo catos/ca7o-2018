@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { IGameState } from "./IGameState";
-import { SocketClientService } from "./SocketClientService";
+import { SocketClientService } from "../../Common/SocketClientService";
 
 interface IProps {
     socketService: SocketClientService;

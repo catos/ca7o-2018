@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import './Cac.css';
 import { AppConfig } from '../../AppConfig';
-import { SocketClientService, ISocketEvent } from './SocketClientService';
+import { SocketClientService, ISocketEvent } from '../../Common/SocketClientService';
 import { IGameState } from './IGameState';
 import { CacEvents } from './CacEvents';
 

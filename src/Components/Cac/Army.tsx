@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { IPlayer } from './IPlayer';
 import { IGameState } from './IGameState';
-import { SocketClientService } from './SocketClientService';
+import { SocketClientService } from '../../Common/SocketClientService';
 import { CacButton } from './CacButton';
 
 interface IProps {

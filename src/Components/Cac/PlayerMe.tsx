@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { SocketClientService } from './SocketClientService';
+import { SocketClientService } from '../../Common/SocketClientService';
 
 import { IPlayer } from './IPlayer';
 import { IGameState } from './IGameState';
