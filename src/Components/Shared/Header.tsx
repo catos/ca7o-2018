@@ -87,6 +87,9 @@ export class Header extends React.Component<{}, IState> {
                         <li>
                             <NavLink to={'/cac'} activeClassName="active">CAC</NavLink>
                         </li>
+                        <li>
+                            <NavLink to={'/mbg'} activeClassName="active">MBG</NavLink>
+                        </li>
                     </ul>
 
                     {loginLogout}

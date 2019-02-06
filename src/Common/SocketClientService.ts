@@ -8,7 +8,7 @@ export interface ISocketEvent {
 }
 
 export interface ISocketEventHandler {
-    eventType: string;
+    type: string;
     handle: (event: ISocketEvent) => void;
 }
 
@@ -32,7 +32,7 @@ export class SocketClientService {
 
         this.socket.on('event', (event: ISocketEvent) => {
             this.eventHandlers.forEach(h => {
-                if (h.eventType === '*' || h.eventType === event.type) {
+                if (h.type === '*' || h.type === event.type) {
                     h.handle(event);
                 }
             });
@@ -49,7 +49,7 @@ export class SocketClientService {
         this.socket.emit('event', event);
     }
 
-    public emit = (type: string = 'message', value: any) => {
+    public emit = (type: string = 'message', value: any = {}) => {
         const event: ISocketEvent = {
             socketId: this.socket.id,
             timestamp: Date.now(),

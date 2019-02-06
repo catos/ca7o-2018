@@ -34,7 +34,7 @@ export class Cac extends React.Component<{}, IState> {
 
     public componentDidMount() {
         this.state.socketService.eventHandlers
-            .push({ eventType: 'update-game-state', handle: this.updateGameState });
+            .push({ type: 'update-game-state', handle: this.updateGameState });
     }
 
     public render() {

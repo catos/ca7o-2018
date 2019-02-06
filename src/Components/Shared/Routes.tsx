@@ -18,6 +18,7 @@ import { WordsList } from '../Admin/Wesketch/WordsList';
 import { Wesketch } from '../Wesketch/Wesketch';
 import { Mdk } from '../Mdk/Mdk';
 import { Cac } from '../Cac/Cac';
+import { MbgLobby } from '../Mbg/MbgLobby';
 
 import { NotFound } from './NotFound';
 import { auth } from '../../Common/AuthService';
@@ -32,6 +33,7 @@ export class Routes extends React.Component {
                 <Route path='/register' component={Register} />
 
                 <Route path='/cac' component={Cac} />
+                <Route path='/mbg' component={MbgLobby} />
 
                 {/* Protected */}
                 <ProtectedRoute isAuthorized={auth.isAuthenticated()} path='/mdk' component={Mdk} />

@@ -21,7 +21,7 @@ export class CacEvents extends React.Component<IProps, IState> {
 
     public componentDidMount() {
         // Watch events
-        this.props.socketService.eventHandlers.push({ eventType: '*', handle: this.onEvent });
+        this.props.socketService.eventHandlers.push({ type: '*', handle: this.onEvent });
     }
 
     public render() {
