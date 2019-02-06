@@ -11,17 +11,17 @@ import { PlayerMe } from './PlayerMe';
 import { CacDeveloperTools } from './CacDeveloperTools';
 
 interface IState {
-    socketService: SocketClientService;
     gs: IGameState;
 }
 
 export class Cac extends React.Component<{}, IState> {
+    protected socketService: SocketClientService;
 
     constructor(props: any) {
         super(props);
 
+        this.socketService = new SocketClientService(`${AppConfig.serverUrl}/cac`),
         this.state = {
-            socketService: new SocketClientService(`${AppConfig.serverUrl}/cac`),
             gs: {
                 timer: 0,
                 ticks: 0,
@@ -33,14 +33,18 @@ export class Cac extends React.Component<{}, IState> {
     }
 
     public componentDidMount() {
-        this.state.socketService.eventHandlers
+        this.socketService.eventHandlers
             .push({ type: 'update-game-state', handle: this.updateGameState });
     }
 
-    public render() {
-        const { gs, socketService } = this.state;
+    public componentWillUnmount() {
+        this.socketService.disconnect();
+    }
 
-        const opponents = gs.players.filter(p => p.socketId !== this.state.socketService.socket.id);
+    public render() {
+        const { gs } = this.state;
+
+        const opponents = gs.players.filter(p => p.socketId !== this.socketService.socket.id);
         const opponentsRender = opponents.length
             ? <div className="p-3">
                 <h4>Opponents</h4>
@@ -65,10 +69,10 @@ export class Cac extends React.Component<{}, IState> {
             </div>
             : '';
 
-        const me = gs.players.find(p => p.socketId === this.state.socketService.socket.id);
+        const me = gs.players.find(p => p.socketId === this.socketService.socket.id);
 
         const mainWindow = {
-            lobby: <Lobby gs={gs} socketService={socketService} />,
+            lobby: <Lobby gs={gs} socketService={this.socketService} />,
             running: <div className="bar">
                 <button className="btn btn-warning mr-1" onClick={this.stopGame}>Stop Game</button>
                 <div>Timer: {gs.timer}</div>
@@ -85,11 +89,11 @@ export class Cac extends React.Component<{}, IState> {
                 {mainWindow[gs.phase]}
 
                 {me !== undefined
-                    ? <PlayerMe player={me} gs={gs} socketService={socketService} />
+                    ? <PlayerMe player={me} gs={gs} socketService={this.socketService} />
                     : ''}
 
-                <CacEvents socketService={socketService} />
-                <CacDeveloperTools socketService={socketService} gs={gs} />
+                <CacEvents socketService={this.socketService} />
+                <CacDeveloperTools socketService={this.socketService} gs={gs} />
             </div>
         );
     }
@@ -101,6 +105,6 @@ export class Cac extends React.Component<{}, IState> {
     }
 
     private stopGame = (event: React.MouseEvent<HTMLButtonElement>) => {
-        this.state.socketService.emit('stop-game', {});
+        this.socketService.emit('stop-game', {});
     }
 }

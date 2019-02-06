@@ -4,29 +4,46 @@ import { AppConfig } from "src/AppConfig";
 import { SocketClientService, ISocketEvent } from "src/Common/SocketClientService";
 
 interface IState {
-    socketService: SocketClientService;
+    clients: string[],
     rooms: string[]
 }
 
 export class MbgLobby extends React.Component<{}, IState> {
+    private socketService: SocketClientService;
+
     constructor(props: any) {
         super(props);
 
+        this.socketService = new SocketClientService(`${AppConfig.serverUrl}/mbg`),
+
         this.state = {
-            socketService: new SocketClientService(`${AppConfig.serverUrl}/mbg`),
+            clients: [],
             rooms: []
         }
     }
 
     public componentDidMount() {
-        this.state.socketService.eventHandlers.push({ type: 'get-rooms', handle: this.onGetRooms })
-        this.state.socketService.emit('get-rooms');
+        this.socketService.eventHandlers.push({ type: 'get-clients', handle: this.onGetClients })
+        this.socketService.eventHandlers.push({ type: 'get-rooms', handle: this.onGetRooms })
+        this.socketService.emit('get-rooms');
+    }
+
+    public componentWillUnmount() {
+        this.socketService.disconnect();
     }
 
     public render = () => {
         return (
             <div>
                 <h1>MbgLobby!</h1>
+
+                <h2>Clients</h2>
+                <ul>
+                    {this.state.clients.map((client, idx) =>
+                        <li key={idx}>{client}</li>
+                    )}
+                </ul>
+                <h2>Rooms</h2>
                 <ul>
                     {this.state.rooms.map((room, idx) =>
                         <li key={idx}>{room}</li>
@@ -36,8 +53,11 @@ export class MbgLobby extends React.Component<{}, IState> {
         );
     }
 
+    private onGetClients = (event: ISocketEvent) => {
+        this.setState({ clients: event.value });
+    }
+
     private onGetRooms = (event: ISocketEvent) => {
-        console.log('onGetRooms', event);
         this.setState({ rooms: event.value });
     }
 }

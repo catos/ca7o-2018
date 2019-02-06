@@ -58,4 +58,8 @@ export class SocketClientService {
         };
         this.emitEvent(event);
     }
+
+    public disconnect = () => {
+        this.socket.close();
+    }
 }
