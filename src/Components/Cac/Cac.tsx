@@ -11,6 +11,8 @@ import { PlayerMe } from './PlayerMe';
 import { CacDeveloperTools } from './CacDeveloperTools';
 
 interface IState {
+    name: string;
+    joined: boolean;
     gs: IGameState;
 }
 
@@ -21,15 +23,17 @@ export class Cac extends React.Component<{}, IState> {
         super(props);
 
         this.socketService = new SocketClientService(`${AppConfig.serverUrl}/cac`),
-        this.state = {
-            gs: {
-                timer: 0,
-                ticks: 0,
-                phase: '',
-                gameOver: false,
-                players: []
-            }
-        };
+            this.state = {
+                name: '',
+                joined: false,
+                gs: {
+                    timer: 0,
+                    ticks: 0,
+                    phase: '',
+                    gameOver: false,
+                    players: []
+                }
+            };
     }
 
     public componentDidMount() {
@@ -43,6 +47,18 @@ export class Cac extends React.Component<{}, IState> {
 
     public render() {
         const { gs } = this.state;
+
+
+        if (!this.state.joined) {
+            return (
+                <div className="lobby">
+                    <input type="text" value={this.state.name} onChange={this.onChange} placeholder="Enter your name" />
+                    <div>
+                        <button className="btn btn-primary mr-1" onClick={this.joinGame}>Join</button>
+                    </div>
+                </div>
+            );
+        }
 
         const opponents = gs.players.filter(p => p.socketId !== this.socketService.socket.id);
         const opponentsRender = opponents.length
@@ -72,14 +88,18 @@ export class Cac extends React.Component<{}, IState> {
         const me = gs.players.find(p => p.socketId === this.socketService.socket.id);
 
         const mainWindow = {
-            lobby: <Lobby gs={gs} socketService={this.socketService} />,
-            running: <div className="bar">
+            lobby: <Lobby socketService={this.socketService} />,
+            running: <div className="bar p-3">
+                <h4>Running</h4>
                 <button className="btn btn-warning mr-1" onClick={this.stopGame}>Stop Game</button>
                 <div>Timer: {gs.timer}</div>
                 <div>Ticks: {gs.ticks}</div>
                 <div>Phase: {gs.phase}</div>
             </div>,
-            over: <div>Game Over</div>
+            over: <div className="p-3">
+                <h4>Game Over</h4>
+                <div>...</div>
+            </div>
         };
 
         return (
@@ -92,10 +112,24 @@ export class Cac extends React.Component<{}, IState> {
                     ? <PlayerMe player={me} gs={gs} socketService={this.socketService} />
                     : ''}
 
+                <hr />
+
+                <div>My socket id: {this.socketService.socket.id}</div>
                 <CacEvents socketService={this.socketService} />
                 <CacDeveloperTools socketService={this.socketService} gs={gs} />
             </div>
         );
+    }
+
+    private onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({ name: event.target.value });
+    }
+
+    private joinGame = (event: React.MouseEvent<HTMLButtonElement>) => {
+        console.log('join game pls!');
+        // TODO: this.props.socketService.setClientName(this.state.myName);
+        this.socketService.emit('join-game', this.state.name);
+        this.setState({ joined: true });
     }
 
     private updateGameState = (event: ISocketEvent) => {

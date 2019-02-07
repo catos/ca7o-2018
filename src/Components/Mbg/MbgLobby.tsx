@@ -10,6 +10,7 @@ interface IMbgPlayer {
 
 interface IState {
     name: string,
+    joined: boolean;
     players: IMbgPlayer[],
     rooms: string[],
 }
@@ -24,6 +25,7 @@ export class MbgLobby extends React.Component<{}, IState> {
 
             this.state = {
                 name: '',
+                joined: false,
                 players: [],
                 rooms: []
             }
@@ -41,41 +43,57 @@ export class MbgLobby extends React.Component<{}, IState> {
     }
 
     public render = () => {
+        const stuff = this.state.joined
+            ? <div className="text-center">
+                <h2>Welcome {this.state.name}! Create a new room or join one below:</h2>
+                <h2>Rooms</h2>
+                <ul>
+                    {this.state.rooms.map((room, idx) =>
+                        <li key={idx} onClick={() => this.joinRoom(room)}>{room}</li>
+                    )}
+                </ul>
+            </div>
+            : <div className="text-center">
+                <div className="lead">What is your name ?</div>
+                <input className="form-control" type="text" placeholder="Enter your name" value={this.state.name} onChange={this.onNameChange} />
+                <button className="btn btn-primary" onClick={this.join}>Join</button>
+            </div>;
+
         return (
             <div>
                 <h1>MbgLobby!</h1>
 
-                <div>
-                    <div className="lead">What is your name ?</div>
-                    <input type="text" placeholder="Enter your name" value={this.state.name} onChange={this.onNameChange} />
-                    <button className="btn btn-primary" onClick={this.join}>Join</button>
-                </div>
+                {stuff}
 
-                <h2>Clients</h2>
+                <hr />
+
+                <h2>Players</h2>
                 <ul>
                     {this.state.players.map((player, idx) =>
                         <li key={idx}>{player.socketId} - {player.name}</li>
                     )}
                 </ul>
 
-                <h2>Rooms</h2>
-                <ul>
-                    {this.state.rooms.map((room, idx) =>
-                        <li key={idx}>{room}</li>
-                    )}
-                </ul>
             </div>
         );
     }
 
-    private onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {        
+    private onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({ name: event.target.value });
     }
 
     private join = () => {
-        this.state.name.length
-            ? this.socketService.emit('join', this.state.name)
-            : console.log('Please enter a valid name');
+        if (this.state.name.length < 3) {
+            console.log('Please enter a valid name');
+            return;
+        }
+
+        this.socketService.emit('join', this.state.name);
+        this.setState({ joined: true });
+    }
+
+    private joinRoom = (name: string) => {
+        this.socketService.emit('join-room', name);
     }
 
     private onGetPlayers = (event: ISocketEvent) => {
