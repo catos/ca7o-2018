@@ -18,7 +18,7 @@ export class City extends React.Component<IProps, {}> {
 
     public render() {
         const { player } = this.props;
-
+        const isMe = player.socketId === this.props.socketService.socket.id;
         return (
             <div className="city">
                 <div className="info">
@@ -36,9 +36,9 @@ export class City extends React.Component<IProps, {}> {
                 </div>
 
                 <div className="interactions">
-                    <CacButton label="Work" item={player.city.work} onClick={this.work} />
-                    <CacButton label="Hire Worker" item={player.city.workers} onClick={this.hireWorker} />
-                    <CacButton label="Upgrade City" item={player.city.level} onClick={this.upgradeCity} />
+                    <CacButton label="Work" isMe={isMe} item={player.city.work} onClick={this.work} />
+                    <CacButton label="Hire Worker" isMe={isMe} item={player.city.workers} onClick={this.hireWorker} />
+                    <CacButton label="Upgrade City" isMe={isMe} item={player.city.level} onClick={this.upgradeCity} />
                 </div>
             </div>);
     }

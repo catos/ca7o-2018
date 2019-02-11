@@ -26,7 +26,7 @@ export class CacEvents extends React.Component<IProps, IState> {
 
     public render() {
         return (
-            <div className="events">
+            <div className="events p-3">
                 <h3>Events ({this.state.events.length})</h3>
                 <table className="table table-sm">
                     <thead>

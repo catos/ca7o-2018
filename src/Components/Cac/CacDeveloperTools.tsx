@@ -15,7 +15,7 @@ export class CacDeveloperTools extends React.Component<IProps, {}> {
 
     public render() {
         return (
-            <div>
+            <div className="p-3">                
                 <button className="btn btn-info" onClick={this.getCoins}>100</button>
 
                 <table className="table table-sm">

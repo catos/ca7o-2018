@@ -31,6 +31,7 @@ export class Army extends React.Component<IProps, IState> {
 
     public render() {
         const { player } = this.props;
+        const isMe = player.socketId === this.props.socketService.socket.id;
 
         return (
             <div className="army">
@@ -46,8 +47,8 @@ export class Army extends React.Component<IProps, IState> {
                 </div>
 
                 <div className="interactions">
-                    <CacButton label="Train soldier" item={player.army.soldiers} onClick={this.recruit} />
-                    <CacButton label="Upgrade" item={player.army.level} onClick={this.upgrade} />
+                    <CacButton label="Train soldier" isMe={isMe} item={player.army.soldiers} onClick={this.recruit} />
+                    <CacButton label="Upgrade" isMe={isMe} item={player.army.level} onClick={this.upgrade} />
                 </div>
 
             </div>
