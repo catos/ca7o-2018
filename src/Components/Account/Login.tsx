@@ -47,8 +47,8 @@ export class Login extends React.Component<RouteComponentProps<{}>, IState> {
         }
 
         return (
-            <div className="m-4 row">
-                <div className="col-md-6 offset-md-3">
+            <div className="container m-4 row">
+                <div className="login col-md-6 offset-md-3">
                     <h2 className="mb-4">Login</h2>
 
                     <Form onSubmit={this.onSubmit}>

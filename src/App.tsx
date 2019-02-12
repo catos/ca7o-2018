@@ -1,4 +1,5 @@
 import './Styles/bootstrap.min.css';
+import './Styles/ThemeDefault.css';
 import './Styles/App.css';
 
 import * as React from 'react';

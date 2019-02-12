@@ -5,8 +5,9 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import { Logout } from '../Account/Logout';
 import { auth } from '../../Common/AuthService';
 
-import logo from '../../Images/logo.svg';
+// import logo from '../../Images/logo.svg';
 import userIcon from '../../Images/user-icon.png';
+import { Logo } from './Logo';
 
 interface IState {
     dropdownIsOpen: boolean;
@@ -50,11 +51,8 @@ export class Header extends React.Component<{}, IState> {
         const loginLogout = auth.isAuthenticated()
             ? <ul className="user-menu">
                 <li>
-                    <img src={userIcon} alt={auth.currentUser().name} />
-                </li>
-                <li>
                     <Dropdown isOpen={this.state.dropdownIsOpen} toggle={this.toggle}>
-                        <DropdownToggle tag="a" caret={true}>{auth.currentUser().name}</DropdownToggle>
+                        <DropdownToggle tag="a" caret={true}><img src={userIcon} alt={auth.currentUser().name} /> {auth.currentUser().name}</DropdownToggle>
                         <DropdownMenu>
                             {adminMenu}
                             <DropdownItem header={true}>Options</DropdownItem>
@@ -65,18 +63,19 @@ export class Header extends React.Component<{}, IState> {
             </ul>
             : <ul className="user-menu">
                 <li>
-                    <NavLink to={'/login'}>Login</NavLink>
+                    <NavLink to={'/login'} className="header-login">LOGIN</NavLink>
                 </li>
             </ul>;
 
         return (
             <header>
                 <nav>
-                    <NavLink to={'/'} exact={true} className="logo"><img width="49" src={logo} alt="Logo" /></NavLink>
+                    {/* <NavLink to={'/'} exact={true} className="logo"><img width="49" src={logo} alt="Logo" /></NavLink> */}
+                    <NavLink to={'/'} exact={true} className="logo"><Logo /></NavLink>
 
                     <ul className="main-menu">
                         <li>
-                            <NavLink to={'/'} activeClassName="active">Home</NavLink>
+                            <NavLink to={'/'} activeClassName="active">HOME</NavLink>
                         </li>
                         <li>
                             <NavLink to={'/mdk'} activeClassName="active">MDK</NavLink>

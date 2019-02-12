@@ -1,0 +1,14 @@
+:root {
+    --background: #d3dbe2;
+    --highlight: #D9B310;
+    
+    --background-header: #1D2731;
+    --background-header-light: #2E3841;
+    
+    --background-article: #ffffff;
+    
+    --background-footer: #1D2731;
+    --background-footer-light: #2E3841;
+
+    --background-disclaimer: #1D2731;
+}

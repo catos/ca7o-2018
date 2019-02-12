@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import logo from '../../Images/logo.svg';
 import socialIcons from '../../Images/social-icons.png';
+import { Logo } from './Logo';
 
 export const Footer: React.StatelessComponent = () => {
     return (
         <footer>
             <div className="footer-content">
-                <div className="logo"><img width="100" src={logo} alt="ca7o.com" /></div>
+                <div className="logo"><Logo /></div>
                 <div className="menu">
                     <ul>
                         <li>
-                            <NavLink to={'/'} activeClassName="active">Home</NavLink>
+                            <NavLink to={'/'} activeClassName="active">HOME</NavLink>
                         </li>
                         <li>
                             <NavLink to={'/mdk'} activeClassName="active">MDK</NavLink>
@@ -21,12 +21,15 @@ export const Footer: React.StatelessComponent = () => {
                             <NavLink to={'/wesketch'} activeClassName="active">Wesketch</NavLink>
                         </li>
                         <li>
-                            <NavLink to={'/ticker'} activeClassName="active">Ticker</NavLink>
+                            <NavLink to={'/cac'} activeClassName="active">CAC</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to={'/mbg'} activeClassName="active">MBG</NavLink>
                         </li>
                     </ul>
                 </div>
                 <div className="social">
-                    <img src={socialIcons} alt="Yeah right..."/>
+                    <img src={socialIcons} alt="Yeah right..." />
                 </div>
             </div>
         </footer>
