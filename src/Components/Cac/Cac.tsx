@@ -13,6 +13,7 @@ import { CacOpponents } from './CacOpponents';
 import { CacJoin } from './CacJoin';
 
 interface IState {
+    name: string;
     joined: boolean;
     gs: IGameState;
 }
@@ -22,23 +23,25 @@ export class Cac extends React.Component<{}, IState> {
 
     constructor(props: any) {
         super(props);
-        
-        this.socketService = new SocketClientService(`${AppConfig.serverUrl}/cac`),
-            this.state = {
-                joined: false,
-                gs: {
-                    timer: 0,
-                    ticks: 0,
-                    phase: '',
-                    gameOver: false,
-                    players: []
-                }
-            };
+
+        this.socketService = new SocketClientService(`${AppConfig.serverUrl}/cac`);
+
+        this.state = {
+            name: '',
+            joined: false,
+            gs: {
+                timer: 0,
+                ticks: 0,
+                phase: '',
+                gameOver: false,
+                players: []
+            }
+        };
     }
 
     public componentDidMount() {
-        this.socketService.eventHandlers
-            .push({ type: 'update-game-state', handle: this.updateGameState });
+        this.socketService.eventHandlers.push({ type: 'update-game-state', handle: this.updateGameState });
+        this.joinGame();
     }
 
     public componentWillUnmount() {
@@ -50,7 +53,7 @@ export class Cac extends React.Component<{}, IState> {
 
 
         if (!this.state.joined) {
-            return <CacJoin onJoined={this.onJoined} socketService={this.socketService} />;
+            return <CacJoin joinGame={this.joinGame} socketService={this.socketService} />;
         }
 
         const me = gs.players.find(p => p.socketId === this.socketService.socket.id);
@@ -89,8 +92,18 @@ export class Cac extends React.Component<{}, IState> {
         );
     }
 
-    private onJoined = () => {
-        this.setState({ joined: true });
+    private joinGame = () => {
+        const name: string = localStorage.getItem('cac-name') || '';
+        const joined: boolean = localStorage.getItem('cac-joined') === 'true' || false;
+        this.setState({
+            name,
+            joined
+        }, () => {
+            if (this.state.name.length > 2 && this.state.joined) {
+                console.log(`joinGame: name = ${this.state.name}, joined = ${this.state.joined}`);
+                this.socketService.emit('join-game', this.state.name);
+            }
+        });
     }
 
     private updateGameState = (event: ISocketEvent) => {
@@ -105,6 +118,6 @@ export class Cac extends React.Component<{}, IState> {
 
     private endGame = (event: React.MouseEvent<HTMLButtonElement>) => {
         // this.socketService.emit('end-game', {});
-        console.log('TODO: End game');        
+        console.log('TODO: End game');
     }
 }
