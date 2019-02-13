@@ -5,7 +5,9 @@
 /*** HEADER ***************************/
 
 #mdk .header {
+    position: relative;
     text-align: center;
+    margin-bottom: 1rem;
 }
 
 #mdk .header .title {
@@ -13,8 +15,13 @@
 }
 
 #mdk .header-options {
-    text-align: center;
-    margin-bottom: 2rem;
+    position: absolute;
+    top: .75rem;
+    right: 1rem;
+}
+
+#mdk .header-options a {
+    color: #333;
 }
 
 /*** WEEK MENU ***************************/
@@ -40,8 +47,12 @@
     border: none;
 }
 
+#mdk .week-menu-item:hover {
+    background-color: #f1f1f1;
+}
+
 #mdk .week-menu-item.drag-over, #mdk .week-menu-item.selected {
-    background-color: #e2e2e2;
+    background-color: #e6e6e6;
     transition-duration: 0.25s;
 }
 
@@ -86,11 +97,12 @@
 
 #mdk .shopping-list .list {
     display: flex;
+    flex-wrap: wrap;
 }
 
 #mdk .shopping-list .list .list-group {
-    margin: 0.25rem;
-    min-width: 8rem;
+    margin: 0 1rem 1rem 0;
+    width: 10rem;
 }
 
 #mdk .shopping-list .list .list-group h1 {
@@ -104,9 +116,9 @@
     display: grid;
     grid-template-columns: 16rem 16rem auto;
     background-color: #00000022;
-    margin: 0 -1.5rem 0 -1.5rem;
-    padding: .5rem;
+    padding: 1rem;
     border-radius: 2rem;
+    box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
 #mdk .filters .filter-search input {
@@ -139,13 +151,11 @@
     background-color: green;
 }
 
-#mdk .paging,
-#mdk .filter-options {
+#mdk .paging, #mdk .filter-options {
     display: inline-block;
 }
 
-#mdk .paging a,
-#mdk .filter-options a {
+#mdk .paging a, #mdk .filter-options a {
     padding: 0.25rem 0.5rem;
     margin: 0 0.25rem;
     border: 1px solid #373a3c;
@@ -154,15 +164,19 @@
 }
 
 #mdk .advanced-filters {
-    background-color: #e5e5e5;
+    background-color: #00000044;
     padding: 0.75rem 0;
-    margin: 0 -1.5rem 0 -1.5rem;
+    margin: 0 2rem;
     text-align: center;
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
 }
 
-#mdk .advanced-filters h1 {
-    font-size: 1.5rem;
-    text-transform: uppercase;
+/*** SEARCH META ***************************/
+
+#mdk .meta {
+    text-align: center;
+    margin: 1rem 0;
 }
 
 /*** SEARCH RESULT ***************************/
@@ -171,7 +185,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 #mdk .result>div {

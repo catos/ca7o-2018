@@ -58,7 +58,9 @@ export class Mdk extends React.Component<{}, IState> {
                         <div key={idx} className="list-group">
                             <h1>{group.type}</h1>
                             {group.ingredients.map((ingredient, iidx) =>
-                                <div key={iidx}>{ingredient.quantity} {ingredient.unit}. {ingredient.name}</div>
+                                <div key={iidx}>
+                                    {ingredient.quantity} {ingredient.unit}. <a href={`https://meny.no/Sok/?query=${ingredient.name}&expanded=products`}>{ingredient.name}</a>
+                                </div>
                             )}
                         </div>
                     )}
@@ -70,12 +72,12 @@ export class Mdk extends React.Component<{}, IState> {
 
                 <div className="header">
                     <span className="title mr-3">Meny - Uke {moment().week()}</span>
+                    <div className="header-options">
+                        <a href="#" onClick={this.randomWeek}><i className="fas fa-sync-alt" /></a>
+                        <a href="#" className="ml-3" onClick={() => this.toggleShoppingList()}><i className="fas fa-shopping-cart" /> {this.state.shoppingList.length}</a>
+                    </div>
                 </div>
 
-                <div className="header-options">
-                    <a href="#" onClick={this.randomWeek}>Randomiser</a>
-                    <a href="#" className="ml-3" onClick={() => this.toggleShoppingList()}>Handleliste ({this.state.shoppingList.length} varer)</a>
-                </div>
 
                 {shoppingListOutput}
 

@@ -8,8 +8,16 @@ interface IProps {
     onClick: ((recipe: IRecipe) => void);
 }
 
-interface IState {
+interface IRecipesResult {
+    count: number;
+    totalPages: number;
+    currentPage: number;
+    take: number;
     recipes: IRecipe[];
+}
+
+interface IState {
+    result: IRecipesResult;
     prevPage: number;
     page: number;
     nextPage: number;
@@ -21,7 +29,13 @@ interface IState {
 
 export class SearchResult extends React.Component<IProps, IState> {
     private readonly defaultState = {
-        recipes: [],
+        result: {
+            count: 1,
+            totalPages: 1,
+            currentPage: 1,
+            take: 1,
+            recipes: [],
+        },
         prevPage: 0,
         page: 1,
         nextPage: 1,
@@ -47,22 +61,18 @@ export class SearchResult extends React.Component<IProps, IState> {
         return (
             <div className="search">
                 <div className="filters">
-
                     <div className="filter-tags">
                         <span className={"badge badge-dark" + (tags.includes('enkel') ? ' selected' : '')} onClick={this.toggleTag}>Enkel</span>
                         <span className={"badge badge-dark" + (tags.includes('sunn') ? ' selected' : '')} onClick={this.toggleTag}>Sunn</span>
                         <span className={"badge badge-dark" + (tags.includes('rask') ? ' selected' : '')} onClick={this.toggleTag}>Rask</span>
                         <span className={"badge badge-dark" + (tags.includes('kos') ? ' selected' : '')} onClick={this.toggleTag}>Kos</span>
-
                     </div>
-
                     <div className="filter-tags">
                         <span className={"badge badge-dark" + (tags.includes('fisk') ? ' selected' : '')} onClick={this.toggleTag}>Fisk</span>
                         <span className={"badge badge-dark" + (tags.includes('fugl') ? ' selected' : '')} onClick={this.toggleTag}>Fugl</span>
                         <span className={"badge badge-dark" + (tags.includes('kjøtt') ? ' selected' : '')} onClick={this.toggleTag}>Kjøtt</span>
                         <span className={"badge badge-dark" + (tags.includes('vegetar') ? ' selected' : '')} onClick={this.toggleTag}>Vegetar</span>
                     </div>
-
                     <div className="filter-search">
                         <input className="form-input" type="text" name="q" placeholder="Søk i oppskrifter"
                             value={this.state.q}
@@ -79,15 +89,11 @@ export class SearchResult extends React.Component<IProps, IState> {
                             <a className="ml-3" href="#" onClick={this.toggleAdvancedFilters}>{this.state.showAdvancedFilters ? <i className="fas fa-caret-square-up" /> : <i className="fas fa-caret-square-down" />}</a>
                         </div>
                     </div>
-
                 </div>
-
-
-
 
                 {this.state.showAdvancedFilters
                     ? <div className="advanced-filters">
-                        <h1>Advanced filters</h1>
+                        <h3>Advanced filters</h3>
                         <div className="filter-time">
                             <span className="mr-2">Time: </span>
                             <input type="range" id="time" name="time" min="0" max="120" step="10"
@@ -99,8 +105,17 @@ export class SearchResult extends React.Component<IProps, IState> {
                     </div>
                     : ''}
 
+                <div className="meta">
+                    <span>
+                        <b>{this.state.result.count}</b> oppskrifter funnet
+                        {this.state.result.totalPages > 1
+                            ? <span> - viser side <b>{this.state.result.currentPage}</b> av <b>{this.state.result.totalPages}</b></span>
+                            : ''}
+                    </span>
+                </div>
+                
                 <div className="result">
-                    {this.state.recipes.map((recipe, idx) =>
+                    {this.state.result.recipes.map((recipe, idx) =>
                         <SearchResultItem key={idx} recipe={recipe} onClick={() => this.props.onClick(recipe)} />
                     )}
                 </div>
@@ -150,7 +165,7 @@ export class SearchResult extends React.Component<IProps, IState> {
                 const prevPage = this.state.page > 1 ? this.state.page - 1 : 1;
                 const nextPage = this.state.page + 1;
                 this.setState({
-                    recipes: response as IRecipe[],
+                    result: response as IRecipesResult,
                     prevPage,
                     nextPage
                 })
