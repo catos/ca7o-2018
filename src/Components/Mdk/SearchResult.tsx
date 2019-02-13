@@ -49,7 +49,7 @@ export class SearchResult extends React.Component<IProps, IState> {
                 <div className="filters">
 
                     <div className="filter-tags">
-                        <span className={"badge badge-dark" + (tags.includes('lol') ? ' selected' : '')} onClick={this.toggleTag}>Lol</span>
+                        <span className={"badge badge-dark" + (tags.includes('enkel') ? ' selected' : '')} onClick={this.toggleTag}>Enkel</span>
                         <span className={"badge badge-dark" + (tags.includes('sunn') ? ' selected' : '')} onClick={this.toggleTag}>Sunn</span>
                         <span className={"badge badge-dark" + (tags.includes('rask') ? ' selected' : '')} onClick={this.toggleTag}>Rask</span>
                         <span className={"badge badge-dark" + (tags.includes('kos') ? ' selected' : '')} onClick={this.toggleTag}>Kos</span>

@@ -24,7 +24,6 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
-    height: 20rem;
 }
 
 #mdk .week-menu-item {
@@ -104,9 +103,10 @@
 #mdk .filters {
     display: grid;
     grid-template-columns: 16rem 16rem auto;
-    background-color: whitesmoke;
+    background-color: #00000022;
     margin: 0 -1.5rem 0 -1.5rem;
     padding: .5rem;
+    border-radius: 2rem;
 }
 
 #mdk .filters .filter-search input {
