@@ -37,20 +37,12 @@
     align-items: center;
 }
 
-#mdk .week-menu-item.has-fish,
-#mdk .week-menu-item.has-fish.selected {
-    background-color: #e2e2f2;
-}
-
 #mdk .week-menu-item:first-child {
     border: none;
 }
 
-#mdk .week-menu-item.drag-over, 
-#mdk .week-menu-item.selected {
+#mdk .week-menu-item.drag-over, #mdk .week-menu-item.selected {
     background-color: #e2e2e2;
-    width: 16rem;
-    height: 20rem;
     transition-duration: 0.25s;
 }
 
@@ -111,21 +103,19 @@
 
 #mdk .filters {
     display: grid;
-    grid-template-columns: 20rem auto 20rem;
+    grid-template-columns: 16rem 16rem auto;
     background-color: whitesmoke;
-    padding: 0.75rem 0;
     margin: 0 -1.5rem 0 -1.5rem;
+    padding: .5rem;
 }
 
 #mdk .filters .filter-search input {
-    width: 100%;
-    font-size: 1.25rem;
     padding: 0.25rem 0.5rem;
     border: 2px solid #cccccc;
     border-radius: 4px;
 }
 
-#mdk .filters > div {
+#mdk .filters>div {
     align-self: center;
     text-align: center;
 }
@@ -134,35 +124,33 @@
     padding: 5px 0;
 }
 
-#mdk .filters .filter-time > * {
+#mdk .filters .filter-time>* {
     vertical-align: middle;
 }
 
-#mdk .filters .filter-tags > * {
+#mdk .filters .filter-tags>* {
     border-radius: 0.25rem;
     margin: 0.25rem;
     padding: 0.5rem;
+    cursor: pointer;
 }
 
-#mdk .filters .filter-tags > *.selected {
+#mdk .filters .filter-tags>*.selected {
     background-color: green;
 }
 
-#mdk .paging {
-    padding: 0.75rem 0;
-    margin: 0 -1.5rem 0 -1.5rem;
-    background-color: #e5e5e5;    
-}
-
-#mdk .paging ul {
-    margin: 0;
-}
-
+#mdk .paging,
 #mdk .filter-options {
-    background-color: #f1f1f1;
-    text-align: center;
-    margin: 0 -1.5rem 0 -1.5rem;
-    padding: 0.25rem;
+    display: inline-block;
+}
+
+#mdk .paging a,
+#mdk .filter-options a {
+    padding: 0.25rem 0.5rem;
+    margin: 0 0.25rem;
+    border: 1px solid #373a3c;
+    border-radius: 0.25rem;
+    color: #333;
 }
 
 #mdk .advanced-filters {
@@ -184,29 +172,27 @@
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 2rem;
-    
 }
 
-#mdk .result > div {
+#mdk .result>div {
     position: relative;
     width: 7rem;
     height: 7rem;
     cursor: pointer;
     margin: 0.5rem;
-
-    box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
-    transition: box-shadow .28s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+    transition: box-shadow .28s cubic-bezier(.4, 0, .2, 1);
 }
 
-#mdk .result > div:hover {
-    box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
+#mdk .result>div:hover {
+    box-shadow: 0 11px 15px -7px rgba(0, 0, 0, .2), 0 24px 38px 3px rgba(0, 0, 0, .14), 0 9px 46px 8px rgba(0, 0, 0, .12);
 }
 
-#mdk .result > div .image {
+#mdk .result>div .image {
     height: 100%;
 }
 
-#mdk .result > div h1 {
+#mdk .result>div h1 {
     font-size: 1em;
     position: absolute;
     top: 0.5rem;
@@ -224,6 +210,6 @@
 #mdk .result .recipe-link {
     position: absolute;
     bottom: 0;
-    right: 0;
+    right: 2px;
     color: #fff;
 }

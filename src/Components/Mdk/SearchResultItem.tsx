@@ -8,19 +8,10 @@ interface IProps {
     onClick: ((recipe: IRecipe) => void);
 }
 
-interface IState {
-    showRecipeLink: boolean;
-}
-
-export class SearchResultItem extends React.Component<IProps, IState> {
+export class SearchResultItem extends React.Component<IProps, {}> {
 
     constructor(props: IProps) {
         super(props);
-
-        this.state = {
-            showRecipeLink: false
-        };
-
         this.onDragStart = this.onDragStart.bind(this);
     }
 
@@ -31,15 +22,10 @@ export class SearchResultItem extends React.Component<IProps, IState> {
                 className="w-10"
                 onClick={() => this.props.onClick(recipe)}
                 onDragStart={this.onDragStart}
-                draggable={true}
-                onMouseEnter={this.onMouseEnter}
-                onMouseOut={this.onMouseOut}>
+                draggable={true}>
                 <h1>{recipe.name}</h1>
                 <div className="card-img-top center-cropped image" style={{ backgroundImage: 'url(' + recipe.thumbnail + ')' }} />
-
-                {this.state.showRecipeLink
-                    ? <Link className="recipe-link" to={`/recipes/${recipe.guid}`}><span className="fa fa-info-circle" /></Link>
-                    : ''}
+                <Link className="recipe-link" to={`/recipes/${recipe.guid}`}><span className="fa fa-info-circle" /></Link>
             </div>
         );
     }
@@ -48,11 +34,4 @@ export class SearchResultItem extends React.Component<IProps, IState> {
         event.dataTransfer.setData('text', JSON.stringify(this.props.recipe));
     }
 
-    private onMouseEnter = () => {
-        this.setState({ showRecipeLink: true });
-    }
-
-    private onMouseOut = () => {
-        this.setState({ showRecipeLink: false });
-    }
 }

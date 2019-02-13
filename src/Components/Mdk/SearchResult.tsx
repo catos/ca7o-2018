@@ -53,13 +53,7 @@ export class SearchResult extends React.Component<IProps, IState> {
                         <span className={"badge badge-dark" + (tags.includes('sunn') ? ' selected' : '')} onClick={this.toggleTag}>Sunn</span>
                         <span className={"badge badge-dark" + (tags.includes('rask') ? ' selected' : '')} onClick={this.toggleTag}>Rask</span>
                         <span className={"badge badge-dark" + (tags.includes('kos') ? ' selected' : '')} onClick={this.toggleTag}>Kos</span>
-                    </div>
 
-                    <div className="filter-search">
-                        <input className="form-input" type="text" name="q" placeholder="Søk i oppskrifter"
-                            value={this.state.q}
-                            onChange={this.onFieldValueChange}
-                            onKeyUp={this.onKeyUpSearch} />
                     </div>
 
                     <div className="filter-tags">
@@ -68,21 +62,28 @@ export class SearchResult extends React.Component<IProps, IState> {
                         <span className={"badge badge-dark" + (tags.includes('kjøtt') ? ' selected' : '')} onClick={this.toggleTag}>Kjøtt</span>
                         <span className={"badge badge-dark" + (tags.includes('vegetar') ? ' selected' : '')} onClick={this.toggleTag}>Vegetar</span>
                     </div>
+
+                    <div className="filter-search">
+                        <input className="form-input" type="text" name="q" placeholder="Søk i oppskrifter"
+                            value={this.state.q}
+                            onChange={this.onFieldValueChange}
+                            onKeyUp={this.onKeyUpSearch} />
+
+                        <div className="paging">
+                            <a href="#" onClick={() => this.gotoPage(this.state.prevPage)}><i className="fas fa-angle-left" /></a>
+                            <a href="#" onClick={() => this.gotoPage(this.state.nextPage)}><i className="fas fa-angle-right" /></a>
+                        </div>
+
+                        <div className="filter-options">
+                            <a href="#" onClick={this.resetFilters}><i className="fas fa-sync-alt" /></a>
+                            <a className="ml-3" href="#" onClick={this.toggleAdvancedFilters}>{this.state.showAdvancedFilters ? <i className="fas fa-caret-square-up" /> : <i className="fas fa-caret-square-down" />}</a>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div className="paging">
-                    <nav>
-                        <ul className="pagination pagination-sm justify-content-center">
-                            <li className="page-item"><a className="page-link" href="#" onClick={() => this.gotoPage(this.state.prevPage)}>Previous</a></li>
-                            <li className="page-item"><a className="page-link" href="#" onClick={() => this.gotoPage(this.state.nextPage)}>Next</a></li>
-                        </ul>
-                    </nav>
-                </div>
 
-                <div className="filter-options">
-                    <a href="#" onClick={this.resetFilters}>Nullstill</a>
-                    <a className="ml-3" href="#" onClick={this.toggleAdvancedFilters}>{this.state.showAdvancedFilters ? 'Skjul' : 'Vis'} avanserte filtre</a>
-                </div>
+
 
                 {this.state.showAdvancedFilters
                     ? <div className="advanced-filters">

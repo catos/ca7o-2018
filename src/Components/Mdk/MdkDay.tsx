@@ -41,10 +41,6 @@ export class MdkDay extends React.Component<IProps, IState> {
             className += " drag-over";
         }
 
-        if (this.props.day.recipe !== null && this.props.day.recipe.tags.includes('fisk')) {
-            className += " has-fish";
-        }
-
         const thumbnail = day.recipe !== null ? day.recipe.thumbnail : '';
 
         return (
@@ -74,6 +70,10 @@ export class MdkDay extends React.Component<IProps, IState> {
                                 ? <a href={day.recipe.url}><span className="badge badge-danger ml-2">MENY</span></a>
                                 : ''
                             }
+
+                            {day.recipe.tags.includes('fisk')
+                                ? <i className="fas fa-fish ml-2" />
+                                : ''}
 
                         </div>
                         : ''
