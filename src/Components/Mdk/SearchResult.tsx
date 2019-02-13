@@ -3,17 +3,10 @@ import * as React from 'react';
 import { api } from '../../Common/ApiService';
 import { SearchResultItem } from './SearchResultItem';
 import { IRecipe } from '../../Models/IRecipe';
+import { IRecipesResult } from 'src/Models/IRecipesResult';
 
 interface IProps {
     onClick: ((recipe: IRecipe) => void);
-}
-
-interface IRecipesResult {
-    count: number;
-    totalPages: number;
-    currentPage: number;
-    take: number;
-    recipes: IRecipe[];
 }
 
 interface IState {

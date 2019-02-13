@@ -4,10 +4,10 @@ import * as moment from 'moment';
 
 import { snip } from '../../../Common/Utils';
 import { api } from '../../../Common/ApiService';
-import { IRecipe } from '../../../Models/IRecipe';
+import { IRecipesResult } from '../../../Models/IRecipesResult';
 
 interface IState {
-    recipes: IRecipe[]
+    result: IRecipesResult
 }
 
 export class RecipeList extends React.Component<{}, IState> {
@@ -15,7 +15,13 @@ export class RecipeList extends React.Component<{}, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            recipes: []
+            result: {
+                count: 1,
+                totalPages: 1,
+                currentPage: 1,
+                take: 1,
+                recipes: [],
+            }
         };
     }
 
@@ -23,7 +29,7 @@ export class RecipeList extends React.Component<{}, IState> {
         api.get('/api/recipes')
             .then(response => {
                 this.setState({
-                    recipes: response as IRecipe[]
+                    result: response as IRecipesResult
                 })
             })
             .catch(error => console.log(error));
@@ -42,7 +48,7 @@ export class RecipeList extends React.Component<{}, IState> {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.recipes.map((recipe, idx) =>
+                        {this.state.result.recipes.map((recipe, idx) =>
                             <tr key={idx}>
                                 <td>
                                     <Link to={`/recipes/${recipe.guid}`}>
