@@ -10,13 +10,7 @@ import { SearchResult } from './SearchResult';
 import { IIngredient } from '../../Models/IIngredient';
 import { IRecipe } from '../../Models/IRecipe';
 import { api } from '../../Common/ApiService';
-import { groupBy } from '../../Common/Utils';
-import { IngredientTypes } from '../../Models/IngredientTypes';
-
-interface IIngredientsGroup {
-    type: string;
-    ingredients: IIngredient[];
-}
+import { MdkShoppingList } from './MdkShoppingList';
 
 interface IState {
     days: IDay[];
@@ -49,24 +43,6 @@ export class Mdk extends React.Component<{}, IState> {
     }
 
     public render() {
-        const shoppingListOutput = !this.state.showShoppingList
-            ? ''
-            : <div className="shopping-list">
-                <h1>Handleliste</h1>
-                <div className="list">
-                    {this.getGroupedShoppingList().map((group, idx) =>
-                        <div key={idx} className="list-group">
-                            <h1>{group.type}</h1>
-                            {group.ingredients.map((ingredient, iidx) =>
-                                <div key={iidx}>
-                                    {ingredient.quantity} {ingredient.unit}. <a href={`https://meny.no/Sok/?query=${ingredient.name}&expanded=products`}>{ingredient.name}</a>
-                                </div>
-                            )}
-                        </div>
-                    )}
-                </div>
-            </div>;
-
         return (
             <div id="mdk" className="m-4">
 
@@ -78,8 +54,7 @@ export class Mdk extends React.Component<{}, IState> {
                     </div>
                 </div>
 
-
-                {shoppingListOutput}
+                <MdkShoppingList showShoppingList={this.state.showShoppingList} shoppingList={this.state.shoppingList} />
 
                 <div className="week-menu">
                     {this.state.days.map((day, idx) =>
@@ -149,22 +124,6 @@ export class Mdk extends React.Component<{}, IState> {
         });
 
         return this.sumIngredients(ingredients, 'name');
-    }
-
-    private getGroupedShoppingList = (): IIngredientsGroup[] => {
-        const result: IIngredientsGroup[] = [];
-        const ingredientsGrouped = groupBy<IIngredient>(this.state.shoppingList, 'type');
-        for (const key in ingredientsGrouped) {
-            if (ingredientsGrouped.hasOwnProperty(key)) {
-                result.push({
-                    type: IngredientTypes[key] || 'Unknown',
-                    ingredients: ingredientsGrouped[key]
-                })
-                // console.log(IngredientTypes[key], ingredientsGrouped[key]);
-            }
-        }
-
-        return result;
     }
 
     private sumIngredients = (ingredients: IIngredient[], prop: string): IIngredient[] => {

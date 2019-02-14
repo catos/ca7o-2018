@@ -90,11 +90,6 @@
     padding: 1rem;
 }
 
-#mdk .shopping-list h1 {
-    font-size: 1.5rem;
-    text-transform: uppercase;
-}
-
 #mdk .shopping-list .list {
     display: flex;
     flex-wrap: wrap;
@@ -103,11 +98,6 @@
 #mdk .shopping-list .list .list-group {
     margin: 0 1rem 1rem 0;
     width: 10rem;
-}
-
-#mdk .shopping-list .list .list-group h1 {
-    font-size: 1rem;
-    font-weight: 700;
 }
 
 /*** SEARCH FILTERS ***************************/
